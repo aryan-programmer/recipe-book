@@ -19,16 +19,32 @@
 						"polyfills": "src/polyfills.ts",
 						"tsConfig": "tsconfig.app.json",
 						"aot": true,
+						"commonChunk": true,
+						"extractCss": true,
 						"assets": [
 							"src/favicon.ico",
 							"src/assets"
 						],
 						"styles": [
-							"src/styles.css"
+							"./src/style/style.css",
+							"./src/libs/jquery-ui-1.12.1.custom/jquery-ui.min.css"
 						],
-						"scripts": []
+						"scripts": [
+							"./node_modules/jquery/dist/jquery.js",
+							"./src/libs/jquery-ui-1.12.1.custom/jquery-ui.js"
+						]
 					},
 					"configurations": {
+						"development": {
+							"optimization": false,
+							"outputHashing": "none",
+							"sourceMap": true,
+							"namedChunks": false,
+							"extractLicenses": false,
+							"vendorChunk": true,
+							"buildOptimizer": false,
+							"statsJson": false
+						},
 						"production": {
 							"fileReplacements": [
 								{
@@ -38,12 +54,12 @@
 							],
 							"optimization": true,
 							"outputHashing": "all",
-							"sourceMap": false,
-							"extractCss": true,
+							"sourceMap": true,
 							"namedChunks": false,
 							"extractLicenses": true,
 							"vendorChunk": false,
 							"buildOptimizer": true,
+							"statsJson": true,
 							"budgets": [
 								{
 									"type": "initial",
@@ -88,7 +104,8 @@
 							"src/assets"
 						],
 						"styles": [
-							"src/styles.css"
+							"./src/style/style.css",
+							"./src/libs/jquery-ui-1.12.1.custom/jquery-ui.min.css"
 						],
 						"scripts": []
 					}
@@ -116,6 +133,46 @@
 						"production": {
 							"devServerTarget": "recipe-book:serve:production"
 						}
+					}
+				}
+			}
+		},
+		"nameof": {
+			"projectType": "library",
+			"root": "projects/nameof",
+			"sourceRoot": "projects/nameof/src",
+			"prefix": "lib",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-ng-packagr:build",
+					"options": {
+						"tsConfig": "projects/nameof/tsconfig.lib.json",
+						"project": "projects/nameof/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "projects/nameof/tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "projects/nameof/src/test.ts",
+						"tsConfig": "projects/nameof/tsconfig.spec.json",
+						"karmaConfig": "projects/nameof/karma.conf.js"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": [
+							"projects/nameof/tsconfig.lib.json",
+							"projects/nameof/tsconfig.spec.json"
+						],
+						"exclude": [
+							"**/node_modules/**"
+						]
 					}
 				}
 			}

@@ -1,0 +1,29 @@
+<nav
+	class="sticky-top navbar navbar-expand-lg navbar-light bg-gradient--shy-rainbow mb-4"
+	style="font-weight: 600;">
+	<a class="navbar-brand" href="#">Recipe book</a>
+	<button class="navbar-toggler text-light" data-target="#navbarContent" data-toggle="collapse" type="button">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarContent">
+		<ul class="nav navbar-nav nav-pills mr-auto">
+			<li class="nav-item" routerLinkActive="active">
+				<a class="nav-link" routerLink="/recipes">Recipes</a>
+			</li>
+			<li class="nav-item" routerLinkActive="active">
+				<a class="nav-link" routerLink="/shopping-list">Shopping list</a>
+			</li>
+		</ul>
+
+		<ul class="nav navbar-nav">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Manage</a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item">Save data</a>
+					<a class="dropdown-item">Fetch data</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+</nav>

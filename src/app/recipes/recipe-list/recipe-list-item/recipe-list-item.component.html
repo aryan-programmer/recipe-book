@@ -1,0 +1,13 @@
+<li
+	[style.border-color]="isSelected ? 'blue':'transparent'"
+	class="list-group-item bg-transparent btn"
+	style="border-width: 2px; border-style: solid"
+>
+	<div class="media">
+		<div class="media-body">
+			<h5 class="mt-0 mb-1">{{recipe.name}}</h5>
+		</div>
+		<!--suppress HtmlRequiredAltAttribute -->
+		<img [src]="recipe.imageUrl" class="img-thumbnail ml-3" style="max-height: 100px">
+	</div>
+</li>

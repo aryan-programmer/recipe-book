@@ -1,0 +1,142 @@
+@mixin common() {
+	font-style: italic;
+	margin: auto;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: 0;
+}
+
+::ng-deep html {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	-ms-overflow-x: hidden;
+	-ms-overflow-y: hidden;
+}
+
+.error {
+	text-align: center;
+	font-size: 114px;
+	font-style: italic;
+	width: 120px;
+	height: 75px;
+	line-height: 72px;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -60px;
+	right: 0;
+	animation: noise 2s linear infinite;
+	overflow: initial;
+
+	&:after {
+		font-size: 120px;
+		width: 180px;
+		height: 75px;
+		top: 0;
+		text-align: center;
+		content: '404';
+		color: blue;
+		animation: noise-1 .2s linear infinite;
+		line-height: 72px;
+
+		@include common();
+	}
+
+	&:before {
+		text-align: center;
+		font-size: 120px;
+		width: 120px;
+		height: 75px;
+		top: 0;
+		content: '404';
+		color: red;
+		animation: noise-2 .2s linear infinite;
+		line-height: 72px;
+
+		@include common();
+	}
+}
+
+.info {
+	font-size: 20px;
+	width: 400px;
+	height: 100px;
+	top: 180px;
+	animation: noise-3 1s linear infinite;
+	text-align: center;
+
+	@include common();
+}
+
+@keyframes noise-1 {
+	0%, 20%, 40%, 60%, 70%, 90% {
+		opacity: 0;
+	}
+	10% {
+		opacity: .1;
+	}
+	50% {
+		opacity: .5;
+		left: -7px;
+	}
+	80% {
+		opacity: .3;
+	}
+	100% {
+		opacity: .6;
+		left: 3px;
+	}
+}
+
+@keyframes noise-2 {
+	0%, 20%, 40%, 60%, 70%, 90% {
+		opacity: 0;
+	}
+	10% {
+		opacity: .1;
+	}
+	50% {
+		opacity: .5;
+		left: 7px;
+	}
+	80% {
+		opacity: .3;
+	}
+	100% {
+		opacity: .6;
+		left: -3px;
+	}
+}
+
+@keyframes noise {
+	0%, 3%, 5%, 42%, 44%, 100% {
+		opacity: 1;
+		transform: scaleY(1);
+	}
+	4.3% {
+		opacity: 1;
+		transform: scaleY(1.7);
+	}
+	43% {
+		opacity: 1;
+		transform: scaleX(1.5);
+	}
+}
+
+@keyframes noise-3 {
+	0%, 3%, 5%, 42%, 44%, 100% {
+		opacity: 1;
+		transform: scaleY(1);
+	}
+	4.3% {
+		opacity: 1;
+		transform: scaleY(4);
+	}
+	43% {
+		opacity: 1;
+		transform: scaleX(10) rotate(60deg);
+	}
+}

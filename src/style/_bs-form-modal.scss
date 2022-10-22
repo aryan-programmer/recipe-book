@@ -1,0 +1,29 @@
+div.form-modal {
+	@extend .modal;
+
+	> .modal-dialog.form-modal-dialog {
+		@extend .modal-dialog-centered;
+		@extend .modal-xl;
+
+		> .form-card {
+			@extend .modal-content;
+
+			> .form-title {
+				@extend .modal-header;
+
+				> .modal-title,
+				> .close {
+					@extend .form-title-text-style;
+				}
+			}
+
+			> .form{
+				@extend .modal-body;
+			}
+
+			> .form-footer{
+				@extend .modal-footer;
+			}
+		}
+	}
+}

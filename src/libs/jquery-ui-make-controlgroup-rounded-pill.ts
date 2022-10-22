@@ -1,8 +1,12 @@
 // tslint:disable-next-line:no-reference
-///<reference path="jquery-ui-make-controlgroup-rounded-pill.d.ts"/>
-// tslint:disable-next-line:no-reference
 ///<reference path="../../node_modules/@types/jqueryui/index.d.ts"/>
 import $ from "jquery";
+
+declare global {
+	interface JQuery<TElement = HTMLElement> extends Iterable<TElement> {
+		makeControlgroupRoundedPill (): JQuery<TElement>;
+	}
+}
 
 $.fn.makeControlgroupRoundedPill =
 	function () {

@@ -1,0 +1,8 @@
+.row--split-into-30 {
+	@include make-row(0px);
+}
+
+.-row--spilt-into-30--hijack,
+.row--split-into-30 > {
+	@include make-grid-columns(30);
+}

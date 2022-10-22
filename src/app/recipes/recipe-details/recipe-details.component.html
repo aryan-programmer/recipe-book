@@ -1,0 +1,42 @@
+<div *ngIf="recipe != null" class="card-group bg-gradient--deep-light-blue rounded">
+	<div class="card bg-transparent">
+		<img
+			[src]="recipe.imageUrl"
+			class="card-img-top"
+		>
+		<div
+			(click)="toggleIngredients()"
+			[class.rounded-bottom]="!areIngredientsShown"
+			class="card-header h4 add-bg-noise"
+			data-target="#ingredients"
+			data-toggle="collapse"
+		>
+			{{buttonText}}
+			Ingredients
+		</div>
+		<app-ingredient-list
+			[ingredients]="recipe.ingredients"
+			class="collapse"
+			id="ingredients"
+		></app-ingredient-list>
+	</div>
+	<div class="card bg-transparent">
+		<div class="card-header h4 add-bg-noise">{{recipe.name}}</div>
+		<div class="card-body">
+			<p>{{recipe.description}}</p>
+			<div class="btn-group">
+				<button
+					class="btn btn-image bg-gradient--angel-care dropdown-toggle rounded-pill"
+					data-toggle="dropdown">
+					Manage recipe
+				</button>
+				<ul class="dropdown-menu">
+					<li (click)="addIngredientsToShoppingList()" class="dropdown-item">Add to shopping list</li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item" routerLink="edit">Edit</li>
+					<li class="dropdown-item--bg-auto btn btn-image bg-gradient-warning-danger">Delete</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

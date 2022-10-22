@@ -60,7 +60,3 @@ import "zone.js/dist/zone"; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-import "./libs/jquery-ui-1.12.1.custom/jquery-ui";
-import "./libs/jquery-events-constants";
-import "./libs/jquery-ui-make-controlgroup-rounded-pill";
-import "./libs/bs-btn-ripple";

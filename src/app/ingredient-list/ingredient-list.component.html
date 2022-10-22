@@ -1,0 +1,13 @@
+<ul class="list-group list-group-flush bg-transparent">
+	<li
+		*ngFor="let ingredient of ingredients"
+		class="list-group-item bg-transparent">
+		<div class="media">
+			<div class="media-body">
+				{{ingredient.quantity}} of {{ingredient.name}}
+			</div>
+			<!--suppress HtmlRequiredAltAttribute -->
+			<span class="text-monospace text-muted small">${{ingredient.totalCostInUsd.toFixed(2)}}</span>
+		</div>
+	</li>
+</ul>

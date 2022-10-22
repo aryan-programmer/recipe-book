@@ -1,0 +1,36 @@
+.form-card {
+	@extend .card;
+	@extend .border-0;
+	// 044 Shy Rainbow (Circular)
+	background: radial-gradient(circle farthest-side at left, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+	color: color-yiq(#abb7cc);
+
+	& > .form-title {
+		@extend .card-header;
+		@extend .add-bg-noise;
+		@extend .mt-0;
+		@extend .border-bottom-0;
+	}
+
+	& > .form-title,
+	& .form-title-text-style {
+		@extend .h1-imp;
+		font-weight: 600;
+		border-bottom: 0;
+	}
+
+	& > .form-footer {
+		@extend .card-footer;
+		@extend .add-bg-noise;
+		@extend .h1;
+		@extend .mb-0;
+		@extend .mt-2;
+		@extend .border-top-0;
+		font-weight: bold;
+		border-top: 0;
+	}
+
+	& > .form {
+		@extend .card-body;
+	}
+}
