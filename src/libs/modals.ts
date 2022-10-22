@@ -1,6 +1,6 @@
-import $ from 'jquery';
-import ModalAlreadyShownError from './functions/modal-already-shown-error';
+import * as bs from "bootstrap";
 import nn from './functions/nn';
+import {Null} from "./types";
 
 interface ModalParams {
 	title?: string;
@@ -35,7 +35,8 @@ type InputType = 'button' |
 	'week';
 // endregion InputType
 
-let $modal: JQuery<HTMLDivElement>;
+let dom$modal: HTMLDivElement;
+let bs$modal: bs.Modal;
 let dom$dialog: HTMLDivElement;
 let dom$title: HTMLElement;
 let dom$body: HTMLDivElement;
@@ -44,14 +45,14 @@ let dom$closeButton: HTMLButtonElement;
 let dom$okButton: HTMLButtonElement;
 let dom$cancelButton: HTMLButtonElement;
 let isModalAlreadyShown: boolean = false;
-let wasInitialized: boolean = false;
+let wasInitialized: boolean      = false;
 let defaultParams: {
 	title: string;
 	size: 'xl' | 'lg' | 'md' | 'sm';
 	okButtonText: string;
 	cancelButtonText: string;
 	bodyAsRawHtml: boolean;
-} = {
+}                                = {
 	title: '',
 	size: 'md',
 	okButtonText: 'Ok',
@@ -69,7 +70,7 @@ function init (params: ModalParams) {
 	}
 	document.body.innerHTML += `<div
 	class="modal fade"
-	data-backdrop="static"
+	data-bs-backdrop="static"
 	id="--general-modal-dialog"
 	tabindex="-1"
 >
@@ -78,20 +79,19 @@ function init (params: ModalParams) {
 	-->
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="--general-modal-dialog--dialog">
 		<div
-			class="modal-content border-0"
-			style="
-			background: radial-gradient(circle farthest-side at bottom, #E3FDF5 0%, #FFE6FA 100%);
-			color: #212529;"
-		>
+			class="modal-content border-0  bg-gradient--wide-matrix--right">
+<!--			style="-->
+<!--			background: radial-gradient(circle farthest-side at bottom, #E3FDF5 0%, #FFE6FA 100%);-->
+<!--			color: #212529;"-->
+
 			<div class="modal-header add-bg-noise border-bottom-0">
-				<h2 id="--general-modal-dialog--title" class="modal-title bold"></h2>
+				<h3 id="--general-modal-dialog--title" class="modal-title bold"></h3>
 				<button
 					id="--general-modal-dialog--close-button"
-					class="close bold"
-					data-dismiss="modal"
+					class="btn-close btn-close-white"
+					data-bs-dismiss="modal"
 					type="button"
-				>&times;
-				</button>
+				></button>
 			</div>
 			<div id="--general-modal-dialog--body" class="modal-body">
 			</div>
@@ -102,30 +102,31 @@ function init (params: ModalParams) {
 					id="--general-modal-dialog--ok-button"
 					class="btn btn-image bg-gradient-success-info rounded-pill px-5"
 					type="button"
-					data-dismiss="modal"
+					data-bs-dismiss="modal"
 				>Ok
 				</button>
 				<button
 					id="--general-modal-dialog--cancel-button"
 					class="btn btn-image bg-gradient-danger-warning rounded-pill px-5 d-none"
 					type="button"
-					data-dismiss="modal"
+					data-bs-dismiss="modal"
 				>Cancel
 				</button>
 			</div>
 		</div>
 	</div>
 </div>`;
-	$modal = $('#--general-modal-dialog');
-	dom$dialog = nn(document.getElementById('--general-modal-dialog--dialog')) as HTMLDivElement;
-	dom$title = nn(document.getElementById('--general-modal-dialog--title'));
-	dom$body = nn(document.getElementById('--general-modal-dialog--body')) as HTMLDivElement;
+	dom$modal         = document.getElementById('--general-modal-dialog') as HTMLDivElement;
+	bs$modal          = new bs.Modal(dom$modal);
+	dom$dialog        = nn(document.getElementById('--general-modal-dialog--dialog')) as HTMLDivElement;
+	dom$title         = nn(document.getElementById('--general-modal-dialog--title'));
+	dom$body          = nn(document.getElementById('--general-modal-dialog--body')) as HTMLDivElement;
 	dom$buttonsHolder = nn(document.getElementById('--general-modal-dialog--buttons-holder')) as HTMLDivElement;
-	dom$closeButton = nn(document.getElementById('--general-modal-dialog--close-button')) as HTMLButtonElement;
-	dom$okButton = nn(document.getElementById('--general-modal-dialog--ok-button')) as HTMLButtonElement;
-	dom$cancelButton = nn(document.getElementById('--general-modal-dialog--cancel-button')) as HTMLButtonElement;
-	defaultParams = Object.assign(defaultParams, params);
-	wasInitialized = true;
+	dom$closeButton   = nn(document.getElementById('--general-modal-dialog--close-button')) as HTMLButtonElement;
+	dom$okButton      = nn(document.getElementById('--general-modal-dialog--ok-button')) as HTMLButtonElement;
+	dom$cancelButton  = nn(document.getElementById('--general-modal-dialog--cancel-button')) as HTMLButtonElement;
+	defaultParams     = Object.assign(defaultParams, params);
+	wasInitialized    = true;
 }
 
 function alert (
@@ -151,13 +152,12 @@ function alert (
 			dom$body.innerText = body;
 		}
 		dom$okButton.innerText = okButtonText;
-		const sizeClass = getClassFromSz(size);
+		const sizeClass        = getClassFromSz(size);
 		dom$dialog.classList.add(sizeClass);
 
-		// @ts-ignore
-		$modal.modal('show');
-		$modal.on('hidden.bs.modal', function fn () {
-			$modal.off('hidden.bs.modal', fn);
+		bs$modal.show();
+		dom$modal.addEventListener('hidden.bs.modal', function fn () {
+			dom$modal.removeEventListener('hidden.bs.modal', fn);
 			dom$dialog.classList.remove(sizeClass);
 			isModalAlreadyShown = false;
 			resolve();
@@ -168,10 +168,10 @@ function alert (
 function confirm (
 	body: string,
 	params: ModalParams = defaultParams
-): Promise<boolean | null> {
-	return new Promise<boolean | null>((
-		resolve: (value?: (PromiseLike<boolean | null> | boolean | null)) => void,
-		reject: (reason?: any) => void
+): Promise<Null<boolean>> {
+	return new Promise<Null<boolean>>((
+		resolve: (value: (PromiseLike<Null<boolean>> | Null<boolean>)) => void,
+		reject: (reason: any) => void
 	) => {
 		if (isModalAlreadyShown) {
 			reject(new ModalAlreadyShownError('A modal is already being shown, please let the user close it first.'));
@@ -180,7 +180,7 @@ function confirm (
 		isModalAlreadyShown = true;
 
 		const {cancelButtonText, okButtonText, size, title, bodyAsRawHtml} =
-			Object.assign({}, defaultParams, params);
+			      Object.assign({}, defaultParams, params);
 
 		dom$title.innerText = title;
 		if (bodyAsRawHtml) {
@@ -188,7 +188,7 @@ function confirm (
 		} else {
 			dom$body.innerText = body;
 		}
-		dom$okButton.innerText = okButtonText;
+		dom$okButton.innerText     = okButtonText;
 		dom$cancelButton.innerText = cancelButtonText;
 		dom$buttonsHolder.classList.remove('justify-content-end');
 		dom$buttonsHolder.classList.add('justify-content-around');
@@ -204,7 +204,7 @@ function confirm (
 		) {
 			function fn () {
 				buttonElement.onclick = buttonElement.onkeyup = null;
-				valueToResolveTo = resolveValue;
+				valueToResolveTo      = resolveValue;
 			}
 
 			buttonElement.onclick = buttonElement.onkeyup = fn;
@@ -213,10 +213,9 @@ function confirm (
 		addEventListener(dom$okButton, true);
 		addEventListener(dom$cancelButton, false);
 
-		// @ts-ignore
-		$modal.modal('show');
-		$modal.on('hidden.bs.modal', function fn () {
-			$modal.off('hidden.bs.modal', fn);
+		bs$modal.show();
+		dom$modal.addEventListener('hidden.bs.modal', function fn () {
+			dom$modal.removeEventListener('hidden.bs.modal', fn);
 			dom$dialog.classList.remove(sizeClass);
 			dom$buttonsHolder.classList.add('justify-content-end');
 			dom$buttonsHolder.classList.remove('justify-content-around');
@@ -230,10 +229,10 @@ function confirm (
 function prompt (
 	body: string,
 	params: ModalParams & { type?: InputType } = defaultParams
-): Promise<string> {
-	return new Promise<string>((
-		resolve: (value?: (PromiseLike<string> | string)) => void,
-		reject: (reason?: any) => void) => {
+): Promise<Null<string>> {
+	return new Promise<Null<string>>((
+		resolve: (value: (PromiseLike<Null<string>> | Null<string>)) => void,
+		reject: (reason: any) => void) => {
 		if (isModalAlreadyShown) {
 			reject(new ModalAlreadyShownError('A modal is already being shown, please let the user close it first.'));
 			return;
@@ -241,7 +240,7 @@ function prompt (
 		isModalAlreadyShown = true;
 
 		const {type, okButtonText, size, title, bodyAsRawHtml} =
-			Object.assign({}, defaultParams, params);
+			      Object.assign({}, defaultParams, params);
 
 		dom$title.innerText = title;
 		if (bodyAsRawHtml) {
@@ -262,17 +261,16 @@ function prompt (
 	</div>
 </div>`;
 		dom$okButton.innerText = okButtonText;
-		const sizeClass = getClassFromSz(size);
+		const sizeClass        = getClassFromSz(size);
 		dom$dialog.classList.add(sizeClass);
-		dom$okButton.removeAttribute('data-dismiss');
-		dom$closeButton.removeAttribute('data-dismiss');
+		dom$okButton.removeAttribute('data-bs-dismiss');
+		dom$closeButton.removeAttribute('data-bs-dismiss');
 
 		const dom$input = nn(
 			dom$body.querySelector('#--general-modal-dialog--input')
-		) as HTMLInputElement | HTMLSelectElement;
+		) as HTMLInputElement;
 
-		// @ts-ignore
-		$modal.modal('show');
+		bs$modal.show();
 
 		let valueToResolveTo: string = '';
 
@@ -281,8 +279,7 @@ function prompt (
 				dom$okButton.onclick = dom$okButton.onkeyup =
 					dom$closeButton.onclick = dom$closeButton.onkeyup =
 						dom$input.onkeyup = null;
-				// @ts-ignore
-				$modal.modal('hide');
+				bs$modal.hide();
 				valueToResolveTo = dom$input.value;
 			}
 		}
@@ -296,10 +293,10 @@ function prompt (
 		dom$okButton.onclick = dom$okButton.onkeyup =
 			dom$closeButton.onclick = dom$closeButton.onkeyup = fn;
 
-		$modal.on('hidden.bs.modal', function fn_ () {
-			$modal.off('hidden.bs.modal', fn_);
-			dom$okButton.setAttribute('data-dismiss', 'modal');
-			dom$closeButton.setAttribute('data-dismiss', 'modal');
+		dom$modal.addEventListener('hidden.bs.modal', function fn_ () {
+			dom$modal.removeEventListener('hidden.bs.modal', fn_);
+			dom$okButton.setAttribute('data-bs-dismiss', 'modal');
+			dom$closeButton.setAttribute('data-bs-dismiss', 'modal');
 			dom$dialog.classList.remove(sizeClass);
 			isModalAlreadyShown = false;
 			resolve(valueToResolveTo);
@@ -307,7 +304,13 @@ function prompt (
 	});
 }
 
+class ModalAlreadyShownError extends Error {
+	constructor (message: string) {
+		super(message);
+	}
+}
+
 const modals = {init, alert, confirm, prompt};
 
 export default modals;
-export {ModalParams, InputType, modals};
+export {ModalParams, InputType, modals, init, alert, confirm, prompt, ModalAlreadyShownError};

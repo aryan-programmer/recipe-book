@@ -17,11 +17,11 @@ div.form-modal {
 				}
 			}
 
-			> .form{
+			> .form {
 				@extend .modal-body;
 			}
 
-			> .form-footer{
+			> .form-footer {
 				@extend .modal-footer;
 			}
 		}

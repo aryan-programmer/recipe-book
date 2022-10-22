@@ -1,42 +1,42 @@
-.btn.dropdown-item--bg-auto {
-	display: block;
-	width: 100%; // For `<button>`s
-	padding: $dropdown-item-padding-y $dropdown-item-padding-x;
-	clear: both;
-	text-align: inherit; // For `<button>`s
-	white-space: nowrap; // prevent links from randomly breaking onto new lines
-
-	// Prevent dropdown overflow if there's no padding
-	// See https://github.com/twbs/bootstrap/pull/27703
-	@if $dropdown-padding-y == 0 {
-		&:first-child {
-			@include border-top-radius($dropdown-inner-border-radius);
-			@extend .rounded-bottom-0;
-		}
-
-		&:last-child {
-			@include border-bottom-radius($dropdown-inner-border-radius);
-			@extend .rounded-top-0;
-		}
-
-		&:not(:first-child):not(:last-child){
-			@extend .rounded-0;
-		}
-	} @else {
-		@extend .rounded-0;
-	}
-
-	@include hover-focus() {
-		text-decoration: none;
-	}
-
-	&.active,
-	&:active {
-		text-decoration: none;
-	}
-
-	&.disabled,
-	&:disabled {
-		pointer-events: none;
-	}
-}
+//.btn.dropdown-item--bg-auto {
+//	display: block;
+//	width: 100%; // For `<button>`s
+//	padding: $dropdown-item-padding-y $dropdown-item-padding-x;
+//	clear: both;
+//	text-align: inherit; // For `<button>`s
+//	white-space: nowrap; // prevent links from randomly breaking onto new lines
+//
+//	// Prevent dropdown overflow if there's no padding
+//	// See https://github.com/twbs/bootstrap/pull/27703
+//	@if $dropdown-padding-y == 0 {
+//		&:first-child {
+//			@include border-top-radius($dropdown-inner-border-radius);
+//			@extend .rounded-bottom-0;
+//		}
+//
+//		&:last-child {
+//			@include border-bottom-radius($dropdown-inner-border-radius);
+//			@extend .rounded-top-0;
+//		}
+//
+//		&:not(:first-child):not(:last-child){
+//			@extend .rounded-0;
+//		}
+//	} @else {
+//		@extend .rounded-0;
+//	}
+//
+//	@include hover-focus() {
+//		text-decoration: none;
+//	}
+//
+//	&.active,
+//	&:active {
+//		text-decoration: none;
+//	}
+//
+//	&.disabled,
+//	&:disabled {
+//		pointer-events: none;
+//	}
+//}

@@ -1,0 +1,128 @@
+<button
+	class="btn btn-image bg-gradient--palo-alto"
+	(click)="onAdd()"
+>Add new ingredient
+</button>
+
+<div #modalForm class="form-modal modal fade" tabindex="-1">
+	<div class="modal-dialog form-modal-dialog">
+		<form class="form-card bg-gradient--perfect-white" (submit)="onSubmit(form)" #form="ngForm" ngNativeValidate>
+			<div class="form-title">
+				<h3 class="modal-title">Edit shopping list</h3>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="form">
+				<div class="form-group row">
+					<label class="col-lg-4 col-form-label" for="name">Name</label>
+					<input
+						#name="ngModel"
+						id="name"
+						name="name"
+						class="col-lg-8 form-control rounded-pill"
+						type="text"
+						ngModel
+						required>
+					<div *ngIf="name.invalid && name.touched" class="invalid-feedback">
+						Name is required.
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-4 col-form-label">Quantity</label>
+					<div class="input-group col-lg-8 px-0">
+						<input
+							#quantity="ngModel"
+							name="quantity"
+							type="number"
+							value="1"
+							class="col-lg-8 form-control rounded-pill-left hide-arrows"
+							min="0"
+							ngModel
+							required
+						>
+						<input
+							#quantityUnit="ngModel"
+							name="quantityUnit"
+							placeholder="Unit..."
+							type="text"
+							class="col-lg-8 form-control rounded-pill-right"
+							ngModel
+							required
+						>
+						<div
+							*ngIf="(quantity.invalid && quantity.touched)||(quantityUnit.invalid&&quantityUnit.touched)"
+							class="invalid-feedback">
+							<div *ngIf="quantity.errors?.['required']">
+								The ingredient's quantity is required.
+							</div>
+							<div *ngIf="quantity.errors?.['min']">
+								The ingredient's quantity can't be less than 1.
+							</div>
+							<div *ngIf="quantityUnit.errors?.['required']">
+								Enter a quantity unit
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-4 col-form-label" for="cost">Cost</label>
+					<div class="input-group col-lg-8 px-0">
+						<div class="input-group-prepend">
+							<span class="input-group-text rounded-pill-left">$</span>
+						</div>
+						<input
+							#cost="ngModel"
+							id="cost"
+							name="cost"
+							class="form-control rounded-pill-right hide-arrows"
+							type="number"
+							step="0.01"
+							min="0.01"
+							ngModel
+							required
+						>
+						<div *ngIf="(cost.invalid && cost.touched)" class="invalid-feedback">
+							<div *ngIf="cost.errors?.['required']">
+								The ingredient's cost is required.
+							</div>
+							<div *ngIf="cost.errors?.['min']">
+								The ingredient's cost can't be less than 1 cent.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-footer d-flex justify-content-around">
+				<button
+					type="submit"
+					class="btn btn-image bg-gradient--light-blue rounded-pill"
+					[disabled]="!form.valid"
+				>
+					{{editMode ? "Confirm Edit" : "Add"}}
+				</button>
+				<button
+					type="button"
+					class="btn btn-image bg-gradient-warning-danger rounded-pill"
+					(click)="onClear()"
+				>
+					Clear
+				</button>
+				<button
+					type="button"
+					(click)="showDeleteConfirmationMessage()"
+					class="btn btn-image bg-danger rounded-pill"
+					data-bs-dismiss="modal"
+					*ngIf="editMode"
+				>
+					Delete
+				</button>
+				<button
+					type="button"
+					class="btn btn-image bg-gradient-danger-light rounded-pill"
+					data-bs-dismiss="modal"
+				>
+					Exit
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

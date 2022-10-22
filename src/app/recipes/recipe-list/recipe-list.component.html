@@ -1,51 +1,18 @@
-<ul class="list-group bg-gradient--juicy-cake rounded">
+<ul class="list-group bg-gradient--lily-meadow rounded">
 	<li
 		[class.rounded-bottom-0]="recipes.length !== 0"
-		class="list-group-item btn btn-image bg-gradient--wide-matrix--right"
+		class="list-group-item btn btn-image bg-gradient--gentle-care"
 		routerLink="./add">
-		<h5 class="mb-0">Add new recipe</h5>
+		Add new recipe
 	</li>
 	<app-recipe-list-item
-		#rla="routerLinkActive"
 		*ngFor="let recipe of recipes; let idx = index"
-		[isSelected]="rla.isActive"
+		[index]="idx"
 		[recipe]="recipe"
-		[routerLink]="'./'+idx"
-		routerLinkActive
 	></app-recipe-list-item>
+	<li
+		*ngIf="recipes.length !== 0"
+		class="list-group-item rounded-bottom bg-gradient--gentle-care">
+		<hr/>
+	</li>
 </ul>
-
-<div class="form-modal fade" id="new-recipe-modal-form" tabindex="-1">
-	<div class="modal-dialog form-modal-dialog">
-		<div class="form-card">
-			<div class="form-title">
-				<h1 class="modal-title">Add new recipe</h1>
-				<button class="close" data-dismiss="modal" type="button">&times;</button>
-			</div>
-			<div class="form">
-				<div class="form-group row">
-					<label class="col-lg-4 col-form-label" for="name">Name of recipe</label>
-					<input class="col-lg-8 form-control rounded-pill" id="name" type="text">
-				</div>
-				<div class="form-group row">
-					<label class="col-lg-4 col-form-label" for="desc">Recipe description</label>
-					<textarea class="col-lg-8 form-control" id="desc"></textarea>
-				</div>
-				<div class="form-group row">
-					<label class="col-lg-4 col-form-label">Recipe image</label>
-					<div class="col-lg-8 custom-file">
-						<input class="custom-file-input" id="recipe-image" type="file">
-						<label class="custom-file-label" for="recipe-image">Choose recipe image file</label>
-					</div>
-				</div>
-			</div>
-			<div class="form-footer">
-				<button class="btn btn-image bg-gradient--light-blue rounded-pill" type="button">Add recipe</button>
-				<button
-					class="btn btn-image bg-gradient-warning-danger rounded-pill" data-dismiss="modal" type="button">
-					Cancel
-				</button>
-			</div>
-		</div>
-	</div>
-</div>

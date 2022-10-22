@@ -7,8 +7,9 @@ import {Recipe} from 'src/app/structs/recipe';
 	styleUrls: ['./recipe-list-item.component.css']
 })
 export class RecipeListItemComponent {
-	@Input() recipe: Recipe;
-	@Input() isSelected: boolean;
+	@Input() index!: number;
+	@Input() recipe!: Recipe;
+	@Input() isSelected!: boolean;
 
 	constructor () {
 	}

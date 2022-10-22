@@ -7,7 +7,7 @@ import {Recipe} from '../structs/recipe';
 	providedIn: 'root'
 })
 export class RecipeService {
-	public readonly recipesChange = new Subject<Recipe[]>();
+	public readonly recipesChange                = new Subject<Recipe[]>();
 	@Input() private readonly _recipes: Recipe[] = [
 		{
 			name: 'Test 1',
@@ -15,8 +15,8 @@ export class RecipeService {
 			imageUrl: 'assets/recipe.jpg',
 			ingredients: [{
 				name: 'Null Ingredient 1',
-				quantity: '0 voids',
-				totalCostInUsd: 0,
+				quantity: [1, "voids"],
+				cost: 1,
 			}],
 		},
 		{
@@ -25,8 +25,8 @@ export class RecipeService {
 			imageUrl: 'assets/recipe.jpg',
 			ingredients: [{
 				name: 'Null Ingredient 1',
-				quantity: '0 voids',
-				totalCostInUsd: 0.00,
+				quantity: [1, "voids"],
+				cost: 1.01,
 			}],
 		},
 		{
@@ -36,28 +36,28 @@ export class RecipeService {
 			ingredients: [
 				{
 					name: 'Cheddar cheese',
-					quantity: '10 slices',
-					totalCostInUsd: 1.21,
+					quantity: [1, "slices"],
+					cost: 1.21,
 				},
 				{
 					name: 'Tomato sauce',
-					quantity: '10 ml pouch',
-					totalCostInUsd: 10,
+					quantity: [1, "ml pouch"],
+					cost: 10,
 				},
 				{
 					name: 'Rice',
-					quantity: '100 mg',
-					totalCostInUsd: 12.11,
+					quantity: [1, "mg"],
+					cost: 12.11,
 				},
 				{
 					name: 'Oil',
-					quantity: '1 ml',
-					totalCostInUsd: 19.10,
+					quantity: [1, "ml"],
+					cost: 19.10,
 				},
 				{
 					name: 'Long and completely unrelated but very expensive ingredient',
-					quantity: '10 seconds',
-					totalCostInUsd: 10000,
+					quantity: [1, "seconds"],
+					cost: 10000,
 				},
 			],
 		}

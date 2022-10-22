@@ -1,0 +1,32 @@
+@import "bs-style";
+@import "jquery-ui-and-bootstrap";
+@import "vars";
+@import "custom-gradients";
+@import "add-bg-noise";
+@import "angular-bs";
+
+.colorful-modal-content {
+	// 065 Burning Spring (Circular)
+	background: radial-gradient(circle farthest-side at bottom, #4fb576 0%, #44c489 30%, #28a9ae 46%, #28a2b7 59%, #4c7788 71%, #6c4f63 86%, #432c39 100%);
+	color: color-contrast(#489287);
+}
+
+div.centered-box {
+	@extend .row--split-into-30;
+	@extend .d-flex;
+	@extend .h-100;
+	@extend .justify-content-center;
+
+	& > :first-child {
+		@extend .col-xl-21;
+		@extend .col-lg-24;
+		@extend .col-md-27;
+		@extend .col-sm-30;
+		@extend .p-md-0;
+	}
+
+	&.--vertical,
+	&.-v {
+		@extend .align-content-center;
+	}
+}

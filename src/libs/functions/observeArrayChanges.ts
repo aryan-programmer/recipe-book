@@ -1,22 +1,25 @@
-const nonMutatingArrayMethods = ["concat", "entries", "every", "filter", "find", "findIndex", "flatMap", "forEach", "includes", "indexOf", "join", "keys", "lastIndexOf", "map", "reduce", "reduceRight", "slice", "some", "toString", "toLocaleString", "values", ];
+import {Object} from "../types";
+
+type OthT<T> = T[] & Object;
 
 function observeArrayChanges<T> (ts: T[], change: (ts: T[]) => void) {
-	return new Proxy(ts, {
-		set (target: T[], p: string | number | symbol, value: any): boolean {
-			// @ts-ignore
+	const noTrackMethods = new Set<string | symbol>(["concat", "entries", "every", "filter", "find", "findIndex", "flatMap", "forEach", "includes", "indexOf", "join", "keys", "lastIndexOf", "map", "reduce", "reduceRight", "slice", "some", "toString", "toLocaleString", "values"]);
+	return new Proxy(ts as OthT<T>, {
+		set (target: OthT<T>, p: string | number | symbol, value: any): boolean {
 			target[p] = value;
 			change(target);
 			return true;
 		},
-		get (target: T[], p: string | number | symbol): any {
-			// @ts-ignore
+		get (target: OthT<T>, p: string | number | symbol): any {
+			if (typeof p === 'number') return target[p];
+			if (typeof p === 'symbol') {
+				return target[p];
+			}
 			const ret = target[p];
-			if (typeof ret === 'function' && !nonMutatingArrayMethods.includes(p as string)) {
-				// tslint:disable-next-line:only-arrow-functions
-				return function (...args: any[]) {
-					// @ts-ignore
-					// tslint:disable-next-line:variable-name
-					const ret_ = target[p](...args);
+			if (typeof ret === 'function' && !noTrackMethods.has(p)) {
+				noTrackMethods.add(p);
+				return target[p] = function (...args: any[]) {
+					const ret_ = (ret as Function).call(target, ...args);
 					change(target);
 					return ret_;
 				};

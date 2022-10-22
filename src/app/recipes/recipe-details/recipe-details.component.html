@@ -10,13 +10,15 @@
 			class="card-header h4 add-bg-noise"
 			data-target="#ingredients"
 			data-toggle="collapse"
+			data-ripple
 		>
 			{{buttonText}}
 			Ingredients
 		</div>
 		<app-ingredient-list
 			[ingredients]="recipe.ingredients"
-			class="collapse"
+			[class.collapse]="!areIngredientsShown"
+			[showClick]="false"
 			id="ingredients"
 		></app-ingredient-list>
 	</div>
@@ -24,17 +26,18 @@
 		<div class="card-header h4 add-bg-noise">{{recipe.name}}</div>
 		<div class="card-body">
 			<p>{{recipe.description}}</p>
-			<div class="btn-group">
+			<div class="dropdown">
 				<button
 					class="btn btn-image bg-gradient--angel-care dropdown-toggle rounded-pill"
-					data-toggle="dropdown">
+					data-bs-toggle="dropdown">
 					Manage recipe
 				</button>
 				<ul class="dropdown-menu">
 					<li (click)="addIngredientsToShoppingList()" class="dropdown-item">Add to shopping list</li>
 					<li class="dropdown-divider"></li>
 					<li class="dropdown-item" routerLink="edit">Edit</li>
-					<li class="dropdown-item--bg-auto btn btn-image bg-gradient-warning-danger">Delete</li>
+					<!-- --bg-auto btn btn-image bg-gradient-warning-danger-->
+					<li class="dropdown-item">Delete</li>
 				</ul>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Ingredient} from '../structs/ingredient';
 
 @Component({
@@ -7,8 +7,14 @@ import {Ingredient} from '../structs/ingredient';
 	styleUrls: ['./ingredient-list.component.css']
 })
 export class IngredientListComponent {
-	@Input() ingredients: Ingredient[];
+	@Input() ingredients!: Ingredient[];
+	@Input() showClick: boolean               = true;
+	@Output() itemClick: EventEmitter<number> = new EventEmitter<number>();
 
 	constructor () {
+	}
+
+	onClick (i: number) {
+		this.itemClick.emit(i);
 	}
 }

@@ -130,5 +130,4 @@ const events = {
 	}
 };
 
-// @ts-ignore
 $.events = events;

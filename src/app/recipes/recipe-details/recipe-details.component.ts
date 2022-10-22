@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
 import {RecipeService} from 'src/app/services/recipe.service';
 import nn from 'src/libs/functions/nn';
-import {HasSubscriptions} from 'src/libs/HasSubscriptions';
+import {Unsubscriber} from 'src/libs/unsubscriber';
 import {ShoppingListService} from '../../services/shopping-list.service';
 import {Recipe} from '../../structs/recipe';
 
@@ -12,8 +12,8 @@ import {Recipe} from '../../structs/recipe';
 	templateUrl: './recipe-details.component.html',
 	styleUrls: ['./recipe-details.component.css']
 })
-export class RecipeDetailsComponent extends HasSubscriptions {
-	recipe?: Recipe;
+export class RecipeDetailsComponent extends Unsubscriber {
+	recipe!: Recipe;
 	areIngredientsShown: boolean = false;
 	buttonText: string = '⯈';
 	recipeIndex = -1;
@@ -28,7 +28,7 @@ export class RecipeDetailsComponent extends HasSubscriptions {
 		b.unsubscribe();
 		this.subscriptions = [
 			activatedRoute.params.subscribe(params => {
-				this.recipe = recipeService.recipes[this.recipeIndex = +params.idx];
+				this.recipe = recipeService.recipes[this.recipeIndex = +params['idx']];
 			}),
 			recipeService.recipesChange.subscribe((recipes: Recipe[]) => {
 				this.recipe = recipes[this.recipeIndex];

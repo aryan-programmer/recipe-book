@@ -1,3 +1,5 @@
+import {Optional} from "../types";
+
 class NullOrUndefinedValueException extends Error {
 	public readonly nullOrUndefined: null | undefined;
 
@@ -8,7 +10,7 @@ class NullOrUndefinedValueException extends Error {
 }
 
 function nn<T> (
-	val: T | undefined | null,
+	val: Optional<T>,
 	message: string = "The value was expected to be not null or undefined but it was."
 ): T {
 	if (val === null) {

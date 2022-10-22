@@ -1,27 +1,77 @@
-<div class="form-card">
-	<div class="form-title">Add a new recipe</div>
+<form class="form-card ng-bs-always-show-validation bg-gradient--desert-hump" [formGroup]="recipeForm" (submit)="onSubmit()" ngNativeValidate>
+	<div class="form-title">{{editMode ? "Edit recipe" : "Add a new recipe"}}</div>
 	<div class="form">
-		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="name">Name of recipe</label>
-			<input class="col-lg-8 form-control rounded-pill" id="name" type="text">
+		<div class="">
+			<label class="form-label" for="name">Name of recipe</label>
+			<input class="form-control rounded-pill" id="name" formControlName="name" type="text">
 		</div>
-		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="desc">Recipe description</label>
-			<textarea class="col-lg-8 form-control" id="desc"></textarea>
+		<div class="">
+			<label class="form-label" for="description">Recipe description</label>
+			<textarea class="form-control" id="description" formControlName="description"></textarea>
 		</div>
-		<div class="form-group row">
-			<label class="col-lg-4 col-form-label">Recipe image</label>
-			<div class="col-lg-8 custom-file">
-				<input class="custom-file-input" id="recipe-image" type="file">
-				<label class="custom-file-label" for="recipe-image">Choose recipe image file</label>
-			</div>
+		<div class="">
+			<label class="form-label" for="imageUrl">Recipe image URL</label>
+			<input class="form-control rounded-pill" id="imageUrl" type="text" formControlName="imageUrl">
 		</div>
+		<ul *ngIf="ingredients; let ings" class="list-group mt-3" formArrayName="ingredients">
+			<li
+				[class.rounded-bottom-0]="ings.length !== 0"
+				class="list-group-item btn btn-image bg-gradient--crystalline"
+				(click)="onAddIngredient()">
+				Add new ingredient
+			</li>
+			<li
+				class="list-group-item"
+				*ngFor="let control of ings; let i = index"
+				[formGroupName]="i">
+				<div class="input-group rounded-bottom-0">
+					<input
+						id="ing-name"
+						name="name"
+						formControlName="name"
+						class="form-control rounded-bottom-0"
+						type="text"
+						placeholder="Enter name">
+					<button type="button" class="btn btn-warning rounded-bottom-0">❌</button>
+				</div>
+				<div class="input-group rounded-0">
+					<input
+						name="quantity"
+						formControlName="quantity"
+						type="number"
+						placeholder="Number of"
+						class="form-control hide-arrows rounded-0"
+					>
+					<input
+						name="quantityUnit"
+						formControlName="quantityUnit"
+						placeholder="units"
+						type="text"
+						class="form-control rounded-0"
+					>
+				</div>
+				<div class="input-group rounded-top-0">
+					<span class="input-group-text rounded-top-0">$</span>
+					<input
+						id="cost"
+						name="cost"
+						formControlName="cost"
+						class="form-control rounded-top-0 hide-arrows"
+						type="number"
+						step="0.01"
+						placeholder="Cost"
+					>
+				</div>
+			</li>
+		</ul>
 	</div>
 	<div class="form-footer">
 		<button
 			class="btn btn-image bg-gradient-warning-danger rounded-pill"
-			type="button">
-			Add recipe
+			type="submit"
+			[disabled]="!recipeForm.valid"
+		>
+			{{editMode ? "Edit" : "Add"}} recipe
 		</button>
 	</div>
-</div>
+</form>

@@ -1,4 +1,5 @@
 import $ from "jquery";
+import "./bs-btn-ripple";
 
 window.jQuery = window.$ = $;
 declare global {
@@ -7,3 +8,6 @@ declare global {
 		$: JQueryStatic;
 	}
 }
+
+require("@popperjs/core");
+require("bootstrap");

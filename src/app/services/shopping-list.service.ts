@@ -9,10 +9,17 @@ import {RecipeService} from './recipe.service';
 })
 export class ShoppingListService {
 	@Output() readonly ingredientsChange = new Subject<Ingredient[]>();
+	@Output() readonly startedEditing    = new Subject<number>();
 	@Input() private readonly _ingredients: Ingredient[];
 
 	constructor (private recipeService: RecipeService) {
-		this._ingredients = [];
+		this._ingredients = [
+			{
+				name: "Ing",
+				quantity: [123, "qqq"],
+				cost: 123,
+			}
+		];
 		this._ingredients = observeArrayChanges(
 			this._ingredients,
 			ingredient => this.ingredientsChange.next(ingredient)

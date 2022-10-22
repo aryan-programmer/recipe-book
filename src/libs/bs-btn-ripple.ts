@@ -6,25 +6,20 @@ import $ from "jquery";
 $(document).on(
 	"click",
 	// language=JQuery-CSS
-	"[data-ripple]:not(.disabled):not(:disabled)",
+	".btn:not([data-no-ripple]):not(.btn-disabled):not(.disabled):not(:disabled), [data-ripple]:not(.btn-disabled):not(.disabled):not(:disabled)",
 	function (e) {
-
 		const $self = $(this);
-
-		if ($self.is(".btn-disabled")) {
-			return;
-		}
-		if ($self.closest("[data-ripple]")) {
+		if ($self.closest(".btn, [data-ripple]")) {
 			e.stopPropagation();
 		}
 
 		const initPos = $self.css("position");
-		const offset = $self.offset();
+		const offset  = $self.offset();
 		if (offset == null) return;
-		const x = e.pageX - offset.left;
-		const y = e.pageY - offset.top;
+		const x        = e.pageX - offset.left;
+		const y        = e.pageY - offset.top;
 		const diameter = Math.min(this.offsetHeight, this.offsetWidth, 100); // start diameter
-		const $ripple = $("<div/>", {class: "ripple", appendTo: $self});
+		const $ripple  = $("<div/>", {class: "ripple", appendTo: $self});
 
 		if (!initPos || initPos === "static") {
 			$self.css({position: "relative"});

@@ -1,5 +1,5 @@
 export interface Ingredient {
 	name: string;
-	quantity: string;
-	totalCostInUsd: number;
+	quantity: [number, string];
+	cost: number;
 }

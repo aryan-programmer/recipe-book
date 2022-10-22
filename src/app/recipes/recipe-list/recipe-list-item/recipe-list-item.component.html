@@ -1,13 +1,19 @@
 <li
-	[style.border-color]="isSelected ? 'blue':'transparent'"
-	class="list-group-item bg-transparent btn"
+	routerLinkActive
+	[routerLink]="'./'+index"
+	#rla="routerLinkActive"
+	[style.border-color]="rla.isActive ? 'blue':'transparent'"
+	class="list-group-item btn btn-image bg-gradient--crystal-river card px-0 text-white"
 	style="border-width: 2px; border-style: solid"
+	data-ripple
 >
-	<div class="media">
-		<div class="media-body">
-			<h5 class="mt-0 mb-1">{{recipe.name}}</h5>
+	<div class="d-flex flex-xl-column flex-lg-row">
+		<div class="flex-lg-shrink-0">
+			<img [src]="recipe.imageUrl" class="img-thumbnail rounded-0 m-1" style="max-height: 100px">
 		</div>
-		<!--suppress HtmlRequiredAltAttribute -->
-		<img [src]="recipe.imageUrl" class="img-thumbnail ml-3" style="max-height: 100px">
+		<div class="flex-lg-grow-1 ms-xl-0 ms-lg-3 text-xl-center text-lg-start">
+			<h5 class="mt-1 mb-1">{{recipe.name}}</h5>
+		</div>
 	</div>
+	<!--suppress HtmlRequiredAltAttribute -->
 </li>
