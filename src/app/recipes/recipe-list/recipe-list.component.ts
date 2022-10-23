@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Unsubscriber} from "../../../libs/unsubscriber";
 import {RecipeService} from '../../services/recipe.service';
 import {Recipe} from '../../structs/recipe';
 
@@ -7,12 +8,15 @@ import {Recipe} from '../../structs/recipe';
 	templateUrl: './recipe-list.component.html',
 	styleUrls: ['./recipe-list.component.css']
 })
-export class RecipeListComponent {
+export class RecipeListComponent extends Unsubscriber {
 	recipes: Recipe[];
 
 	constructor (public recipeService: RecipeService) {
-		this.recipes = recipeService.recipes;
-		recipeService.recipesChange.subscribe(
-			(recipes: Recipe[]) => this.recipes = recipes);
+		super();
+		this.recipes       = recipeService.recipes;
+		this.subscriptions = [
+			recipeService.recipesChange.subscribe(
+				(recipes: Recipe[]) => this.recipes = recipes)
+		];
 	}
 }

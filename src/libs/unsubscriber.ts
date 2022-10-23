@@ -6,13 +6,11 @@ import {Subscription} from 'rxjs';
 export class Unsubscriber implements OnDestroy {
 	protected subscriptions?: Subscription[];
 
-	constructor () {
-	}
-
 	ngOnDestroy (): void {
-		if (this.subscriptions)
+		if (this.subscriptions) {
 			for (const subscription of this.subscriptions) {
 				subscription.unsubscribe();
 			}
+		}
 	}
 }

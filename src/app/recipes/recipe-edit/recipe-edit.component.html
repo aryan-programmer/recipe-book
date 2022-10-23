@@ -1,4 +1,8 @@
-<form class="form-card ng-bs-always-show-validation bg-gradient--desert-hump" [formGroup]="recipeForm" (submit)="onSubmit()" ngNativeValidate>
+<form
+	class="form-card ng-bs-always-show-validation bg-gradient--desert-hump"
+	[formGroup]="recipeForm"
+	(submit)="onSubmit()"
+	ngNativeValidate>
 	<div class="form-title">{{editMode ? "Edit recipe" : "Add a new recipe"}}</div>
 	<div class="form">
 		<div class="">
@@ -11,9 +15,21 @@
 		</div>
 		<div class="">
 			<label class="form-label" for="imageUrl">Recipe image URL</label>
-			<input class="form-control rounded-pill" id="imageUrl" type="text" formControlName="imageUrl">
+			<div class="row">
+				<div class="col-lg-auto flex-grow-1 col-md-12 d-flex align-items-center">
+					<input
+						class="form-control rounded-pill"
+						id="imageUrl"
+						type="text"
+						formControlName="imageUrl"
+						#imageUrl>
+				</div>
+				<div class="col-auto d-flex align-items-center m-1">
+					<img [src]="imageUrl.value" class="img-thumbnail img-thumbnail-sized rounded-0">
+				</div>
+			</div>
 		</div>
-		<ul *ngIf="ingredients; let ings" class="list-group mt-3" formArrayName="ingredients">
+		<ul *ngIf="ingredientControls; let ings" class="list-group mt-3" formArrayName="ingredients">
 			<li
 				[class.rounded-bottom-0]="ings.length !== 0"
 				class="list-group-item btn btn-image bg-gradient--crystalline"
@@ -32,7 +48,12 @@
 						class="form-control rounded-bottom-0"
 						type="text"
 						placeholder="Enter name">
-					<button type="button" class="btn btn-warning rounded-bottom-0">❌</button>
+					<button
+						type="button"
+						class="btn btn-warning rounded-bottom-0"
+						(click)="deleteIngredient(i)"
+						tabindex="-1">❌
+					</button>
 				</div>
 				<div class="input-group rounded-0">
 					<input
@@ -65,13 +86,20 @@
 			</li>
 		</ul>
 	</div>
-	<div class="form-footer">
+	<div class="form-footer d-flex flex-row flex-wrap gap-4">
 		<button
-			class="btn btn-image bg-gradient-warning-danger rounded-pill"
+			class="btn btn-image bg-gradient--february-ink rounded-pill"
 			type="submit"
 			[disabled]="!recipeForm.valid"
 		>
 			{{editMode ? "Edit" : "Add"}} recipe
+		</button>
+		<button
+			class="btn btn-image bg-gradient-warning-danger rounded-pill"
+			type="button"
+			(click)="onCancel()"
+		>
+			Cancel
 		</button>
 	</div>
 </form>

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import nn from "../../../libs/functions/nn";
 import roundToTwo from "../../../libs/functions/roundToTwo";
@@ -19,7 +19,10 @@ export class RecipeEditComponent extends Unsubscriber {
 	editMode = false;
 	recipeForm!: FormGroup;
 
-	constructor (private activatedRoute: ActivatedRoute, private recipeService: RecipeService) {
+	constructor (
+		private activatedRoute: ActivatedRoute,
+		private recipeService: RecipeService,
+		private router: Router) {
 		super();
 		this.subscriptions = [
 			activatedRoute.params.subscribe(params => {
@@ -59,7 +62,7 @@ export class RecipeEditComponent extends Unsubscriber {
 		});
 	}
 
-	get ingredients () {
+	get ingredientControls () {
 		return (this.recipeForm.get("ingredients") as FormArray).controls as FormGroup[]
 	}
 
@@ -74,14 +77,23 @@ export class RecipeEditComponent extends Unsubscriber {
 				cost: roundToTwo(+value.cost)
 			}))
 		};
-		if(this.editMode){
+		if (this.editMode) {
 			this.recipeService.recipes[nn(this.id)] = recipe
-		}else{
+		} else {
 			this.recipeService.recipes.push(recipe)
 		}
+		this.onCancel();
 	}
 
 	onAddIngredient () {
 		(this.recipeForm.get("ingredients") as FormArray).push(RecipeEditComponent.formGroupFromIngredient());
+	}
+
+	onCancel () {
+		this.router.navigate(["../"], {relativeTo: this.activatedRoute});
+	}
+
+	deleteIngredient (i: number) {
+		(this.recipeForm.get("ingredients") as FormArray).removeAt(i);
 	}
 }
