@@ -1,8 +1,8 @@
 import {Ingredient} from './ingredient';
 
-export interface Recipe {
+export type Recipe = {
 	name: string;
 	description: string;
 	imageUrl: string;
 	ingredients: Ingredient[];
-}
+};

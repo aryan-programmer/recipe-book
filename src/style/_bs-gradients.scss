@@ -1,67 +1,17 @@
 $gradient-degrees: 40deg !default;
 
+$enable-btn-outline-gradients: false !default;
+
 @function linear-gradient-custom($color-1, $color-2) {
 	@return $color-1 linear-gradient($gradient-degrees, $color-2 5%, $color-1 77%) repeat-x
 }
 
-@mixin define-btn-outline-gradient(
-	$gradient-name,
-	$main-value,
-	$gradient,
-	$color-hover: color-contrast($main-value),
-	$active-border: $main-value,
-	$blend-mode: 0
-) {
-	// Borrowed from bootstrap button-outline-variant mixin
-	.btn-outline-#{$gradient-name} {
-		$color: $main-value;
-		color: $color;
-		border-color: $color;
-
-		&:hover {
-			color: $color-hover;
-			background: $gradient;
-			border-color: $active-border;
-		}
-
-		&:focus,
-		&.focus {
-			box-shadow: 0 0 0 $btn-focus-width rgba($color, .5);
-		}
-
-		&.disabled,
-		&:disabled {
-			color: $color;
-			background-color: transparent;
-		}
-
-		&:not(:disabled):not(.disabled):active,
-		&:not(:disabled):not(.disabled).active,
-		.show > &.dropdown-toggle {
-			color: color-contrast($color);
-			background: $gradient;
-			border-color: $active-border;
-			@if ($blend-mode != 0) {
-				background-blend-mode: $blend-mode;
-			}
-
-			&:focus {
-				// Avoid using mixin so we can pass custom focus shadow properly
-				@if $enable-shadows and $btn-active-box-shadow != none {
-					box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width rgba($color, .5);
-				} @else {
-					box-shadow: 0 0 0 $btn-focus-width rgba($color, .5);
-				}
-			}
-		}
-	}
-}
-
-@mixin define-bg-gradient(
+@mixin define-gradient(
 	$gradient-name,
 	$main-value,
 	$gradient,
 	$color: color-contrast($main-value),
+	$active-outline-border: $main-value,
 	$blend-mode: 0
 ) {
 	.bg-#{$gradient-name} {
@@ -73,87 +23,31 @@ $gradient-degrees: 40deg !default;
 	}
 }
 
-@mixin define-gradient(
-	$gradient-name,
-	$main-value,
-	$gradient,
-	$color: color-contrast($main-value),
-	$active-outline-border: $main-value,
-	$blend-mode: 0
-) {
-	@include define-bg-gradient(
-					$gradient-name,
-					$main-value,
-					$gradient,
-					$color,
-					$blend-mode
-	);
-	@include define-btn-outline-gradient(
-					$gradient-name,
-					$main-value,
-					$gradient,
-					$color,
-					$active-outline-border,
-					$blend-mode
-	);
-}
-
 @each $name-1, $value-1 in $theme-colors {
 	@each $name-2, $value-2 in $theme-colors {
 		@if $value-1 != $value-2 {
-			@include define-bg-gradient(
-							gradient-#{$name-1}-#{$name-2},
-							$value-1,
-							linear-gradient-custom($value-1, $value-2));
-			@include define-btn-outline-gradient(
-							gradient-#{$name-1}-#{$name-2},
-							$value-1,
-							linear-gradient-custom($value-1, $value-2));
+			@include define-gradient(
+					gradient-#{$name-1}-#{$name-2},
+					$value-1,
+					linear-gradient-custom($value-1, $value-2));
 		}
 	}
 }
 
-// Borrowed from bootstrap button-variant mixin
 .btn-image {
+	$background: rgba(255, 255, 255, 0);
+	@include button-variant(
+			$background,
+			$background,
+	);
 	border-width: 0px !important;
-	-webkit-filter: brightness(100%);
-	filter: brightness(100%);
-	@include box-shadow($btn-box-shadow);
+}
 
-	&:hover {
-		-webkit-filter: brightness(90%);
-		filter: brightness(90%);
-	}
-
-	&:focus,
-	&.focus {
-		// Avoid using mixin so we can pass custom focus shadow properly
-		@if $enable-shadows {
-			box-shadow: $btn-box-shadow, 0 0 0 $btn-focus-width rgba($primary, .5);
-		} @else {
-			box-shadow: 0 0 0 $btn-focus-width rgba($primary, .5);
-		}
-	}
-
-	// Disabled comes first so active can properly restyle
-	&.disabled,
-	&:disabled {
-		opacity: 65%;
-	}
-
-	&:not(:disabled):not(.disabled):active,
-	&:not(:disabled):not(.disabled).active,
-	.show > &.dropdown-toggle {
-		-webkit-filter: brightness(77%);
-		filter: brightness(77%);
-
-		&:focus {
-			// Avoid using mixin so we can pass custom focus shadow properly
-			@if $enable-shadows and $btn-active-box-shadow != none {
-				box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width rgba($primary, .5);
-			} @else {
-				box-shadow: 0 0 0 $btn-focus-width rgba($primary, .5);
-			}
-		}
-	}
+.btn-image-dark {
+	$background: rgba(0, 0, 0, 0);
+	@include button-variant(
+			$background,
+			$background,
+	);
+	border-width: 0px !important;
 }

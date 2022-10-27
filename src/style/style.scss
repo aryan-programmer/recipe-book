@@ -5,6 +5,10 @@
 @import "add-bg-noise";
 @import "angular-bs";
 @import "custom";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/regular";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/brands";
 
 .colorful-modal-content {
 	// 065 Burning Spring (Circular)
@@ -13,7 +17,7 @@
 }
 
 div.centered-box {
-	@extend .row--split-into-30;
+	@extend .row-30;
 	@extend .d-flex;
 	@extend .h-100;
 	@extend .justify-content-center;

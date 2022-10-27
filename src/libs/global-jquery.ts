@@ -10,4 +10,12 @@ declare global {
 }
 
 require("@popperjs/core");
-require("bootstrap");
+const bs = require("bootstrap");
+
+window.bootstrap = bs;
+declare global {
+	interface Window {
+		bootstrap: any;
+	}
+}
+

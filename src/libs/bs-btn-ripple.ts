@@ -1,4 +1,5 @@
 import $ from "jquery";
+import * as bs from "bootstrap";
 
 // Courtesy of https://stackoverflow.com/questions/30074246/how-to-create-ripple-effect-on-click-material-design
 
@@ -41,4 +42,19 @@ $(document).on(
 				}
 			}
 		});
+	});
+
+$(document).on(
+	"click",
+	// language=JQuery-CSS
+	"[data-bs-toggle=\"popover\"]",
+	function (this: HTMLElement | any) {
+		const $self                                                = $(this);
+		let html = this.dataset?.bsHtml != null;
+		console.log(this.dataset);
+		console.log(html);
+		const popover = (this.popover ??= new bs.Popover(this, {
+			html: html
+		}));
+		popover.toggle();
 	});

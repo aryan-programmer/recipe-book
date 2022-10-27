@@ -1,66 +1,13 @@
-<app-header></app-header>
-<div
-	class="row--split-into-30 d-flex justify-content-center"
-	style="flex: 1 1 auto"
->
-	<div class="col-lg-28 col-md-29 col-30 p-md-1 p-2 h-100">
-		<router-outlet></router-outlet>
-		<!--<form #postForm="ngForm" (ngSubmit)="onCreatePost(postForm.value)">
-			<div class="form-group">
-				<label for="title">Title</label>
-				<input
-					type="text"
-					class="form-control"
-					id="title"
-					required
-					ngModel
-					name="title"
-				/>
-			</div>
-			<div class="form-group">
-				<label for="content">Content</label>
-				<textarea
-					class="form-control"
-					id="content"
-					required
-					ngModel
-					name="content"
-				></textarea>
-			</div>
-			<button
-				class="btn btn-primary mt-3"
-				type="submit"
-				[disabled]="!postForm.valid"
-			>
-				Send Post
-			</button>
-		</form>
-		<hr />
-		<div class="row">
-			<div class="col-xs-12 col-md-6 col-md-offset-3">
-				<button class="btn btn-primary" (click)="onFetchPosts()">
-					Fetch Posts
-				</button>
-				|
-				<button
-					class="btn btn-danger"
-					[disabled]="loadedPosts.length < 1"
-					(click)="onClearPosts()"
-				>
-					Clear Posts
-				</button>
-			</div>
+<div class="row-30 vw-100 justify-content-end -webkit-thin-scrollbar">
+	<div
+		class="row col-lg-3 col-md-4 col-20 align-self-stretch align-items-stretch vh-100 fixed-top scroll-y">
+		<app-sidenav class="d-md-flex d-none"></app-sidenav>
+	</div>
+	<div
+		class="col-lg-27 col-md-26 col-30 row d-flex justify-content-center"
+	>
+		<div class="col-lg-28 col-md-29 col-30 p-3 h-100">
+			<router-outlet></router-outlet>
 		</div>
-		<div class="row mt-3">
-			<div class="col-xs-12 col-md-8 col-md-offset-3 mx-auto">
-				<ul *ngIf="loadedPosts != null && loadedPosts.length > 0; else noPostsTemplate" class="list-group">
-					<li class="list-group-item" *ngFor="let post of loadedPosts">
-						<h5>{{post.title}}</h5>
-						<p>{{post.content}}</p>
-					</li>
-				</ul>
-				<ng-template #noPostsTemplate><p>No posts available!</p></ng-template>
-			</div>
-		</div>-->
 	</div>
 </div>

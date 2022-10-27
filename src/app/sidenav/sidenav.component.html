@@ -1,0 +1,40 @@
+<div class="container-fluid flex-column">
+	<a class="navbar-brand h5-imp text-wrap text-center fw-bold mx-0" href="#">
+		<i class="fa-solid fa-kitchen-set h3"></i><br />
+		Recipe book
+	</a>
+	<div>
+		<ul class="nav navbar-nav nav-pills mr-auto flex-column font-small">
+			<li class="nav-item">
+				<a class="nav-link text-center" routerLink="/recipes" routerLinkActive="active">
+					<i class="fa-solid fa-bowl-food h5"></i><br />
+					Recipes
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-center" routerLink="/shopping-list" routerLinkActive="active">
+					<i class="fa-solid fa-cart-shopping h5"></i><br />
+					Shopping list
+				</a>
+			</li>
+			<ng-template #manageDropEnd>
+				<div class="dropdown-menu show position-relative">
+					<button type="button" class="dropdown-item" (click)="saveData()">Save data</button>
+					<button type="button" class="dropdown-item" (click)="fetchData()">Fetch data</button>
+				</div>
+			</ng-template>
+			<li class="nav-item dropend text-center mb-5 pb-5">
+				<a
+					class="nav-link dropdown-toggle"
+					[ngbPopover]="manageDropEnd"
+					placement="end"
+					container="body"
+					popoverClass="popover-no-pad"
+					role="button">
+					<i class="fa-solid fa-users-gear h5"></i><br/>
+					Manage
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
