@@ -1,13 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {NAV_BG_CLASS} from "../consts";
 import {DataStorageService} from "../services/data-storage.service";
 
 @Component({
 	selector: 'app-sidenav',
 	templateUrl: './sidenav.component.html',
-	styleUrls: ['./sidenav.component.scss'],
-	host: {"class": "navbar navbar-expand-lg navbar-light bg-gradient--perfect-white align-items-start"}
+	host: {"class": `${NAV_BG_CLASS} align-items-start`}
 })
 export class SidenavComponent {
+	@Input() showClose = false;
+	@Output() close    = new EventEmitter<void>();
 
 	constructor (private data: DataStorageService) {
 
@@ -15,9 +17,11 @@ export class SidenavComponent {
 
 	saveData () {
 		this.data.storeRecipes().subscribe();
+		this.close.emit();
 	}
 
 	fetchData () {
 		this.data.fetchRecipes().subscribe();
+		this.close.emit();
 	}
 }

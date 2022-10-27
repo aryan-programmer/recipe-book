@@ -8,16 +8,16 @@
 			(click)="toggleIngredients()"
 			[class.rounded-bottom]="!areIngredientsShown"
 			class="card-header h4 add-bg-noise"
+			data-ripple
 			data-target="#ingredients"
 			data-toggle="collapse"
-			data-ripple
 		>
 			{{buttonText}}
 			Ingredients
 		</div>
 		<app-ingredient-list
-			[ingredients]="recipe.ingredients"
 			[class.collapse]="!areIngredientsShown"
+			[ingredients]="recipe.ingredients"
 			[showClick]="false"
 			id="ingredients"
 		></app-ingredient-list>
@@ -37,7 +37,7 @@
 					<li class="dropdown-divider"></li>
 					<li class="dropdown-item" routerLink="edit">Edit</li>
 					<!-- --bg-auto btn btn-image bg-gradient-warning-danger-->
-					<li class="dropdown-item" (click)="deleteRecipe()">Delete</li>
+					<li (click)="deleteRecipe()" class="dropdown-item">Delete</li>
 				</ul>
 			</div>
 		</div>

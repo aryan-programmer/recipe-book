@@ -3,8 +3,7 @@ import {Ingredient} from '../structs/ingredient';
 
 @Component({
 	selector: 'app-ingredient-list',
-	templateUrl: './ingredient-list.component.html',
-	styleUrls: ['./ingredient-list.component.css']
+	templateUrl: './ingredient-list.component.html'
 })
 export class IngredientListComponent {
 	@Input() ingredients!: Ingredient[];

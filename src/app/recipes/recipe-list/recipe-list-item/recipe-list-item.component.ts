@@ -3,8 +3,7 @@ import {Recipe} from 'src/app/structs/recipe';
 
 @Component({
 	selector: 'app-recipe-list-item',
-	templateUrl: './recipe-list-item.component.html',
-	styleUrls: ['./recipe-list-item.component.css']
+	templateUrl: './recipe-list-item.component.html'
 })
 export class RecipeListItemComponent {
 	@Input() index!: number;

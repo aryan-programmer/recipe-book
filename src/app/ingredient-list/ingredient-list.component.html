@@ -1,9 +1,9 @@
 <ul class="list-group bg-transparent">
 	<li
+		(click)="onClick(i)"
 		*ngFor="let ingredient of ingredients; let i = index"
-		class="list-group-item bg-transparent"
 		[attr.data-ripple]="showClick?'y':null"
-		(click)="onClick(i)">
+		class="list-group-item bg-transparent">
 		<div class="media">
 			<div class="media-body">
 				{{ingredient.quantity[0]}} {{ingredient.quantity[1]}} of {{ingredient.name}}

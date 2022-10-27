@@ -6,8 +6,7 @@ import {Ingredient} from '../structs/ingredient';
 
 @Component({
 	selector: 'app-shopping-list',
-	templateUrl: './shopping-list.component.html',
-	styleUrls: ['./shopping-list.component.css']
+	templateUrl: './shopping-list.component.html'
 })
 export class ShoppingListComponent extends Unsubscriber implements OnInit {
 	@ViewChild(IngredientListEditComponent) ingredientListEdit!: IngredientListEditComponent;

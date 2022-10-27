@@ -11,8 +11,7 @@ import {Recipe} from "../../structs/recipe";
 
 @Component({
 	selector: 'app-recipe-edit',
-	templateUrl: './recipe-edit.component.html',
-	styleUrls: ['./recipe-edit.component.css']
+	templateUrl: './recipe-edit.component.html'
 })
 export class RecipeEditComponent extends Unsubscriber {
 	id?: number;
@@ -33,24 +32,8 @@ export class RecipeEditComponent extends Unsubscriber {
 		];
 	}
 
-	private initForm () {
-		let name                     = "";
-		let description              = "";
-		let imageUrl                 = "";
-		let ingredients: FormGroup[] = [];
-		if (this.editMode) {
-			const recipe = this.recipeService.recipes[nn(this.id)];
-			name         = recipe.name;
-			description  = recipe.description;
-			imageUrl     = recipe.imageUrl;
-			ingredients  = recipe.ingredients.map(RecipeEditComponent.formGroupFromIngredient);
-		}
-		this.recipeForm = new FormGroup({
-			"name": new FormControl(name, Validators.required),
-			"description": new FormControl(description, Validators.required),
-			"imageUrl": new FormControl(imageUrl, Validators.required),
-			"ingredients": new FormArray(ingredients),
-		});
+	get ingredientControls () {
+		return (this.recipeForm.get("ingredients") as FormArray).controls as FormGroup[]
 	}
 
 	private static formGroupFromIngredient (ing: Ingredient | undefined = undefined) {
@@ -60,10 +43,6 @@ export class RecipeEditComponent extends Unsubscriber {
 			"quantityUnit": new FormControl(ing?.quantity?.[1], Validators.required),
 			"cost": new FormControl(ing?.cost, [Validators.required, Validators.min(0.01)])
 		});
-	}
-
-	get ingredientControls () {
-		return (this.recipeForm.get("ingredients") as FormArray).controls as FormGroup[]
 	}
 
 	onSubmit () {
@@ -95,5 +74,25 @@ export class RecipeEditComponent extends Unsubscriber {
 
 	deleteIngredient (i: number) {
 		(this.recipeForm.get("ingredients") as FormArray).removeAt(i);
+	}
+
+	private initForm () {
+		let name                     = "";
+		let description              = "";
+		let imageUrl                 = "";
+		let ingredients: FormGroup[] = [];
+		if (this.editMode) {
+			const recipe = this.recipeService.recipes[nn(this.id)];
+			name         = recipe.name;
+			description  = recipe.description;
+			imageUrl     = recipe.imageUrl;
+			ingredients  = recipe.ingredients.map(RecipeEditComponent.formGroupFromIngredient);
+		}
+		this.recipeForm = new FormGroup({
+			"name": new FormControl(name, Validators.required),
+			"description": new FormControl(description, Validators.required),
+			"imageUrl": new FormControl(imageUrl, Validators.required),
+			"ingredients": new FormArray(ingredients),
+		});
 	}
 }

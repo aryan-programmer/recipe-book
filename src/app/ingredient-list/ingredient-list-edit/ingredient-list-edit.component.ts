@@ -5,13 +5,11 @@ import modals from 'src/libs/modals';
 import nn from "../../../libs/functions/nn";
 import roundToTwo from "../../../libs/functions/roundToTwo";
 import {Unsubscriber} from "../../../libs/unsubscriber";
-import {ShoppingListService} from '../../services/shopping-list.service';
 import {Ingredient} from "../../structs/ingredient";
 
 @Component({
 	selector: 'app-ingredient-list-edit',
-	templateUrl: './ingredient-list-edit.component.html',
-	styleUrls: ['./ingredient-list-edit.component.css']
+	templateUrl: './ingredient-list-edit.component.html'
 })
 export class IngredientListEditComponent extends Unsubscriber implements OnInit {
 	@ViewChild("form", {static: false}) form!: NgForm;

@@ -1,38 +1,46 @@
+<div *ngIf="showClose" class="d-flex w-100 justify-content-end">
+	<button (click)="close.emit()" class="btn-close" type="button"></button>
+</div>
 <div class="container-fluid flex-column">
-	<a class="navbar-brand h5-imp text-wrap text-center fw-bold mx-0" href="#">
+	<a class="navbar-brand h5-imp text-wrap text-center fw-bold mx-0" routerLink="/">
 		<i class="fa-solid fa-kitchen-set h3"></i><br />
 		Recipe book
 	</a>
 	<div>
 		<ul class="nav navbar-nav nav-pills mr-auto flex-column font-small">
 			<li class="nav-item">
-				<a class="nav-link text-center" routerLink="/recipes" routerLinkActive="active">
-					<i class="fa-solid fa-bowl-food h5"></i><br />
-					Recipes
+				<a class="nav-link nav-link-with-icon" routerLink="/recipes" routerLinkActive="active">
+					<div class="fa-solid fa-bowl-food h5"></div>
+					<div>Recipes</div>
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-center" routerLink="/shopping-list" routerLinkActive="active">
-					<i class="fa-solid fa-cart-shopping h5"></i><br />
-					Shopping list
+				<a class="nav-link nav-link-with-icon" routerLink="/shopping-list" routerLinkActive="active">
+					<div class="fa-solid fa-cart-shopping h5"></div>
+					<div>Shopping list</div>
 				</a>
 			</li>
 			<ng-template #manageDropEnd>
 				<div class="dropdown-menu show position-relative">
-					<button type="button" class="dropdown-item" (click)="saveData()">Save data</button>
-					<button type="button" class="dropdown-item" (click)="fetchData()">Fetch data</button>
+					<button (click)="saveData()" class="dropdown-item" type="button">Save data</button>
+					<button (click)="fetchData()" class="dropdown-item" type="button">Fetch data</button>
 				</div>
 			</ng-template>
-			<li class="nav-item dropend text-center mb-5 pb-5">
+			<li class="nav-item dropend mb-5 pb-5">
 				<a
-					class="nav-link dropdown-toggle"
 					[ngbPopover]="manageDropEnd"
-					placement="end"
+					class="nav-link d-flex flex-row"
 					container="body"
+					placement="end"
 					popoverClass="popover-no-pad"
 					role="button">
-					<i class="fa-solid fa-users-gear h5"></i><br/>
-					Manage
+					<div class="nav-link-with-icon">
+						<div class="fa-solid fa-users-gear h5"></div>
+						<div>Manage</div>
+					</div>
+					<div class="my-auto">
+						<i class="fa-solid fa-caret-right"></i>
+					</div>
 				</a>
 			</li>
 		</ul>

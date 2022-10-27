@@ -26,3 +26,21 @@
 	overflow-y: scroll;
 	overflow-y: overlay;
 }
+
+$smallest-size-nav: md;
+
+.topnav-sizing{
+	@extend .d-#{$smallest-size-nav}-none, .d-flex;
+}
+
+.sidenav-sizing {
+	@extend .col-xl-3, .col-lg-4, .col-md-5, .col-20, .d-#{$smallest-size-nav}-flex, .d-none;
+}
+
+.content-sizing {
+	@extend .col-xl-27, .col-lg-26, .col-md-25, .col-30;
+}
+
+.nav-link-with-icon {
+	@extend .d-flex, .flex-#{$smallest-size-nav}-column, .flex-row, .gap-#{$smallest-size-nav}-0, .gap-2, .px-2, .align-items-center, .text-center;
+}

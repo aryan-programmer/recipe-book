@@ -1,11 +1,11 @@
 <li
-	routerLinkActive
-	[routerLink]="'./'+index"
 	#rla="routerLinkActive"
+	[routerLink]="'./'+index"
 	[style.border-color]="rla.isActive ? 'blue':'transparent'"
 	class="list-group-item btn btn-image bg-gradient--crystal-river card px-0 text-white"
-	style="border-width: 2px; border-style: solid"
 	data-ripple
+	routerLinkActive
+	style="border-width: 2px; border-style: solid"
 >
 	<div class="d-flex flex-xl-column flex-lg-row">
 		<div class="flex-lg-shrink-0">
