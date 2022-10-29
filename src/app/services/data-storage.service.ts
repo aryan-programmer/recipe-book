@@ -1,15 +1,20 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Injectable} from '@angular/core';
 import {map, tap} from "rxjs";
-import {FIREBASE_URL} from "../consts";
-import {Recipe} from "../structs/recipe";
+import {AuthService} from "../auth/services/auth.service";
+import {FIREBASE_URL} from "../utils/consts";
+import {Recipe} from "../utils/types";
 import {RecipeService} from "./recipe.service";
 
 const RECIPES_URL = FIREBASE_URL + "recipe.json";
 
 @Injectable()
 export class DataStorageService {
-	constructor (private http: HttpClient, private rec: RecipeService) {
+	constructor (
+		private http: HttpClient,
+		private rec: RecipeService,
+		private auth: AuthService,
+	) {
 	}
 
 	storeRecipes () {
@@ -19,7 +24,9 @@ export class DataStorageService {
 
 	fetchRecipes () {
 		return this.http
-			.get<Recipe[]>(RECIPES_URL)
+			.get<Recipe[]>(
+				RECIPES_URL,
+			)
 			.pipe(
 				map(value => {
 					return value.map(r => {

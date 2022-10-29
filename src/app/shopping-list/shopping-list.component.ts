@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Unsubscriber} from "../../libs/unsubscriber";
 import {IngredientListEditComponent} from "../ingredient-list/ingredient-list-edit/ingredient-list-edit.component";
 import {ShoppingListService} from '../services/shopping-list.service';
-import {Ingredient} from '../structs/ingredient';
+import {Ingredient} from '../utils/types';
 
 @Component({
 	selector: 'app-shopping-list',
@@ -20,7 +20,6 @@ export class ShoppingListComponent extends Unsubscriber implements OnInit {
 		this.ingredients   = this.shoppingListService.ingredients;
 		this.subscriptions = [this.shoppingListService.ingredientsChange.subscribe(
 			(ingredients: Ingredient[]) => this.ingredients = ingredients)];
-		console.log(this.ingredients);
 	}
 
 	onEditItem (i: number) {

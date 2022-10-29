@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Unsubscriber} from "../../../libs/unsubscriber";
 import {RecipeService} from '../../services/recipe.service';
-import {Recipe} from '../../structs/recipe';
+import {Recipe} from '../../utils/types';
 
 @Component({
 	selector: 'app-recipe-list',

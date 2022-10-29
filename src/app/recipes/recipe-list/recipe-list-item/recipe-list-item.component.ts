@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Recipe} from 'src/app/structs/recipe';
+import {Recipe} from 'src/app/utils/types';
 
 @Component({
 	selector: 'app-recipe-list-item',

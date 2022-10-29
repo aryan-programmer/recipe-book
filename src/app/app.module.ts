@@ -1,4 +1,4 @@
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from '@angular/platform-browser';
@@ -9,6 +9,12 @@ import {AppRoutingModule} from 'src/app/app-routing.module';
 import {BlankComponent} from 'src/app/blank-component/blank.component';
 
 import {AppComponent} from './app.component';
+import {AuthGuard} from "./auth/services/auth.guard";
+import {AuthInterceptor} from "./auth/services/auth.interceptor";
+import {AuthService} from "./auth/services/auth.service";
+import {RegisterComponent} from './auth/register/register.component';
+import {SignInOpenerService} from "./auth/services/sign-in-opener.service";
+import {SignInComponent} from "./auth/sign-in/sign-in.component";
 import {IngredientListEditComponent} from './ingredient-list/ingredient-list-edit/ingredient-list-edit.component';
 import {IngredientListComponent} from './ingredient-list/ingredient-list.component';
 import {RecipeDetailsComponent} from './recipes/recipe-details/recipe-details.component';
@@ -22,6 +28,7 @@ import {RecipeService} from './services/recipe.service';
 import {ShoppingListService} from './services/shopping-list.service';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SidenavComponent} from './sidenav/sidenav.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
 	declarations: [
@@ -37,6 +44,9 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 		RecipeEditComponent,
 		$404Component,
 		SidenavComponent,
+		RegisterComponent,
+		SignInComponent,
+  LoaderComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -46,7 +56,16 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 		HttpClientModule,
 		NgbModule,
 	],
-	providers: [RecipeService, ShoppingListService, DataStorageService, RecipesResolver],
+	providers: [
+		RecipeService,
+		ShoppingListService,
+		DataStorageService,
+		RecipesResolver,
+		AuthService,
+		SignInOpenerService,
+		AuthGuard,
+		{provide: HTTP_INTERCEPTORS, multi: true, useClass: AuthInterceptor},
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

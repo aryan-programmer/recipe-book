@@ -7,17 +7,63 @@
 		Recipe book
 	</a>
 	<div>
-		<ul class="nav navbar-nav nav-pills mr-auto flex-column font-small">
-			<li class="nav-item">
-				<a class="nav-link nav-link-with-icon" routerLink="/recipes" routerLinkActive="active">
+		<ul class="nav c-navbar-nav nav-pills mr-auto flex-column font-small">
+			<li class="nav-item" *ngIf="isLoggedIn">
+				<a class="nav-link nav-link-with-icon" routerLink="/recipes" routerLinkActive="active" data-ripple>
 					<div class="fa-solid fa-bowl-food h5"></div>
-					<div>Recipes</div>
+					Recipes
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link nav-link-with-icon" routerLink="/shopping-list" routerLinkActive="active">
+				<a
+					class="nav-link nav-link-with-icon"
+					routerLink="/shopping-list"
+					routerLinkActive="active"
+					data-ripple>
 					<div class="fa-solid fa-cart-shopping h5"></div>
-					<div>Shopping list</div>
+					Shopping list
+				</a>
+			</li>
+			<li>
+				<a
+					class="nav-link nav-link-with-icon"
+					routerLink="/register"
+					routerLinkActive="active"
+					data-ripple
+					*ngIf="!isLoggedIn">
+					<div class="fa-solid fa-user-plus h5"></div>
+					Register
+				</a>
+			</li>
+			<li>
+				<!--<a
+					class="nav-link nav-link-with-icon"
+					[class]="isSignInPage ? ['bg-tertiary', 'text-light'] : null"
+					role="button"
+					(click)="openSignIn()"
+					data-ripple
+					*ngIf="!isLoggedIn">
+					<div class="fa-solid fa-sign-in h5"></div>
+					Sign in
+				</a>-->
+				<a
+					class="nav-link nav-link-with-icon"
+					routerLink="/sign-in"
+					routerLinkActive="active"
+					data-ripple
+					*ngIf="!isLoggedIn">
+					<div class="fa-solid fa-sign-in h5"></div>
+					Sign in
+				</a>
+			</li>
+			<li>
+				<a
+					class="nav-link nav-link-with-icon"
+					data-ripple
+					(click)="signOut()"
+					*ngIf="isLoggedIn">
+					<div class="fa-solid fa-sign-out h5"></div>
+					Sign out
 				</a>
 			</li>
 			<ng-template #manageDropEnd>
@@ -26,14 +72,15 @@
 					<button (click)="fetchData()" class="dropdown-item" type="button">Fetch data</button>
 				</div>
 			</ng-template>
-			<li class="nav-item dropend mb-5 pb-5">
+			<li class="nav-item dropend" *ngIf="isLoggedIn">
 				<a
 					[ngbPopover]="manageDropEnd"
 					class="nav-link d-flex flex-row"
 					container="body"
 					placement="end"
 					popoverClass="popover-no-pad"
-					role="button">
+					role="button"
+					data-ripple>
 					<div class="nav-link-with-icon">
 						<div class="fa-solid fa-users-gear h5"></div>
 						<div>Manage</div>

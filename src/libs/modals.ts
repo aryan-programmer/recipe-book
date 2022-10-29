@@ -6,7 +6,9 @@ interface ModalParams {
 	title?: string;
 	size?: 'xl' | 'lg' | 'md' | 'sm';
 	okButtonText?: string;
+	okButtonClass?: string[];
 	cancelButtonText?: string;
+	cancelButtonClass?: string[];
 	bodyAsRawHtml?: boolean;
 }
 
@@ -46,21 +48,18 @@ let dom$okButton: HTMLButtonElement;
 let dom$cancelButton: HTMLButtonElement;
 let isModalAlreadyShown: boolean = false;
 let wasInitialized: boolean      = false;
-let defaultParams: {
-	title: string;
-	size: 'xl' | 'lg' | 'md' | 'sm';
-	okButtonText: string;
-	cancelButtonText: string;
-	bodyAsRawHtml: boolean;
-}                                = {
+let defaultParams: Required<ModalParams>                                = {
 	title: '',
 	size: 'md',
 	okButtonText: 'Ok',
 	cancelButtonText: 'Cancel',
 	bodyAsRawHtml: false,
+	okButtonClass: "btn-image bg-gradient-success-info".split(" "),
+	cancelButtonClass: "btn-image bg-gradient-danger-warning".split(" "),
 };
 
 function getClassFromSz (size: 'xl' | 'lg' | 'md' | 'sm'): string {
+	if(size === "md")return "-";
 	return 'modal-' + size;
 }
 
@@ -100,14 +99,14 @@ function init (params: ModalParams) {
 				class="modal-footer add-bg-noise mb-0 border-top-0 d-flex justify-content-end">
 				<button
 					id="--general-modal-dialog--ok-button"
-					class="btn btn-image bg-gradient-success-info rounded-pill px-5"
+					class="btn rounded-pill px-5"
 					type="button"
 					data-bs-dismiss="modal"
 				>Ok
 				</button>
 				<button
 					id="--general-modal-dialog--cancel-button"
-					class="btn btn-image bg-gradient-danger-warning rounded-pill px-5 d-none"
+					class="btn rounded-pill px-5 d-none"
 					type="button"
 					data-bs-dismiss="modal"
 				>Cancel
@@ -143,7 +142,7 @@ function alert (
 		}
 		isModalAlreadyShown = true;
 
-		const {okButtonText, size, title, bodyAsRawHtml} = Object.assign({}, defaultParams, params);
+		const {okButtonText, size, title, bodyAsRawHtml, okButtonClass} = Object.assign({}, defaultParams, params);
 
 		dom$title.innerText = title;
 		if (bodyAsRawHtml) {
@@ -154,11 +153,13 @@ function alert (
 		dom$okButton.innerText = okButtonText;
 		const sizeClass        = getClassFromSz(size);
 		dom$dialog.classList.add(sizeClass);
+		dom$okButton.classList.add(...okButtonClass);
 
 		bs$modal.show();
 		dom$modal.addEventListener('hidden.bs.modal', function fn () {
 			dom$modal.removeEventListener('hidden.bs.modal', fn);
 			dom$dialog.classList.remove(sizeClass);
+			dom$okButton.classList.remove(...okButtonClass);
 			isModalAlreadyShown = false;
 			resolve();
 		});
@@ -179,8 +180,7 @@ function confirm (
 		}
 		isModalAlreadyShown = true;
 
-		const {cancelButtonText, okButtonText, size, title, bodyAsRawHtml} =
-			      Object.assign({}, defaultParams, params);
+		const {okButtonText, cancelButtonText, size, title, bodyAsRawHtml, okButtonClass, cancelButtonClass} = Object.assign({}, defaultParams, params);
 
 		dom$title.innerText = title;
 		if (bodyAsRawHtml) {
@@ -195,6 +195,8 @@ function confirm (
 		dom$cancelButton.classList.remove('d-none');
 		const sizeClass = getClassFromSz(size);
 		dom$dialog.classList.add(sizeClass);
+		dom$cancelButton.classList.add(...cancelButtonClass);
+		dom$okButton.classList.add(...okButtonClass);
 
 		let valueToResolveTo: boolean | null = null;
 
@@ -220,6 +222,8 @@ function confirm (
 			dom$buttonsHolder.classList.add('justify-content-end');
 			dom$buttonsHolder.classList.remove('justify-content-around');
 			dom$cancelButton.classList.add('d-none');
+			dom$cancelButton.classList.remove(...cancelButtonClass);
+			dom$okButton.classList.remove(...okButtonClass);
 			isModalAlreadyShown = false;
 			resolve(valueToResolveTo);
 		});
@@ -239,8 +243,7 @@ function prompt (
 		}
 		isModalAlreadyShown = true;
 
-		const {type, okButtonText, size, title, bodyAsRawHtml} =
-			      Object.assign({}, defaultParams, params);
+		const {okButtonText, size, type, title, bodyAsRawHtml, okButtonClass} = Object.assign({}, defaultParams, params);
 
 		dom$title.innerText = title;
 		if (bodyAsRawHtml) {
@@ -265,6 +268,7 @@ function prompt (
 		dom$dialog.classList.add(sizeClass);
 		dom$okButton.removeAttribute('data-bs-dismiss');
 		dom$closeButton.removeAttribute('data-bs-dismiss');
+		dom$okButton.classList.add(...okButtonClass);
 
 		const dom$input = nn(
 			dom$body.querySelector('#--general-modal-dialog--input')
@@ -298,6 +302,7 @@ function prompt (
 			dom$okButton.setAttribute('data-bs-dismiss', 'modal');
 			dom$closeButton.setAttribute('data-bs-dismiss', 'modal');
 			dom$dialog.classList.remove(sizeClass);
+			dom$okButton.classList.remove(...okButtonClass);
 			isModalAlreadyShown = false;
 			resolve(valueToResolveTo);
 		});

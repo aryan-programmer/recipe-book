@@ -6,7 +6,7 @@ import nn from 'src/libs/functions/nn';
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import modals from "../../../libs/modals";
 import {ShoppingListService} from '../../services/shopping-list.service';
-import {Recipe} from '../../structs/recipe';
+import {Recipe} from '../../utils/types';
 
 @Component({
 	selector: 'app-recipe-details',

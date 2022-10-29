@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable} from 'rxjs';
 import {DataStorageService} from "../services/data-storage.service";
 import {RecipeService} from "../services/recipe.service";
-import {Recipe} from "../structs/recipe";
+import {Recipe} from "../utils/types";
 
 @Injectable()
 export class RecipesResolver implements Resolve<Recipe[]> {
@@ -13,7 +13,7 @@ export class RecipesResolver implements Resolve<Recipe[]> {
 	resolve (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Recipe[]> | Recipe[] {
 		const r = this.recipes.recipes;
 		if (r == null || r.length === 0)
-			return this.data.fetchRecipes();
+			return this.data.fetchRecipes() ?? [];
 		return r;
 	}
 }

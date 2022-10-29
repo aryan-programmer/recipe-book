@@ -1,12 +1,10 @@
 import {Injectable, Input, Output} from '@angular/core';
 import {Subject} from 'rxjs';
 import {observeArrayChanges} from 'src/libs/functions/observeArrayChanges';
-import {Ingredient} from '../structs/ingredient';
+import {Ingredient} from '../utils/types';
 import {RecipeService} from './recipe.service';
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable()
 export class ShoppingListService {
 	@Output() readonly ingredientsChange = new Subject<Ingredient[]>();
 	@Output() readonly startedEditing    = new Subject<number>();

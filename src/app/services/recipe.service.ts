@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {observeArrayChanges} from 'src/libs/functions/observeArrayChanges';
-import {Recipe} from '../structs/recipe';
+import {Recipe} from '../utils/types';
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable()
 export class RecipeService {
 	public readonly recipesChange = new Subject<Recipe[]>();
 
@@ -16,6 +14,8 @@ export class RecipeService {
 		);
 	}
 
+	private _recipes: Recipe[]    = //*
+		        [];
 	/*/
 		        [
 			        {
@@ -71,9 +71,6 @@ export class RecipeService {
 				        ],
 			        }
 		        ];//*/
-
-	private _recipes: Recipe[]    = //*
-		        [];
 
 	get recipes (): Recipe[] {
 		return this._recipes;

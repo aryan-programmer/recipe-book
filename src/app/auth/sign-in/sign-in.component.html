@@ -1,0 +1,53 @@
+<form class="form-card bg-gradient--fly-high" ngForm #form="ngForm" (ngSubmit)="onSubmit(form)">
+	<div class="form-title">Sign in</div>
+	<app-loader *ngIf="isLoading; else formContent"></app-loader>
+	<ng-template #formContent>
+		<div class="form">
+			<div class="">
+				<label class="form-label" for="email">Email</label>
+				<input
+					#email="ngModel"
+					class="form-control rounded-pill"
+					id="email"
+					name="email"
+					type="email"
+					required
+					email
+					ngModel>
+				<div class="invalid-feedback" *ngIf="email.errors; let errors">
+					<span *ngIf="errors['required']">Enter an email</span>
+					<span *ngIf="errors['email']">Enter a valid email</span>
+				</div>
+			</div>
+			<div class="">
+				<label class="form-label" for="password">Password</label>
+				<input
+					#password="ngModel"
+					class="form-control rounded-pill"
+					id="password"
+					name="password"
+					type="password"
+					required
+					minlength="6"
+					ngModel>
+				<div class="invalid-feedback" *ngIf="password.errors; let errors">
+					<span *ngIf="errors['required']">Enter a password</span>
+					<span *ngIf="errors['minlength']">Enter a password longer than 6 characters</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-footer">
+			<button
+				type="submit"
+				class="btn btn-image bg-gradient--millennium-pine"
+				[disabled]="!form.valid">Sign in
+			</button>
+			<br />
+			<a
+				type="submit"
+				class="link-quaternary"
+				routerLink="/register"
+				(click)="close()">Don't have an account? Register now!</a>
+		</div>
+	</ng-template>
+</form>

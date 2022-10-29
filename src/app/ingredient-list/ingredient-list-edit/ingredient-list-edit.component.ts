@@ -5,7 +5,7 @@ import modals from 'src/libs/modals';
 import nn from "../../../libs/functions/nn";
 import roundToTwo from "../../../libs/functions/roundToTwo";
 import {Unsubscriber} from "../../../libs/unsubscriber";
-import {Ingredient} from "../../structs/ingredient";
+import {Ingredient} from "../../utils/types";
 
 @Component({
 	selector: 'app-ingredient-list-edit',

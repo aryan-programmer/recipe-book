@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Ingredient} from '../structs/ingredient';
+import {Ingredient} from '../utils/types';
 
 @Component({
 	selector: 'app-ingredient-list',

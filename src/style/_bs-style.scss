@@ -36,6 +36,28 @@
 	box-shadow: $box-shadow;
 }
 
+.c-navbar-nav {
+	// scss-docs-start navbar-nav-css-vars
+	--#{$prefix}nav-link-padding-x: 0;
+	--#{$prefix}nav-link-padding-y: #{$nav-link-padding-y};
+	@include rfs($nav-link-font-size, --#{$prefix}nav-link-font-size);
+	--#{$prefix}nav-link-font-weight: #{$nav-link-font-weight};
+	--#{$prefix}nav-link-color: var(--#{$prefix}navbar-color);
+	--#{$prefix}nav-link-hover-color: var(--#{$prefix}navbar-hover-color);
+	--#{$prefix}nav-link-disabled-color: var(--#{$prefix}navbar-disabled-color);
+	// scss-docs-end navbar-nav-css-vars
+
+	display: flex;
+	flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+
+	.dropdown-menu {
+		position: static;
+	}
+}
+
 @import "bs-row--split-into-30";
 @import "bs-gradients";
 @import "bs-btn-ripple";

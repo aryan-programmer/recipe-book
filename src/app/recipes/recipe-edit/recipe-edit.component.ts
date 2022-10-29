@@ -6,8 +6,7 @@ import nn from "../../../libs/functions/nn";
 import roundToTwo from "../../../libs/functions/roundToTwo";
 import {Object} from "../../../libs/types";
 import {RecipeService} from "../../services/recipe.service";
-import {Ingredient} from "../../structs/ingredient";
-import {Recipe} from "../../structs/recipe";
+import {Ingredient,Recipe} from "../../utils/types";
 
 @Component({
 	selector: 'app-recipe-edit',
