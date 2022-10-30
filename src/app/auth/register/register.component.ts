@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import modals from "../../../libs/modals";
+import {ModalsService} from "../../../libs/modals/modals.service";
 import {ERROR_MESSAGE} from "../../utils/consts";
 import {passwordsMatch} from "../../utils/functions";
 import {AuthService} from "../services/auth.service";
@@ -14,7 +14,12 @@ export class RegisterComponent {
 	form!: FormGroup;
 	isLoading = false;
 
-	constructor (private fb: FormBuilder, private auth: AuthService, private router: Router) {
+	constructor (
+		private fb: FormBuilder,
+		private auth: AuthService,
+		private router: Router,
+		private modals: ModalsService
+	) {
 		if (this.auth.isLoggedIn) {
 			modals.alert("Already signed in", {size: "md"});
 			this.router.navigateByUrl("/recipes");
@@ -47,7 +52,7 @@ export class RegisterComponent {
 			next: async value => {
 				this.isLoading = false;
 				await this.router.navigateByUrl("/recipes");
-				await modals.alert("<h4>Registered successfully.</h4>", {
+				await this.modals.alert("<h4>Registered successfully.</h4>", {
 					size: "md",
 					bodyAsRawHtml: true,
 				});
@@ -55,10 +60,9 @@ export class RegisterComponent {
 			error: err => {
 				this.isLoading = false;
 				console.log(err);
-				modals.alert(err[ERROR_MESSAGE], {
-					size: "md",
+				this.modals.alert(err[ERROR_MESSAGE], {
 					title: "Failed to register",
-					okButtonClass: ["btn-danger"]
+					okButtonClasses: ["btn", "btn-danger"]
 				});
 			}
 		});

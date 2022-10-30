@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NavigationStart, Router} from "@angular/router";
-import modals from "../../libs/modals";
+import {ModalsService} from "../../libs/modals/modals.service";
 import {Unsubscriber} from "../../libs/unsubscriber";
 import {AuthService} from "../auth/services/auth.service";
 import {SignInOpenerService} from "../auth/services/sign-in-opener.service";
@@ -22,7 +22,8 @@ export class SidenavComponent extends Unsubscriber implements OnInit{
 		private data: DataStorageService,
 		private auth: AuthService,
 		private router: Router,
-		private signInOpener: SignInOpenerService) {
+		private signInOpener: SignInOpenerService,
+		private modals: ModalsService) {
 		super();
 	}
 
@@ -61,6 +62,6 @@ export class SidenavComponent extends Unsubscriber implements OnInit{
 
 	signOut () {
 		this.auth.signOut();
-		modals.alert("Logged out successfully", {size: "md"});
+		this.modals.alert("Logged out successfully", {size: "md"});
 	}
 }

@@ -2,7 +2,7 @@ import {Component, Optional} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {Router} from "@angular/router";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import modals from "../../../libs/modals";
+import {ModalsService} from "../../../libs/modals/modals.service";
 import {redirectTo} from "../../app-routing.module";
 import {ERROR_MESSAGE} from "../../utils/consts";
 import {AuthService} from "../services/auth.service";
@@ -14,7 +14,12 @@ import {AuthService} from "../services/auth.service";
 export class SignInComponent {
 	isLoading = false;
 
-	constructor (private auth: AuthService, private router: Router, @Optional() private activeModal?: NgbActiveModal) {
+	constructor (
+		private auth: AuthService,
+		private router: Router,
+		private modals: ModalsService,
+		@Optional() private activeModal?: NgbActiveModal
+	) {
 		if(this.auth.isLoggedIn){
 			if(activeModal == null){
 				this.router.navigateByUrl("/recipes");
@@ -41,15 +46,13 @@ export class SignInComponent {
 				const isRedirect = !(this.router.url.includes("sign-in") || this.router.url.includes("register"));
 				this.close();
 				if (isRedirect) {
-					await modals.alert("<h4>Signed in successfully.</h4>", {
-						size: "md",
+					await this.modals.alert("<h4>Signed in successfully.</h4>", {
 						bodyAsRawHtml: true,
 					});
 					await redirectTo(this.router, this.router.url);
 				} else {
 					await this.router.navigateByUrl("/recipes");
-					await modals.alert("<h4>Signed in successfully.</h4>", {
-						size: "md",
+					await this.modals.alert("<h4>Signed in successfully.</h4>", {
 						bodyAsRawHtml: true,
 					});
 				}
@@ -58,10 +61,9 @@ export class SignInComponent {
 				this.isLoading = false;
 				this.close();
 				console.log(err);
-				modals.alert(err[ERROR_MESSAGE], {
-					size: "md",
+				this.modals.alert(err[ERROR_MESSAGE], {
 					title: "Failed to sign in",
-					okButtonClass: ["btn-danger"]
+					okButtonClasses: ["btn", "btn-danger"]
 				});
 			}
 		});

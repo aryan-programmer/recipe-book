@@ -43,18 +43,3 @@ $(document).on(
 			}
 		});
 	});
-
-$(document).on(
-	"click",
-	// language=JQuery-CSS
-	"[data-bs-toggle=\"popover\"]",
-	function (this: HTMLElement | any) {
-		const $self                                                = $(this);
-		let html = this.dataset?.bsHtml != null;
-		console.log(this.dataset);
-		console.log(html);
-		const popover = (this.popover ??= new bs.Popover(this, {
-			html: html
-		}));
-		popover.toggle();
-	});

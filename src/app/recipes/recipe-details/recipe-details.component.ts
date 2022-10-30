@@ -4,7 +4,7 @@ import {BehaviorSubject} from 'rxjs';
 import {RecipeService} from 'src/app/services/recipe.service';
 import nn from 'src/libs/functions/nn';
 import {Unsubscriber} from 'src/libs/unsubscriber';
-import modals from "../../../libs/modals";
+import {ModalsService} from "../../../libs/modals/modals.service";
 import {ShoppingListService} from '../../services/shopping-list.service';
 import {Recipe} from '../../utils/types';
 
@@ -22,7 +22,8 @@ export class RecipeDetailsComponent extends Unsubscriber {
 		private recipeService: RecipeService,
 		public shoppingListService: ShoppingListService,
 		private activatedRoute: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		private modals: ModalsService
 	) {
 		super();
 		let b = new BehaviorSubject(0);
@@ -47,7 +48,7 @@ export class RecipeDetailsComponent extends Unsubscriber {
 	}
 
 	async deleteRecipe () {
-		if (await modals.confirm(`Are you sure that you want to delete this recipe?
+		if (await this.modals.confirm(`Are you sure that you want to delete this recipe?
 Once you do this, it can not be recovered directly.`, {
 			title: "Delete recipe?",
 			okButtonText: 'Delete it.',

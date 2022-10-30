@@ -1,0 +1,18 @@
+<div class="modal-content" [class]="params.modalContentClasses">
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">{{params.title}}</h4>
+		<button
+			type="button"
+			class="btn-close"
+			aria-label="Close"
+			(click)="closeClick()"
+			*ngIf="params.showClose"></button>
+	</div>
+	<div class="modal-body">
+		<div [innerHTML]="params.body" *ngIf="params.bodyAsRawHtml; else body"></div>
+		<ng-template #body>{{params.body}}</ng-template>
+	</div>
+	<div class="modal-footer">
+		<button type="button" [class]="params.okButtonClasses" (click)="okClick()">{{params.okButtonText}}</button>
+	</div>
+</div>

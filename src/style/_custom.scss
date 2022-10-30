@@ -44,3 +44,8 @@ $smallest-size-nav: md;
 .nav-link-with-icon {
 	@extend .d-flex, .flex-#{$smallest-size-nav}-column, .flex-row, .gap-#{$smallest-size-nav}-0, .gap-2, .px-2, .align-items-center, .text-center;
 }
+
+// Firefox displays a blue border around :focus-visible links: disable this
+a:focus-visible {
+	outline: none;
+}
