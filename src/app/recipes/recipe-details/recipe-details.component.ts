@@ -5,8 +5,8 @@ import {RecipeService} from 'src/app/services/recipe.service';
 import nn from 'src/libs/functions/nn';
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import {ModalsService} from "../../../libs/modals/modals.service";
+import {Recipe} from '../../common/utils/types';
 import {ShoppingListService} from '../../services/shopping-list.service';
-import {Recipe} from '../../utils/types';
 
 @Component({
 	selector: 'app-recipe-details',

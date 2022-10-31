@@ -5,8 +5,8 @@ import {Unsubscriber} from 'src/libs/unsubscriber';
 import nn from "../../../libs/functions/nn";
 import roundToTwo from "../../../libs/functions/roundToTwo";
 import {Object} from "../../../libs/types";
+import {Ingredient, Recipe} from "../../common/utils/types";
 import {RecipeService} from "../../services/recipe.service";
-import {Ingredient,Recipe} from "../../utils/types";
 
 @Component({
 	selector: 'app-recipe-edit',

@@ -1,7 +1,7 @@
 import {Injectable, Input, Output} from '@angular/core';
 import {Subject} from 'rxjs';
 import {observeArrayChanges} from 'src/libs/functions/observeArrayChanges';
-import {Ingredient} from '../utils/types';
+import {Ingredient} from '../common/utils/types';
 import {RecipeService} from './recipe.service';
 
 @Injectable()
@@ -16,6 +16,16 @@ export class ShoppingListService {
 				name: "Ing",
 				quantity: [123, "qqq"],
 				cost: 123,
+			},
+			{
+				name: "Ing2",
+				quantity: [1, "Quan"],
+				cost: 12,
+			},
+			{
+				name: "Ingredient",
+				quantity: [13, "grams"],
+				cost: 10,
 			}
 		];
 		this._ingredients = observeArrayChanges(

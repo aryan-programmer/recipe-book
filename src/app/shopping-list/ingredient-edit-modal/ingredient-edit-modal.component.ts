@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit, Optional, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import roundToTwo from "../../libs/functions/roundToTwo";
-import {ModalsService} from "../../libs/modals/modals.service";
-import {CloseReason, MODAL_DATA} from "../../libs/modals/types";
-import {Ingredient} from "../utils/types";
+import roundToTwo from "../../../libs/functions/roundToTwo";
+import {ModalsService} from "../../../libs/modals/modals.service";
+import {CloseReason, MODAL_DATA} from "../../../libs/modals/types";
+import {Ingredient} from "../../common/utils/types";
 
 export const DELETE_INGREDIENT = Symbol("DELETE_INGREDIENT");
 
@@ -29,7 +29,7 @@ export class IngredientEditModalComponent implements OnInit {
 		if (this.ing == null) return;
 		else {
 			setTimeout(args => {
-				if(this.ing==null)return;
+				if (this.ing == null) return;
 				this.form.form.setValue({
 					name: this.ing.name,
 					quantity: this.ing.quantity[0],

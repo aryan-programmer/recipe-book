@@ -7,8 +7,8 @@ import {SignInComponent} from "../sign-in/sign-in.component";
 @Injectable()
 export class SignInOpenerService {
 	private _modal?: NgbModalRef;
-	public readonly isOpenChanged     = new Subject<boolean>();
-	private _isOpen: boolean = false;
+	public readonly isOpenChanged = new Subject<boolean>();
+	private _isOpen: boolean      = false;
 
 	constructor (private modalService: NgbModal, private router: Router) {
 		router.events.subscribe(event => {
@@ -34,7 +34,7 @@ export class SignInOpenerService {
 	}
 
 	openSignInModal () {
-		this._modal  = this.modalService.open(SignInComponent, {size: "lg"});
+		this._modal = this.modalService.open(SignInComponent, {size: "lg"});
 		this._modal.hidden.subscribe(this.onDismiss);
 		this._isOpen = true;
 		this.isOpenChanged.next(this._isOpen);

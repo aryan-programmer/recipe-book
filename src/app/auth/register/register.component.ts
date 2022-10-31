@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {ModalsService} from "../../../libs/modals/modals.service";
-import {ERROR_MESSAGE} from "../../utils/consts";
-import {passwordsMatch} from "../../utils/functions";
+import {ERROR_MESSAGE} from "../../common/utils/consts";
+import {passwordsMatch} from "../../common/utils/functions";
 import {AuthService} from "../services/auth.service";
 
 @Component({

@@ -1,29 +1,56 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import nn from "../../libs/functions/nn";
+import {MODAL_DATA} from "../../libs/modals/types";
 import {Unsubscriber} from "../../libs/unsubscriber";
-import {IngredientListEditComponent} from "../ingredient-list/ingredient-list-edit/ingredient-list-edit.component";
+import {Ingredient} from '../common/utils/types';
 import {ShoppingListService} from '../services/shopping-list.service';
-import {Ingredient} from '../utils/types';
+import {DELETE_INGREDIENT, IngredientEditModalComponent} from "./ingredient-edit-modal/ingredient-edit-modal.component";
+
+function modalDismissCatcher (reason: any) {
+	if (reason && typeof reason !== "number") console.error(reason);
+}
 
 @Component({
 	selector: 'app-shopping-list',
 	templateUrl: './shopping-list.component.html'
 })
 export class ShoppingListComponent extends Unsubscriber implements OnInit {
-	@ViewChild(IngredientListEditComponent) ingredientListEdit!: IngredientListEditComponent;
 	ingredients!: Ingredient[];
 
-	constructor (public shoppingListService: ShoppingListService) {
+	constructor (public sls: ShoppingListService, private modalService: NgbModal) {
 		super();
 	}
 
 	ngOnInit () {
-		this.ingredients   = this.shoppingListService.ingredients;
-		this.subscriptions = [this.shoppingListService.ingredientsChange.subscribe(
+		this.ingredients   = this.sls.ingredients;
+		this.subscriptions = [this.sls.ingredientsChange.subscribe(
 			(ingredients: Ingredient[]) => this.ingredients = ingredients)];
 	}
 
 	onEditItem (i: number) {
-		//this.shoppingListService.startedEditing.next(i);
-		this.ingredientListEdit.onEditItem(i);
+		let ing = this.sls.ingredients[i];
+		this.modalService.open(IngredientEditModalComponent, {
+			injector: Injector.create({providers: [{provide: MODAL_DATA, useValue: ing}]}),
+			fullscreen: "lg",
+			size: "xl",
+			keyboard: false
+		}).result.then(res => {
+			if (res === DELETE_INGREDIENT) {
+				this.sls.ingredients.splice(i, 1);
+			} else {
+				this.sls.ingredients[nn(i)] = res;
+			}
+		}).catch(modalDismissCatcher);
+	}
+
+	onAdd () {
+		this.modalService.open(IngredientEditModalComponent, {
+			fullscreen: "lg",
+			size: "xl",
+			keyboard: false
+		}).result.then(res => {
+			this.sls.ingredients.push(res);
+		}).catch(modalDismissCatcher);
 	}
 }

@@ -1,9 +1,9 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from '@angular/core';
 import {map, tap} from "rxjs";
 import {AuthService} from "../auth/services/auth.service";
-import {FIREBASE_URL} from "../utils/consts";
-import {Recipe} from "../utils/types";
+import {FIREBASE_URL} from "../common/utils/consts";
+import {Recipe} from "../common/utils/types";
 import {RecipeService} from "./recipe.service";
 
 const RECIPES_URL = FIREBASE_URL + "recipe.json";

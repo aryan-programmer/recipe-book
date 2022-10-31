@@ -43,4 +43,4 @@ Thumbs.db
 
 database-debug.log
 ui-debug.log
-src/app/utils/private-data.ts
+src/app/common/utils/private-data.ts

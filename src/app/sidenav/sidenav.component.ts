@@ -4,19 +4,19 @@ import {ModalsService} from "../../libs/modals/modals.service";
 import {Unsubscriber} from "../../libs/unsubscriber";
 import {AuthService} from "../auth/services/auth.service";
 import {SignInOpenerService} from "../auth/services/sign-in-opener.service";
+import {NAV_BG_CLASS} from "../common/utils/consts";
 import {DataStorageService} from "../services/data-storage.service";
-import {NAV_BG_CLASS} from "../utils/consts";
 
 @Component({
 	selector: 'app-sidenav',
 	templateUrl: './sidenav.component.html',
 	host: {"class": `${NAV_BG_CLASS} align-items-start`}
 })
-export class SidenavComponent extends Unsubscriber implements OnInit{
+export class SidenavComponent extends Unsubscriber implements OnInit {
 	@Input() showClose    = false;
 	@Output() close       = new EventEmitter<void>();
 	isSignInPage: boolean = false;
-	isLoggedIn = false;
+	isLoggedIn            = false;
 
 	constructor (
 		private data: DataStorageService,
@@ -29,7 +29,7 @@ export class SidenavComponent extends Unsubscriber implements OnInit{
 
 	ngOnInit () {
 		this.isSignInPage  = this.signInOpener.isOpen;
-		this.isLoggedIn = this.auth.isLoggedIn;
+		this.isLoggedIn    = this.auth.isLoggedIn;
 		this.subscriptions = [
 			this.router.events.subscribe(event => {
 				if (!(event instanceof NavigationStart)) return;

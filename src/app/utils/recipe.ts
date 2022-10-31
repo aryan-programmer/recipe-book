@@ -1,3 +1,0 @@
-import {Ingredient} from './types';
-
-

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {observeArrayChanges} from 'src/libs/functions/observeArrayChanges';
-import {Recipe} from '../utils/types';
+import {Recipe} from '../common/utils/types';
 
 @Injectable()
 export class RecipeService {
@@ -14,8 +14,9 @@ export class RecipeService {
 		);
 	}
 
-	private _recipes: Recipe[]    = //*
+	private _recipes: Recipe[] = //*
 		        [];
+
 	/*/
 		        [
 			        {

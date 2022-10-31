@@ -11,7 +11,7 @@ import {CloseReason, MODAL_DATA, ModalOptions, ModalParameters, ModalRunParamete
 @NgModule({
 	declarations: [
 		ModalAlertComponent,
-		ModalConfirmComponent
+		ModalConfirmComponent,
 	],
 	imports: [
 		CommonModule,

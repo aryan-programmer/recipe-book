@@ -1,9 +1,17 @@
-<div class="centered-box">
-	<div>
-		<app-ingredient-list-edit></app-ingredient-list-edit>
-		<hr>
-		<div class="bg-gradient--orange-juice rounded">
-			<app-ingredient-list (itemClick)="onEditItem($event)" [ingredients]="ingredients"></app-ingredient-list>
-		</div>
-	</div>
+<button
+	(click)="onAdd()"
+	class="btn btn-image bg-gradient--palo-alto"
+>Add new ingredient
+</button>
+<hr>
+<div class="bg-gradient--orange-juice rounded">
+	<ul class="list-group bg-transparent">
+		<li
+			*ngFor="let ingredient of ingredients; let i = index"
+			(click)="onEditItem(i)"
+			data-ripple
+			class="list-group-item bg-transparent">
+			<app-ingredient-details [ingredient]="ingredient"></app-ingredient-details>
+		</li>
+	</ul>
 </div>

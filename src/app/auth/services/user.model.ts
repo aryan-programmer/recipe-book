@@ -9,7 +9,7 @@ export class User {
 	) {
 	}
 
-	static fromObject(obj: any){
+	static fromObject (obj: any) {
 		return new User(
 			nn(obj.email),
 			nn(obj.id),
@@ -19,7 +19,7 @@ export class User {
 	}
 
 	get token (): string | null {
-		if(this._tokenExpiryDate == null || new Date()>this._tokenExpiryDate){
+		if (this._tokenExpiryDate == null || new Date() > this._tokenExpiryDate) {
 			return null;
 		}
 		return this._token;

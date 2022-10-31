@@ -5,9 +5,9 @@ import {ModalDefaultParametersService} from "../../libs/modals/modal-default-par
 export class ModalCustomParametersService extends ModalDefaultParametersService {
 	constructor () {
 		super();
-		this.alertParams.title = this.confirmParams.title = "Recipe book";
-		this.alertParams.modalContentClasses = this.confirmParams.modalContentClasses = ["border-0","bg-gradient--kind-steel"];
-		this.confirmParams.okButtonText = "Confirm";
-		this.alertParams.okButtonClasses = ["btn", "btn-secondary"];
+		this.alertParams.title               = this.confirmParams.title = "Recipe book";
+		this.alertParams.modalContentClasses = this.confirmParams.modalContentClasses = ["border-0", "bg-gradient--kind-steel"];
+		this.confirmParams.okButtonText      = "Confirm";
+		this.alertParams.okButtonClasses     = ["btn", "btn-secondary"];
 	}
 }

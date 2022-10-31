@@ -9,18 +9,18 @@
 			[class.rounded-bottom]="!areIngredientsShown"
 			class="card-header h4 add-bg-noise"
 			data-ripple
-			data-target="#ingredients"
-			data-toggle="collapse"
 		>
 			{{buttonText}}
 			Ingredients
 		</div>
-		<app-ingredient-list
-			[class.collapse]="!areIngredientsShown"
-			[ingredients]="recipe.ingredients"
-			[showClick]="false"
-			id="ingredients"
-		></app-ingredient-list>
+		<ul class="list-group bg-transparent">
+			<li
+				[class.collapse]="!areIngredientsShown"
+				*ngFor="let ingredient of recipe.ingredients; let i = index"
+				class="list-group-item bg-transparent">
+				<app-ingredient-details [ingredient]="ingredient"></app-ingredient-details>
+			</li>
+		</ul>
 	</div>
 	<div class="card bg-transparent">
 		<div class="card-header h4 add-bg-noise">{{recipe.name}}</div>

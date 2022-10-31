@@ -13,7 +13,7 @@ export const NAV_BG_CLASS = "navbar navbar-expand-lg navbar-light bg-gradient--p
 export const ERROR_MESSAGE = Symbol("ERROR_MESSAGE");
 
 declare module "@angular/common/http" {
-	interface HttpErrorResponse{
+	interface HttpErrorResponse {
 		[ERROR_MESSAGE]?: string;
 	}
 }

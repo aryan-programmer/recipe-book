@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
 import {Optional} from "../../../libs/types";
-import {API_KEY, ERROR_MESSAGE} from "../../utils/consts";
+import {API_KEY, ERROR_MESSAGE} from "../../common/utils/consts";
 import {User} from "./user.model";
 
 const AUTH_SIGN_UP_URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + API_KEY;

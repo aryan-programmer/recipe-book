@@ -58,6 +58,31 @@
 	}
 }
 
+@each $breakpoint in map-keys($grid-breakpoints) {
+	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+	$postfix: if($infix != "", $infix + "-down", "");
+
+	@include media-breakpoint-down($breakpoint) {
+		.modal-fullscreen#{$postfix} {
+			.modal-content {
+				height: auto;
+				@include border-radius(var(--#{$prefix}modal-border-radius));
+			}
+
+			.modal-header{
+				@include border-top-radius(var(--#{$prefix}modal-inner-border-radius));
+			}
+			.modal-footer {
+				@include border-bottom-radius(var(--#{$prefix}modal-inner-border-radius));
+			}
+
+			.modal-body {
+				overflow-y: auto;
+			}
+		}
+	}
+}
+
 @import "bs-row--split-into-30";
 @import "bs-gradients";
 @import "bs-btn-ripple";

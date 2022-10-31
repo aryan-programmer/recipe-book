@@ -3,8 +3,8 @@ import {NgForm} from "@angular/forms";
 import {Router} from "@angular/router";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {ModalsService} from "../../../libs/modals/modals.service";
-import {redirectTo} from "../../app-routing.module";
-import {ERROR_MESSAGE} from "../../utils/consts";
+import {ERROR_MESSAGE} from "../../common/utils/consts";
+import {redirectTo} from "../../common/utils/functions";
 import {AuthService} from "../services/auth.service";
 
 @Component({
@@ -20,14 +20,14 @@ export class SignInComponent {
 		private modals: ModalsService,
 		@Optional() private activeModal?: NgbActiveModal
 	) {
-		if(this.auth.isLoggedIn){
-			if(activeModal == null){
+		if (this.auth.isLoggedIn) {
+			if (activeModal == null) {
 				this.router.navigateByUrl("/recipes");
-			}else{
+			} else {
 				redirectTo(this.router, this.router.url);
 				this.close();
 			}
-			modals.alert("Already signed in",{size: "md"});
+			modals.alert("Already signed in", {size: "md"});
 			return;
 		}
 	}

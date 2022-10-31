@@ -1,8 +1,6 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Router} from "@angular/router";
 import {NgbOffcanvas, NgbOffcanvasRef} from "@ng-bootstrap/ng-bootstrap";
-import {CloseReason} from "../libs/modals/modals.module";
-import {ModalsService} from "../libs/modals/modals.service";
 import {AuthService} from "./auth/services/auth.service";
 import {DataStorageService} from "./services/data-storage.service";
 
@@ -17,8 +15,8 @@ export class AppComponent implements OnInit {
 		private data: DataStorageService,
 		private offcanvas: NgbOffcanvas,
 		private router: Router,
-		private auth: AuthService,
-		private m: ModalsService) {
+		private auth: AuthService
+	) {
 
 	}
 
