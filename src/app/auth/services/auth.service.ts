@@ -115,7 +115,7 @@ export class AuthService {
 			clearTimeout(this.autoLogoutTimer);
 			this.autoLogoutTimer = null;
 		}
-		this.router.navigateByUrl("/sign-in");
+		this.router.navigateByUrl("/auth/sign-in");
 	}
 
 	autoLogout (expiryMs: number) {

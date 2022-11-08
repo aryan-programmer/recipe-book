@@ -6,19 +6,16 @@ import {ModalDefaultParametersService} from "../libs/modals/modal-default-parame
 import {$404Module} from "./404/404.module";
 
 import {AppComponent} from './app.component';
-import {AuthModule} from "./auth/auth.module";
 import {AuthGuard} from "./auth/services/auth.guard";
 import {AuthInterceptor} from "./auth/services/auth.interceptor";
 import {AuthService} from "./auth/services/auth.service";
 import {SignInOpenerService} from "./auth/services/sign-in-opener.service";
 import {AppCommonModule} from "./common/app-common.module";
-import {RecipesModule} from "./recipes/recipes.module";
 import {RecipesResolver} from "./recipes/recipes.resolver";
 import {DataStorageService} from "./services/data-storage.service";
 import {ModalCustomParametersService} from "./services/modal-custom-parameters.service";
 import {RecipeService} from './services/recipe.service';
 import {ShoppingListService} from './services/shopping-list.service';
-import {ShoppingListModule} from "./shopping-list/shopping-list.module";
 import {SidenavComponent} from './sidenav/sidenav.component';
 
 @NgModule({
@@ -30,9 +27,6 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 		BrowserModule,
 		AppCommonModule,
 		AppRoutingModule,
-		AuthModule,
-		RecipesModule,
-		ShoppingListModule,
 		$404Module,
 	],
 	providers: [
