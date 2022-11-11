@@ -1,12 +1,14 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Store} from "@ngrx/store";
 import {BehaviorSubject} from 'rxjs';
 import {RecipeService} from 'src/app/services/recipe.service';
 import nn from 'src/libs/functions/nn';
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import {ModalsService} from "../../../libs/modals/modals.service";
 import {Recipe} from '../../common/utils/types';
-import {ShoppingListService} from '../../services/shopping-list.service';
+import {AddIngredients} from "../../reducers/shopping-list.actions";
+import {ShoppingList, ShoppingListState} from "../../reducers/shopping-list.reducer";
 
 @Component({
 	selector: 'app-recipe-details',
@@ -20,10 +22,10 @@ export class RecipeDetailsComponent extends Unsubscriber {
 
 	constructor (
 		private recipeService: RecipeService,
-		public shoppingListService: ShoppingListService,
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
-		private modals: ModalsService
+		private modals: ModalsService,
+		private store: Store<{ [ShoppingList]: ShoppingListState }>
 	) {
 		super();
 		let b = new BehaviorSubject(0);
@@ -44,7 +46,7 @@ export class RecipeDetailsComponent extends Unsubscriber {
 	}
 
 	addIngredientsToShoppingList () {
-		this.shoppingListService.ingredients.push(...nn(this.recipe).ingredients);
+		this.store.dispatch(AddIngredients({ingredients: nn(this.recipe).ingredients}))
 	}
 
 	async deleteRecipe () {

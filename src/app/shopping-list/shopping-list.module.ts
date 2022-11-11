@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {RouterModule, Routes} from "@angular/router";
 import {AppCommonModule} from "../common/app-common.module";
-import {IngredientEditModalComponent} from "./ingredient-edit-modal/ingredient-edit-modal.component";
+import {IngredientEditModal} from "./ingredient-edit-modal/ingredient-edit.modal";
 import {ShoppingListComponent} from "./shopping-list.component";
 
 const routes: Routes = [
@@ -16,7 +16,7 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 	],
 	declarations: [
-		IngredientEditModalComponent,
+		IngredientEditModal,
 		ShoppingListComponent
 	],
 	exports: [
