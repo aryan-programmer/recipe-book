@@ -3,7 +3,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ModalAlertComponent} from "./modal-alert/modal-alert.component";
 import {ModalConfirmComponent} from "./modal-confirm/modal-confirm.component";
 import {ModalDefaultParametersService} from "./modal-default-parameters.service";
-import {ModalOptions, ModalRunParameters, CloseReason, MODAL_DATA} from "./types";
+import {CloseReason, MODAL_DATA, ModalOptions, ModalRunParameters} from "./types";
 
 @Injectable()
 export class ModalsService {

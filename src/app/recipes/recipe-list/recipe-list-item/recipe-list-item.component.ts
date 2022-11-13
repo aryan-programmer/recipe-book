@@ -9,7 +9,4 @@ export class RecipeListItemComponent {
 	@Input() index!: number;
 	@Input() recipe!: Recipe;
 	@Input() isSelected!: boolean;
-
-	constructor () {
-	}
 }

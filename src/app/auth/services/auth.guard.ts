@@ -1,20 +1,28 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Store} from "@ngrx/store";
+import {map, take} from "rxjs";
 import {PromiseOrObservableOrT} from "../../../libs/types";
-import {AuthService} from "./auth.service";
+import {AppState} from "../../reducers/app.store";
+import * as Auth from "../reducer";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	constructor (private auth: AuthService, private router: Router) {
+	constructor (private router: Router, private store: Store<AppState>) {
 	}
 
 	canActivate (
 		route: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot): PromiseOrObservableOrT<boolean | UrlTree> {
-		if (this.auth.isLoggedIn) {
-			return true;
-		} else {
-			return this.router.createUrlTree(["/auth/sign-in"]);
-		}
+		return this.store.select(Auth.NAME).pipe(
+			take(1),
+			map(value => {
+				if (value.user != null) {
+					return true;
+				} else {
+					return this.router.createUrlTree(["/auth/sign-in"]);
+				}
+			})
+		);
 	}
 }

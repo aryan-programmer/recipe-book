@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {CloseReason, MODAL_DATA,ModalRunParameters} from "../types";
+import {CloseReason, MODAL_DATA, ModalRunParameters} from "../types";
 
 @Component({
 	selector: 'modal-alert',

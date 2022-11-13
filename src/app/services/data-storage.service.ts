@@ -1,7 +1,6 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from '@angular/core';
 import {map, tap} from "rxjs";
-import {AuthService} from "../auth/services/auth.service";
 import {FIREBASE_URL} from "../common/utils/consts";
 import {Recipe} from "../common/utils/types";
 import {RecipeService} from "./recipe.service";
@@ -13,7 +12,6 @@ export class DataStorageService {
 	constructor (
 		private http: HttpClient,
 		private rec: RecipeService,
-		private auth: AuthService,
 	) {
 	}
 

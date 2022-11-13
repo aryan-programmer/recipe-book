@@ -8,8 +8,8 @@ import roundToTwo from "../../../libs/functions/roundToTwo";
 import {ModalsService} from "../../../libs/modals/modals.service";
 import {CloseReason, MODAL_DATA} from "../../../libs/modals/types";
 import {Ingredient} from "../../common/utils/types";
-import {AddIngredient, DeleteIngredient, UpdateIngredient} from "../../reducers/shopping-list.actions";
-import {ShoppingList, ShoppingListState} from "../../reducers/shopping-list.reducer";
+import {AppState} from "../../reducers/app.store";
+import * as ShoppingList from "../../reducers/shopping-list";
 
 @Component({
 	selector: 'app-ingredient-edit-modal',
@@ -22,7 +22,7 @@ export class IngredientEditModal implements OnInit {
 	constructor (
 		private modal: NgbActiveModal,
 		private modals: ModalsService,
-		private store: Store<{ [ShoppingList]: ShoppingListState }>,
+		private store: Store<AppState>,
 		@Inject(MODAL_DATA) @Optional() private idx?: number,
 	) {
 		this.editMode = idx != null;
@@ -33,7 +33,7 @@ export class IngredientEditModal implements OnInit {
 		else {
 			setTimeout(async () => {
 				if (this.idx == null) return;
-				let ing = (await firstValueFrom(this.store))[ShoppingList].ingredients[this.idx];
+				let ing = (await firstValueFrom(this.store))[ShoppingList.NAME].ingredients[this.idx];
 				this.form.form.setValue({
 					name: ing.name,
 					quantity: ing.quantity[0],
@@ -52,9 +52,9 @@ export class IngredientEditModal implements OnInit {
 			cost: roundToTwo(+fVal.cost)
 		};
 		if (this.editMode) {
-			this.store.dispatch(UpdateIngredient({index: nn(this.idx), ingredient: val}));
+			this.store.dispatch(ShoppingList.UpdateIngredient({index: nn(this.idx), ingredient: val}));
 		} else {
-			this.store.dispatch(AddIngredient({ingredient: val}));
+			this.store.dispatch(ShoppingList.AddIngredient({ingredient: val}));
 		}
 		this.modal.close();
 	}
@@ -67,7 +67,7 @@ Once you do this, it can not be recovered directly.`, {
 			cancelButtonText: 'Do NOT delete it.',
 			size: 'lg',
 		}) === CloseReason.Ok) {
-			this.store.dispatch(DeleteIngredient({index: nn(this.idx)}));
+			this.store.dispatch(ShoppingList.DeleteIngredient({index: nn(this.idx)}));
 			this.modal.close();
 		}
 	}
@@ -80,7 +80,7 @@ Once you do this, it can not be recovered directly.`, {
 		this.modal.dismiss();
 	}
 
-	static open(modalService: NgbModal, index?: number){
+	static open (modalService: NgbModal, index?: number) {
 		modalService.open(IngredientEditModal, {
 			injector: Injector.create({providers: [{provide: MODAL_DATA, useValue: index}]}),
 			fullscreen: "lg",

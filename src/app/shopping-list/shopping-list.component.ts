@@ -1,10 +1,9 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
-import {MODAL_DATA} from "../../libs/modals/types";
-import {Unsubscriber} from "../../libs/unsubscriber";
-import {ShoppingList, ShoppingListState} from "../reducers/shopping-list.reducer";
+import {AppState} from "../reducers/app.store";
+import * as ShoppingList from "../reducers/shopping-list";
 import {IngredientEditModal} from "./ingredient-edit-modal/ingredient-edit.modal";
 
 @Component({
@@ -12,16 +11,16 @@ import {IngredientEditModal} from "./ingredient-edit-modal/ingredient-edit.modal
 	templateUrl: './shopping-list.component.html'
 })
 export class ShoppingListComponent implements OnInit {
-	shoppingListState$!: Observable<ShoppingListState>;
+	shoppingListState$!: Observable<ShoppingList.State>;
 
 	constructor (
 		private modalService: NgbModal,
-		private store: Store<{ [ShoppingList]: ShoppingListState }>
+		private store: Store<AppState>
 	) {
 	}
 
 	ngOnInit () {
-		this.shoppingListState$ = this.store.select(ShoppingList);
+		this.shoppingListState$ = this.store.select(ShoppingList.NAME);
 	}
 
 	onEditItem (i: number) {

@@ -1,72 +1,30 @@
-import {Component, Optional} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgForm} from "@angular/forms";
-import {Router} from "@angular/router";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {ModalsService} from "../../../libs/modals/modals.service";
-import {ERROR_MESSAGE} from "../../common/utils/consts";
-import {redirectTo} from "../../common/utils/functions";
-import {AuthService} from "../services/auth.service";
+import {Store} from "@ngrx/store";
+import {map, Observable, take} from "rxjs";
+import {AppState} from "../../reducers/app.store";
+import * as Auth from "../reducer";
 
 @Component({
 	selector: 'app-sign-in',
 	templateUrl: './sign-in.component.html',
 })
 export class SignInComponent {
-	isLoading = false;
+	isLoading$: Observable<boolean>;
 
-	constructor (
-		private auth: AuthService,
-		private router: Router,
-		private modals: ModalsService,
-		@Optional() private activeModal?: NgbActiveModal
-	) {
-		if (this.auth.isLoggedIn) {
-			if (activeModal == null) {
-				this.router.navigateByUrl("/recipes");
-			} else {
-				redirectTo(this.router, this.router.url);
-				this.close();
+	constructor (private store: Store<AppState>) {
+		this.isLoading$ = this.store.select(Auth.NAME).pipe(map(v => v.isLoading));
+		this.store.select(Auth.NAME).pipe(take(1)).subscribe(async auth => {
+			if (auth.user != null) {
+				this.store.dispatch(Auth.AlreadySignedIn({message: "Already signed in"}));
 			}
-			modals.alert("Already signed in", {size: "md"});
-			return;
-		}
-	}
-
-	close () {
-		this.activeModal?.close();
+		});
 	}
 
 	onSubmit (form: NgForm) {
 		if (!form.valid) return;
 		const {email, password} = form.value;
-		this.isLoading          = true;
-		this.auth.signIn(email, password).subscribe({
-			next: async value => {
-				this.isLoading   = false;
-				const isRedirect = !(this.router.url.includes("sign-in") || this.router.url.includes("register"));
-				this.close();
-				if (isRedirect) {
-					await this.modals.alert("<h4>Signed in successfully.</h4>", {
-						bodyAsRawHtml: true,
-					});
-					await redirectTo(this.router, this.router.url);
-				} else {
-					await this.router.navigateByUrl("/recipes");
-					await this.modals.alert("<h4>Signed in successfully.</h4>", {
-						bodyAsRawHtml: true,
-					});
-				}
-			},
-			error: err => {
-				this.isLoading = false;
-				this.close();
-				console.log(err);
-				this.modals.alert(err[ERROR_MESSAGE], {
-					title: "Failed to sign in",
-					okButtonClasses: ["btn", "btn-danger"]
-				});
-			}
-		});
+		this.store.dispatch(Auth.LoginStart({email, password}));
 		form.reset();
 	}
 }

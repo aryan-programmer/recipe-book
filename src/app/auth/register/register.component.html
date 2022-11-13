@@ -1,51 +1,52 @@
-<app-loader *ngIf="isLoading"></app-loader>
-
-<form class="form-card bg-gradient--deep-relief" [formGroup]="form" (submit)="onSubmit()" *ngIf="!isLoading">
+<form class="form-card bg-gradient--deep-relief" [formGroup]="form" (submit)="onSubmit()">
 	<div class="form-title">Register</div>
-	<div class="form">
-		<div class="">
-			<label class="form-label" for="email">Email</label>
-			<input class="form-control rounded-pill" id="email" name="email" type="email" formControlName="email">
-			<div class="invalid-feedback" *ngIf="email.errors; let errors">
-				<span *ngIf="errors['required']">Enter an email</span>
-				<span *ngIf="errors['email']">Enter a valid email</span>
+	<app-loader *ngIf="isLoading$ | async; else formContent"></app-loader>
+	<ng-template #formContent>
+		<div class="form">
+			<div class="">
+				<label class="form-label" for="email">Email</label>
+				<input class="form-control rounded-pill" id="email" name="email" type="email" formControlName="email">
+				<div class="invalid-feedback" *ngIf="email.errors; let errors">
+					<span *ngIf="errors['required']">Enter an email</span>
+					<span *ngIf="errors['email']">Enter a valid email</span>
+				</div>
+			</div>
+			<div class="">
+				<label class="form-label" for="password">Password</label>
+				<input
+					class="form-control rounded-pill"
+					id="password"
+					name="password"
+					type="password"
+					formControlName="password">
+				<div class="invalid-feedback" *ngIf="password.errors; let errors">
+					<span *ngIf="errors['required']">Enter a password</span>
+					<span *ngIf="errors['minlength']">Enter a password longer than 6 characters</span>
+				</div>
+			</div>
+			<div class="">
+				<label class="form-label" for="password2">Retype Password</label>
+				<input
+					class="form-control rounded-pill"
+					id="password2"
+					name="password2"
+					type="password" formControlName="password2">
+				<div class="invalid-feedback" *ngIf="password2.errors; let errors">
+					<span *ngIf="errors['required']">Retype the password</span>
+					<span *ngIf="errors['minlength']">Retype a password longer than 6 characters</span>
+					<span *ngIf="errors['passwordsMatch']">The passwords don't match</span>
+				</div>
 			</div>
 		</div>
-		<div class="">
-			<label class="form-label" for="password">Password</label>
-			<input
-				class="form-control rounded-pill"
-				id="password"
-				name="password"
-				type="password"
-				formControlName="password">
-			<div class="invalid-feedback" *ngIf="password.errors; let errors">
-				<span *ngIf="errors['required']">Enter a password</span>
-				<span *ngIf="errors['minlength']">Enter a password longer than 6 characters</span>
-			</div>
+		<div class="form-footer">
+			<button
+				type="submit"
+				class="btn btn-image bg-gradient--millennium-pine"
+				[disabled]="!form.valid">
+				Register
+			</button>
+			<br />
+			<a type="submit" class="link-quaternary" routerLink="/auth/sign-in">Already have an account? Sign in instead!</a>
 		</div>
-		<div class="">
-			<label class="form-label" for="password2">Retype Password</label>
-			<input
-				class="form-control rounded-pill"
-				id="password2"
-				name="password2"
-				type="password" formControlName="password2">
-			<div class="invalid-feedback" *ngIf="password2.errors; let errors">
-				<span *ngIf="errors['required']">Retype the password</span>
-				<span *ngIf="errors['minlength']">Retype a password longer than 6 characters</span>
-				<span *ngIf="errors['passwordsMatch']">The passwords don't match</span>
-			</div>
-		</div>
-	</div>
-	<div class="form-footer">
-		<button
-			type="submit"
-			class="btn btn-image bg-gradient--millennium-pine"
-			[disabled]="!form.valid">
-			Register
-		</button>
-		<br />
-		<a type="submit" class="link-quaternary" routerLink="/sign-in">Already have an account? Sign in instead!</a>
-	</div>
+	</ng-template>
 </form>

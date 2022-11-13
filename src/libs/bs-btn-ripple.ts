@@ -1,5 +1,4 @@
 import $ from "jquery";
-import * as bs from "bootstrap";
 
 // Courtesy of https://stackoverflow.com/questions/30074246/how-to-create-ripple-effect-on-click-material-design
 

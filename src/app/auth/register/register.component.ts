@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {ModalsService} from "../../../libs/modals/modals.service";
-import {ERROR_MESSAGE} from "../../common/utils/consts";
+import {Store} from "@ngrx/store";
+import {map, Observable, take} from "rxjs";
 import {passwordsMatch} from "../../common/utils/functions";
-import {AuthService} from "../services/auth.service";
+import {AppState} from "../../reducers/app.store";
+import * as Auth from "../reducer";
 
 @Component({
 	selector: 'app-register',
@@ -12,19 +12,18 @@ import {AuthService} from "../services/auth.service";
 })
 export class RegisterComponent {
 	form!: FormGroup;
-	isLoading = false;
+	isLoading$: Observable<boolean>;
 
 	constructor (
 		private fb: FormBuilder,
-		private auth: AuthService,
-		private router: Router,
-		private modals: ModalsService
+		private store: Store<AppState>,
 	) {
-		if (this.auth.isLoggedIn) {
-			modals.alert("Already signed in", {size: "md"});
-			this.router.navigateByUrl("/recipes");
-			return;
-		}
+		this.isLoading$ = this.store.select(Auth.NAME).pipe(map(v => v.isLoading));
+		this.store.select(Auth.NAME).pipe(take(1)).subscribe(async auth => {
+			if (auth.user != null) {
+				this.store.dispatch(Auth.AlreadySignedIn({message: "Already signed in"}));
+			}
+		});
 		this.form = this.fb.group({
 			"email": [null, [Validators.required, Validators.email]],
 			"password": [null, [Validators.required, Validators.minLength(6)]],
@@ -47,25 +46,7 @@ export class RegisterComponent {
 	onSubmit () {
 		if (!this.form.valid) return;
 		const {email, password} = this.form.value;
-		this.isLoading          = true;
-		this.auth.register(email, password).subscribe({
-			next: async value => {
-				this.isLoading = false;
-				await this.router.navigateByUrl("/recipes");
-				await this.modals.alert("<h4>Registered successfully.</h4>", {
-					size: "md",
-					bodyAsRawHtml: true,
-				});
-			},
-			error: err => {
-				this.isLoading = false;
-				console.log(err);
-				this.modals.alert(err[ERROR_MESSAGE], {
-					title: "Failed to register",
-					okButtonClasses: ["btn", "btn-danger"]
-				});
-			}
-		});
+		this.store.dispatch(Auth.RegisterStart({email, password}));
 		this.form.reset();
 	}
 }

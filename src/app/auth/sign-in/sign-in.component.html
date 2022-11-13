@@ -1,6 +1,6 @@
 <form class="form-card bg-gradient--fly-high" ngForm #form="ngForm" (ngSubmit)="onSubmit(form)">
 	<div class="form-title">Sign in</div>
-	<app-loader *ngIf="isLoading; else formContent"></app-loader>
+	<app-loader *ngIf="isLoading$ | async; else formContent"></app-loader>
 	<ng-template #formContent>
 		<div class="form">
 			<div class="">
@@ -46,8 +46,7 @@
 			<a
 				type="submit"
 				class="link-quaternary"
-				routerLink="/auth/register"
-				(click)="close()">Don't have an account? Register now!</a>
+				routerLink="/auth/register">Don't have an account? Register now!</a>
 		</div>
 	</ng-template>
 </form>

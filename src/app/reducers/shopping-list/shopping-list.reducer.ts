@@ -1,10 +1,8 @@
 import {createReducer, on} from "@ngrx/store";
-import {Ingredient} from "../common/utils/types";
-import {AddIngredient, AddIngredients, DeleteIngredient, UpdateIngredient} from "./shopping-list.actions";
+import {AddIngredient, AddIngredients, DeleteIngredient, State, UpdateIngredient} from "./shopping-list.actions";
 
-export type ShoppingListState = { ingredients: Ingredient[] };
 
-const initialState: ShoppingListState = {
+const initialState: State = {
 	ingredients: [
 		{
 			name: "Ing",
@@ -24,9 +22,7 @@ const initialState: ShoppingListState = {
 	]
 };
 
-export const ShoppingList = "ShoppingList";
-
-export const shoppingListReducer = createReducer(
+export const reducer = createReducer(
 	initialState,
 	on(AddIngredient, (state, {ingredient}) => {
 		return {

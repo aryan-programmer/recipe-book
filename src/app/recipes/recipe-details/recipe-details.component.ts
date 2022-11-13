@@ -7,8 +7,8 @@ import nn from 'src/libs/functions/nn';
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import {ModalsService} from "../../../libs/modals/modals.service";
 import {Recipe} from '../../common/utils/types';
-import {AddIngredients} from "../../reducers/shopping-list.actions";
-import {ShoppingList, ShoppingListState} from "../../reducers/shopping-list.reducer";
+import {AppState} from "../../reducers/app.store";
+import * as ShoppingList from "../../reducers/shopping-list";
 
 @Component({
 	selector: 'app-recipe-details',
@@ -25,7 +25,7 @@ export class RecipeDetailsComponent extends Unsubscriber {
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private modals: ModalsService,
-		private store: Store<{ [ShoppingList]: ShoppingListState }>
+		private store: Store<AppState>,
 	) {
 		super();
 		let b = new BehaviorSubject(0);
@@ -46,7 +46,7 @@ export class RecipeDetailsComponent extends Unsubscriber {
 	}
 
 	addIngredientsToShoppingList () {
-		this.store.dispatch(AddIngredients({ingredients: nn(this.recipe).ingredients}))
+		this.store.dispatch(ShoppingList.AddIngredients({ingredients: nn(this.recipe).ingredients}))
 	}
 
 	async deleteRecipe () {
