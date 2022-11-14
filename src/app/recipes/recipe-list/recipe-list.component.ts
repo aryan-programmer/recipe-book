@@ -1,21 +1,18 @@
 import {Component} from '@angular/core';
-import {Unsubscriber} from "../../../libs/unsubscriber";
+import {Store} from "@ngrx/store";
+import {map, Observable} from "rxjs";
 import {Recipe} from '../../common/utils/types';
-import {RecipeService} from '../../services/recipe.service';
+import * as Recipes from "../../recipes/reducers";
+import {AppState} from "../../reducers/app.store";
 
 @Component({
 	selector: 'app-recipe-list',
 	templateUrl: './recipe-list.component.html'
 })
-export class RecipeListComponent extends Unsubscriber {
-	recipes: Recipe[];
+export class RecipeListComponent {
+	recipes$: Observable<Recipe[]>;
 
-	constructor (public recipeService: RecipeService) {
-		super();
-		this.recipes       = recipeService.recipes;
-		this.subscriptions = [
-			recipeService.recipesChange.subscribe(
-				(recipes: Recipe[]) => this.recipes = recipes)
-		];
+	constructor (private store: Store<AppState>) {
+		this.recipes$ = store.select(Recipes.NAME).pipe(map(value => value.recipes));
 	}
 }

@@ -3,8 +3,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {AppState} from "../reducers/app.store";
-import * as ShoppingList from "../reducers/shopping-list";
 import {IngredientEditModal} from "./ingredient-edit-modal/ingredient-edit.modal";
+import * as ShoppingList from "./reducers";
 
 @Component({
 	selector: 'app-shopping-list',

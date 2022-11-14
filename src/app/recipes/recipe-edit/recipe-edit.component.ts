@@ -1,12 +1,15 @@
 import {Component} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from '@angular/router';
+import {Store} from "@ngrx/store";
+import {combineLatestWith, Observable} from "rxjs";
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import nn from "../../../libs/functions/nn";
 import roundToTwo from "../../../libs/functions/roundToTwo";
-import {Object} from "../../../libs/types";
+import {Object, Optional} from "../../../libs/types";
 import {Ingredient, Recipe} from "../../common/utils/types";
-import {RecipeService} from "../../services/recipe.service";
+import {AppState} from "../../reducers/app.store";
+import * as Recipes from "../reducers";
 
 @Component({
 	selector: 'app-recipe-edit',
@@ -16,18 +19,23 @@ export class RecipeEditComponent extends Unsubscriber {
 	id?: number;
 	editMode = false;
 	recipeForm!: FormGroup;
+	recipesState$: Observable<Recipes.State>;
 
 	constructor (
 		private activatedRoute: ActivatedRoute,
-		private recipeService: RecipeService,
-		private router: Router) {
+		private router: Router,
+		private store: Store<AppState>,
+	) {
 		super();
+		this.recipesState$ = this.store.select(Recipes.NAME);
 		this.subscriptions = [
-			activatedRoute.params.subscribe(params => {
-				this.id       = +params['idx'];
-				this.editMode = params['idx'] != null;
-				this.initForm();
-			})
+			activatedRoute.params.pipe(
+				combineLatestWith(this.recipesState$))
+				.subscribe(([params, state]) => {
+					this.id       = +params['idx'];
+					this.editMode = params['idx'] != null;
+					this.initForm(this.editMode ? state.recipes[this.id] : null);
+				})
 		];
 	}
 
@@ -56,9 +64,9 @@ export class RecipeEditComponent extends Unsubscriber {
 			}))
 		};
 		if (this.editMode) {
-			this.recipeService.recipes[nn(this.id)] = recipe
+			this.store.dispatch(Recipes.UpdateRecipe({index: nn(this.id), recipe}));
 		} else {
-			this.recipeService.recipes.push(recipe)
+			this.store.dispatch(Recipes.AddRecipe({recipe}));
 		}
 		this.onCancel();
 	}
@@ -75,17 +83,16 @@ export class RecipeEditComponent extends Unsubscriber {
 		(this.recipeForm.get("ingredients") as FormArray).removeAt(i);
 	}
 
-	private initForm () {
+	private initForm (recipe: Optional<Recipe>) {
 		let name                     = "";
 		let description              = "";
 		let imageUrl                 = "";
 		let ingredients: FormGroup[] = [];
-		if (this.editMode) {
-			const recipe = this.recipeService.recipes[nn(this.id)];
-			name         = recipe.name;
-			description  = recipe.description;
-			imageUrl     = recipe.imageUrl;
-			ingredients  = recipe.ingredients.map(RecipeEditComponent.formGroupFromIngredient);
+		if (this.editMode && recipe != null) {
+			name        = recipe.name;
+			description = recipe.description;
+			imageUrl    = recipe.imageUrl;
+			ingredients = recipe.ingredients.map(RecipeEditComponent.formGroupFromIngredient);
 		}
 		this.recipeForm = new FormGroup({
 			"name": new FormControl(name, Validators.required),

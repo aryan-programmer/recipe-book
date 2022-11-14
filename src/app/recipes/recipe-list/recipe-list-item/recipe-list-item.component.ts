@@ -8,5 +8,4 @@ import {Recipe} from 'src/app/common/utils/types';
 export class RecipeListItemComponent {
 	@Input() index!: number;
 	@Input() recipe!: Recipe;
-	@Input() isSelected!: boolean;
 }

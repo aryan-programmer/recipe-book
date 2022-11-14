@@ -3,7 +3,10 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {EffectsModule} from "@ngrx/effects";
 import {StoreModule} from '@ngrx/store';
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {AppRoutingModule} from 'src/app/app-routing.module';
+import {environment} from "../environments/environment";
+import {ModalDefaultParametersService} from "../libs/modals/modal-default-parameters.service";
 import {$404Module} from "./404/404.module";
 
 import {AppComponent} from './app.component';
@@ -13,9 +16,9 @@ import {AuthInterceptor} from "./auth/services/auth.interceptor";
 import {AuthService} from "./auth/services/auth.service";
 import {AppCommonModule} from "./common/app-common.module";
 import {RecipesResolver} from "./recipes/recipes.resolver";
+import {RecipesEffects} from "./recipes/reducers";
 import {reducers} from "./reducers/app.store";
-import {DataStorageService} from "./services/data-storage.service";
-import {RecipeService} from './services/recipe.service';
+import {ModalCustomParametersService} from "./services/modal-custom-parameters.service";
 import {SidenavComponent} from './sidenav/sidenav.component';
 
 @NgModule({
@@ -28,7 +31,8 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 		AppCommonModule,
 		AppRoutingModule,
 		$404Module,
-		StoreModule.forRoot(reducers,
+		StoreModule.forRoot(
+			reducers,
 			{
 				runtimeChecks: {
 					strictStateImmutability: true,
@@ -37,15 +41,19 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 					strictActionSerializability: true,
 				},
 			}),
-		EffectsModule.forRoot([AuthEffects])
+		EffectsModule.forRoot([AuthEffects, RecipesEffects]),
+		StoreDevtoolsModule.instrument({
+			maxAge: 25,
+			logOnly: environment.production,
+			autoPause: true,
+		})
 	],
 	providers: [
-		RecipeService,
-		DataStorageService,
 		RecipesResolver,
 		AuthService,
 		AuthGuard,
 		{provide: HTTP_INTERCEPTORS, multi: true, useClass: AuthInterceptor},
+		{provide: ModalDefaultParametersService, useClass: ModalCustomParametersService},
 	],
 	bootstrap: [AppComponent]
 })

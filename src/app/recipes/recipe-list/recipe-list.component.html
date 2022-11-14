@@ -1,4 +1,4 @@
-<ul class="list-group bg-gradient--lily-meadow rounded">
+<ul class="list-group bg-gradient--lily-meadow rounded" *ngIf="recipes$ | async; let recipes">
 	<li
 		[class.rounded-bottom-0]="recipes.length !== 0"
 		class="list-group-item btn btn-image bg-gradient--gentle-care"

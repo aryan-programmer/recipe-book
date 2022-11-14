@@ -9,7 +9,7 @@ import {ModalsService} from "../../../libs/modals/modals.service";
 import {CloseReason, MODAL_DATA} from "../../../libs/modals/types";
 import {Ingredient} from "../../common/utils/types";
 import {AppState} from "../../reducers/app.store";
-import * as ShoppingList from "../../reducers/shopping-list";
+import * as ShoppingList from "../reducers";
 
 @Component({
 	selector: 'app-ingredient-edit-modal',

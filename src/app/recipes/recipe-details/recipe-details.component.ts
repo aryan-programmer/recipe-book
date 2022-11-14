@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from "@ngrx/store";
-import {BehaviorSubject} from 'rxjs';
-import {RecipeService} from 'src/app/services/recipe.service';
+import {combineLatestWith, Observable} from "rxjs";
 import nn from 'src/libs/functions/nn';
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import {ModalsService} from "../../../libs/modals/modals.service";
 import {Recipe} from '../../common/utils/types';
+import * as Recipes from "../../recipes/reducers";
 import {AppState} from "../../reducers/app.store";
-import * as ShoppingList from "../../reducers/shopping-list";
+import * as ShoppingList from "../../shopping-list/reducers";
 
 @Component({
 	selector: 'app-recipe-details',
@@ -19,24 +19,25 @@ export class RecipeDetailsComponent extends Unsubscriber {
 	areIngredientsShown: boolean = false;
 	buttonText: string           = '⯈';
 	recipeIndex                  = -1;
+	recipesState$: Observable<Recipes.State>;
 
 	constructor (
-		private recipeService: RecipeService,
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private modals: ModalsService,
 		private store: Store<AppState>,
 	) {
 		super();
-		let b = new BehaviorSubject(0);
-		b.unsubscribe();
+		this.recipesState$ = this.store.select(Recipes.NAME);
 		this.subscriptions = [
-			activatedRoute.params.subscribe(params => {
-				this.recipe = recipeService.recipes[this.recipeIndex = +params['idx']];
-			}),
-			recipeService.recipesChange.subscribe((recipes: Recipe[]) => {
-				this.recipe = recipes[this.recipeIndex];
-			})
+			activatedRoute.params.pipe(
+				combineLatestWith(this.recipesState$))
+				.subscribe(([params, state]) => {
+					this.recipe = state.recipes[this.recipeIndex = +params["idx"]];
+					if (this.recipe == null) {
+						this.router.navigate(["../"], {relativeTo: this.activatedRoute});
+					}
+				}),
 		];
 	}
 
@@ -57,7 +58,7 @@ Once you do this, it can not be recovered directly.`, {
 			cancelButtonText: 'Do NOT delete it.',
 			size: 'lg',
 		})) {
-			this.recipeService.recipes.splice(this.recipeIndex, 1);
+			this.store.dispatch(Recipes.DeleteRecipe({index: this.recipeIndex}));
 			await this.router.navigate(["../"], {relativeTo: this.activatedRoute});
 		}
 	}

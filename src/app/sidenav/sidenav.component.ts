@@ -4,8 +4,8 @@ import {Store} from "@ngrx/store";
 import {Unsubscriber} from "../../libs/unsubscriber";
 import * as Auth from "../auth/reducer";
 import {NAV_BG_CLASS} from "../common/utils/consts";
+import * as Recipes from "../recipes/reducers";
 import {AppState} from "../reducers/app.store";
-import {DataStorageService} from "../services/data-storage.service";
 
 @Component({
 	selector: 'app-sidenav',
@@ -18,7 +18,6 @@ export class SidenavComponent extends Unsubscriber implements OnInit {
 	isLoggedIn         = false;
 
 	constructor (
-		private data: DataStorageService,
 		private router: Router,
 		private store: Store<AppState>) {
 		super();
@@ -37,12 +36,12 @@ export class SidenavComponent extends Unsubscriber implements OnInit {
 	}
 
 	saveData () {
-		this.data.storeRecipes().subscribe();
+		this.store.dispatch(Recipes.StoreRecipes());
 		this.close.emit();
 	}
 
 	fetchData () {
-		this.data.fetchRecipes()?.subscribe();
+		this.store.dispatch(Recipes.FetchRecipes());
 		this.close.emit();
 	}
 
