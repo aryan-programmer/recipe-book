@@ -1,15 +1,15 @@
-import {Injectable, Injector} from '@angular/core';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Injectable} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
 import {ModalAlertComponent} from "./modal-alert/modal-alert.component";
 import {ModalConfirmComponent} from "./modal-confirm/modal-confirm.component";
 import {ModalDefaultParametersService} from "./modal-default-parameters.service";
-import {CloseReason, MODAL_DATA, ModalOptions, ModalRunParameters} from "./types";
+import {CloseReason, ModalOptions, ModalRunParameters} from "./types";
 
 @Injectable()
 export class ModalsService {
 	constructor (
-		private dialog: NgbModal,
-		private p: ModalDefaultParametersService
+		private p: ModalDefaultParametersService,
+		private dialog2: MatDialog
 	) {
 	}
 
@@ -21,17 +21,15 @@ export class ModalsService {
 			...options,
 		};
 		return new Promise<CloseReason>(resolve => {
-			this.dialog.open(ModalAlertComponent, {
-				injector: Injector.create({providers: [{provide: MODAL_DATA, useValue: params}]}),
-				backdrop: params.backdrop,
-				fullscreen: params.fullscreen,
-				keyboard: params.keyboard,
-				scrollable: params.scrollable,
-				size: params.size,
-			}).result.then(resolve).catch(reason => {
-				if (typeof reason == "number") resolve(reason);
-				resolve(CloseReason.Dismiss);
-			})
+			let s = this.dialog2.open(ModalAlertComponent, {
+				data: params,
+				panelClass: params.modalContentClasses,
+				disableClose: params.disableClose
+			}).afterClosed().subscribe(value => {
+				if (value === true) resolve(CloseReason.Ok);
+				else resolve(CloseReason.Dismiss);
+				s.unsubscribe();
+			});
 		});
 	}
 
@@ -43,17 +41,16 @@ export class ModalsService {
 			...options,
 		};
 		return new Promise<CloseReason>(resolve => {
-			this.dialog.open(ModalConfirmComponent, {
-				injector: Injector.create({providers: [{provide: MODAL_DATA, useValue: params}]}),
-				backdrop: params.backdrop,
-				fullscreen: params.fullscreen,
-				keyboard: params.keyboard,
-				scrollable: params.scrollable,
-				size: params.size,
-			}).result.then(resolve).catch(reason => {
-				if (typeof reason == "number") resolve(reason);
-				resolve(CloseReason.Dismiss);
-			})
+			let s = this.dialog2.open(ModalConfirmComponent, {
+				data: params,
+				panelClass: params.modalContentClasses,
+				disableClose: params.disableClose
+			}).afterClosed().subscribe(value => {
+				if (value === true) resolve(CloseReason.Ok);
+				else if (value === false) resolve(CloseReason.Cancel);
+				else resolve(CloseReason.Dismiss);
+				s.unsubscribe();
+			});
 		});
 	}
 }

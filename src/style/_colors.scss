@@ -1,0 +1,27 @@
+@use "sass:map" as map;
+@use '../../node_modules/@angular/material/index' as mat;
+@import "colorful-adobe-theme";
+
+$primary: map.get(mat.$blue-palette, 300);
+$secondary: map.get(mat.$purple-palette, A200);
+$tertiary: map.get(mat.$orange-palette, 300);
+$quaternary: map.get(mat.$pink-palette, 300);
+$success: map.get(mat.$green-palette, 300);
+$info: map.get(mat.$cyan-palette, 300);
+$warning: map.get(mat.$amber-palette, 300);
+$danger: map.get(mat.$red-palette, 300);
+$light: #ebf7f2;
+$dark: #262626;
+
+$theme-colors: (
+	"primary": $primary,
+	"secondary": $secondary,
+	"tertiary": $tertiary,
+	"quaternary": $quaternary,
+	"success": $success,
+	"info": $info,
+	"warning": $warning,
+	"danger": $danger,
+	"light": $light,
+	"dark": $dark,
+);

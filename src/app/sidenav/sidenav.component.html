@@ -1,85 +1,82 @@
 <div *ngIf="showClose" class="d-flex w-100 justify-content-end">
 	<button (click)="close.emit()" class="btn-close" type="button"></button>
 </div>
-<div class="container-fluid flex-column">
-	<a class="navbar-brand h5-imp text-wrap text-center fw-bold mx-0" routerLink="/">
-		<i class="fa-solid fa-kitchen-set h3"></i><br />
-		Recipe book
+<mat-nav-list class="d-flex flex-column sidenav-links-padding">
+	<a mat-list-item routerLink="/">
+		<div class="nav-link-with-icon fw-bold">
+			<div class="fa-solid fa-kitchen-set h3"></div>
+			Recipe book
+		</div>
 	</a>
-	<div>
-		<ul class="nav c-navbar-nav nav-pills mr-auto flex-column font-small">
-			<li class="nav-item" *ngIf="isLoggedIn">
-				<a class="nav-link nav-link-with-icon" routerLink="/recipes" routerLinkActive="active" data-ripple>
-					<div class="fa-solid fa-bowl-food h5"></div>
-					Recipes
-				</a>
-			</li>
-			<li class="nav-item">
-				<a
-					class="nav-link nav-link-with-icon"
-					routerLink="/shopping-list"
-					routerLinkActive="active"
-					data-ripple>
-					<div class="fa-solid fa-cart-shopping h5"></div>
-					Shopping list
-				</a>
-			</li>
-			<li>
-				<a
-					class="nav-link nav-link-with-icon"
-					routerLink="/auth/register"
-					routerLinkActive="active"
-					data-ripple
-					*ngIf="!isLoggedIn">
-					<div class="fa-solid fa-user-plus h5"></div>
-					Register
-				</a>
-			</li>
-			<li>
-				<a
-					class="nav-link nav-link-with-icon"
-					routerLink="/auth/sign-in"
-					routerLinkActive="active"
-					data-ripple
-					*ngIf="!isLoggedIn">
-					<div class="fa-solid fa-sign-in h5"></div>
-					Sign in
-				</a>
-			</li>
-			<li>
-				<a
-					class="nav-link nav-link-with-icon"
-					data-ripple
-					(click)="signOut()"
-					*ngIf="isLoggedIn">
-					<div class="fa-solid fa-sign-out h5"></div>
-					Sign out
-				</a>
-			</li>
-			<ng-template #manageDropEnd>
-				<div class="dropdown-menu show position-relative">
-					<button (click)="saveData()" class="dropdown-item" type="button">Save data</button>
-					<button (click)="fetchData()" class="dropdown-item" type="button">Fetch data</button>
-				</div>
-			</ng-template>
-			<li class="nav-item dropend" *ngIf="isLoggedIn">
-				<a
-					[ngbPopover]="manageDropEnd"
-					class="nav-link d-flex flex-row"
-					container="body"
-					placement="end"
-					popoverClass="popover-no-pad"
-					role="button"
-					data-ripple>
-					<div class="nav-link-with-icon">
-						<div class="fa-solid fa-users-gear h5"></div>
-						<div>Manage</div>
-					</div>
-					<div class="my-auto">
-						<i class="fa-solid fa-caret-right"></i>
-					</div>
-				</a>
-			</li>
-		</ul>
-	</div>
-</div>
+	<a
+		mat-list-item
+		*ngIf="isLoggedIn"
+		routerLink="/recipes"
+		routerLinkActive="active">
+		<div class="nav-link-with-icon">
+			<div class="fa-solid fa-bowl-food h5"></div>
+			Recipes
+		</div>
+	</a>
+	<a
+		mat-list-item
+		routerLink="/shopping-list"
+		routerLinkActive="active">
+		<div class="nav-link-with-icon">
+			<div class="fa-solid fa-cart-shopping h5"></div>
+			Shopping list
+		</div>
+	</a>
+	<a
+		mat-list-item
+		routerLink="/auth/register"
+		routerLinkActive="active"
+		data-ripple
+		*ngIf="!isLoggedIn">
+		<div class="nav-link-with-icon">
+			<div class="fa-solid fa-user-plus h5"></div>
+			Register
+		</div>
+	</a>
+	<a
+		mat-list-item
+		routerLink="/auth/sign-in"
+		routerLinkActive="active"
+		data-ripple
+		*ngIf="!isLoggedIn">
+		<div class="nav-link-with-icon">
+			<div class="fa-solid fa-sign-in h5"></div>
+			Sign in
+		</div>
+	</a>
+	<a
+		mat-list-item
+		(click)="signOut()"
+		*ngIf="isLoggedIn">
+		<div class="nav-link-with-icon">
+			<div class="fa-solid fa-sign-out h5"></div>
+			Sign out
+		</div>
+	</a>
+	<mat-menu #manageMenu="matMenu">
+		<button (click)="saveData()" mat-menu-item type="button">Save data</button>
+		<button (click)="fetchData()" mat-menu-item type="button">Fetch data</button>
+	</mat-menu>
+	<a
+		mat-list-item
+		class="position-relative"
+		*ngIf="isLoggedIn"
+		(click)="manageMenuTrigger.openMenu()"
+		role="button">
+		<div class="nav-link-with-icon">
+			<div class="fa-solid fa-users-gear h5"></div>
+			<div>Manage</div>
+		</div>
+		<div class="h-100 w-100 position-absolute top-0 start-0 d-flex align-items-end justify-content-end">
+			<div class="my-auto me-2">
+				<i class="fa-solid fa-caret-right"></i>
+			</div>
+		</div>
+		<div #manageMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="manageMenu"></div>
+	</a>
+</mat-nav-list>

@@ -1,6 +1,6 @@
 import {Component, Inject, Injector, OnInit, Optional, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
-import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {firstValueFrom} from "rxjs";
 import nn from "../../../libs/functions/nn";
@@ -20,10 +20,10 @@ export class IngredientEditModal implements OnInit {
 	editMode = false;
 
 	constructor (
-		private modal: NgbActiveModal,
+		private modal: MatDialogRef<IngredientEditModal>,
 		private modals: ModalsService,
 		private store: Store<AppState>,
-		@Inject(MODAL_DATA) @Optional() private idx?: number,
+		@Inject(MAT_DIALOG_DATA) @Optional() private idx?: number,
 	) {
 		this.editMode = idx != null;
 	}
@@ -65,7 +65,6 @@ Once you do this, it can not be recovered directly.`, {
 			title: "Delete ingredient?",
 			okButtonText: 'Delete it.',
 			cancelButtonText: 'Do NOT delete it.',
-			size: 'lg',
 		}) === CloseReason.Ok) {
 			this.store.dispatch(ShoppingList.DeleteIngredient({index: nn(this.idx)}));
 			this.modal.close();
@@ -77,15 +76,14 @@ Once you do this, it can not be recovered directly.`, {
 	}
 
 	close () {
-		this.modal.dismiss();
+		this.modal.close();
 	}
 
-	static open (modalService: NgbModal, index?: number) {
+	static open (modalService: MatDialog, index?: number) {
 		modalService.open(IngredientEditModal, {
-			injector: Injector.create({providers: [{provide: MODAL_DATA, useValue: index}]}),
-			fullscreen: "lg",
-			size: "xl",
-			keyboard: false
+			data: index,
+			// disableClose: true,
+			panelClass: ["mat-dialog-panel-applies--bg-gradient--perfect-white"]
 		});
 	}
 }

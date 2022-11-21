@@ -1,7 +1,9 @@
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from "@ngrx/store";
 import {combineLatestWith, Observable} from "rxjs";
+import {map, shareReplay} from "rxjs/operators";
 import nn from 'src/libs/functions/nn';
 import {Unsubscriber} from 'src/libs/unsubscriber';
 import {ModalsService} from "../../../libs/modals/modals.service";
@@ -16,16 +18,24 @@ import * as ShoppingList from "../../shopping-list/reducers";
 })
 export class RecipeDetailsComponent extends Unsubscriber {
 	recipe!: Recipe;
-	areIngredientsShown: boolean = false;
-	buttonText: string           = '⯈';
 	recipeIndex                  = -1;
 	recipesState$: Observable<Recipes.State>;
+	isSmallish$: Observable<boolean> = this.breakpointObserver.observe([
+		Breakpoints.Medium,
+		Breakpoints.Large,
+		Breakpoints.XLarge
+	])
+		.pipe(
+			map(result => !result.matches),
+			shareReplay()
+		);
 
 	constructor (
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private modals: ModalsService,
 		private store: Store<AppState>,
+		private breakpointObserver: BreakpointObserver,
 	) {
 		super();
 		this.recipesState$ = this.store.select(Recipes.NAME);
@@ -41,11 +51,6 @@ export class RecipeDetailsComponent extends Unsubscriber {
 		];
 	}
 
-	toggleIngredients () {
-		this.areIngredientsShown = !this.areIngredientsShown;
-		this.buttonText          = this.areIngredientsShown ? '⯆' : '⯈';
-	}
-
 	addIngredientsToShoppingList () {
 		this.store.dispatch(ShoppingList.AddIngredients({ingredients: nn(this.recipe).ingredients}))
 	}
@@ -56,7 +61,6 @@ Once you do this, it can not be recovered directly.`, {
 			title: "Delete recipe?",
 			okButtonText: 'Delete it.',
 			cancelButtonText: 'Do NOT delete it.',
-			size: 'lg',
 		})) {
 			this.store.dispatch(Recipes.DeleteRecipe({index: this.recipeIndex}));
 			await this.router.navigate(["../"], {relativeTo: this.activatedRoute});

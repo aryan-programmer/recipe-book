@@ -8,8 +8,6 @@ try {
 export const FIREBASE_URL = secrets.FIREBASE_URL;
 export const API_KEY      = secrets.API_KEY;
 
-export const NAV_BG_CLASS = "navbar navbar-expand-lg navbar-light bg-gradient--perfect-white";
-
 export const ERROR_MESSAGE = Symbol("ERROR_MESSAGE");
 
 export const AUTH_SIGN_UP_URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + API_KEY;

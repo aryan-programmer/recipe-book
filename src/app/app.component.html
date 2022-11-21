@@ -1,30 +1,24 @@
-<div class="row-30 vw-100 justify-content-end -webkit-thin-scrollbar">
-	<ng-template #content let-offcanvas>
-		<app-sidenav (close)="offcanvas.dismiss()" [showClose]="true" class="offcanvas-body"></app-sidenav>
-	</ng-template>
-
-	<nav class="navbar navbar-expand-lg navbar-light bg-gradient--perfect-white topnav-sizing">
-		<div class="container-fluid justify-content-start gap-2">
-			<button
-				(click)="open(content)"
-				class="h5-imp btn btn-outline-dark text-wrap text-center fw-bold mx-0">
-				<i class="fa-solid fa-bars"></i>
-			</button>
-			<a class="navbar-brand h5-imp text-wrap fw-bold mx-0" routerLink="/">
-				<i class="fa-solid fa-kitchen-set h4"></i>
-				Recipe book
-			</a>
-		</div>
-	</nav>
-	<div
-		class="row sidenav-sizing align-self-stretch align-items-stretch vh-100 fixed-top scroll-y d-none shadow-lg">
-		<app-sidenav class=""></app-sidenav>
-	</div>
-	<div
-		class="row content-sizing d-flex justify-content-center"
-	>
-		<div class="col-lg-28 col-md-29 col-30 p-3 h-100">
-			<router-outlet></router-outlet>
-		</div>
-	</div>
-</div>
+<mat-sidenav-container class="sidenav-container">
+	<mat-sidenav
+		#drawer class="sidenav bg-gradient--perfect-white" fixedInViewport
+		[attr.role]="(isSmallish$ | async) ? 'dialog' : 'navigation'"
+		[mode]="(isSmallish$ | async) ? 'over' : 'side'"
+		[opened]="(isSmallish$ | async) === false">
+		<app-sidenav class="h-100"></app-sidenav>
+	</mat-sidenav>
+	<mat-sidenav-content class="min-vh-100">
+		<mat-toolbar class="bg-gradient--perfect-white">
+			<div
+				mat-ripple
+				type="button"
+				class="p-3"
+				aria-label="Toggle sidenav"
+				(click)="drawer.toggle()"
+				*ngIf="isSmallish$ | async">
+				<div class="fa-solid fa-bars"></div>
+			</div>
+			<span>Recipe book</span>
+		</mat-toolbar>
+		<div class="p-1"><router-outlet></router-outlet></div>
+	</mat-sidenav-content>
+</mat-sidenav-container>

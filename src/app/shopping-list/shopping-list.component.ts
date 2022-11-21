@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {AppState} from "../reducers/app.store";
@@ -14,7 +14,7 @@ export class ShoppingListComponent implements OnInit {
 	shoppingListState$!: Observable<ShoppingList.State>;
 
 	constructor (
-		private modalService: NgbModal,
+		private modalService: MatDialog,
 		private store: Store<AppState>
 	) {
 	}

@@ -3,14 +3,13 @@ import {NavigationStart, Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {Unsubscriber} from "../../libs/unsubscriber";
 import * as Auth from "../auth/reducer";
-import {NAV_BG_CLASS} from "../common/utils/consts";
 import * as Recipes from "../recipes/reducers";
 import {AppState} from "../reducers/app.store";
 
 @Component({
 	selector: 'app-sidenav',
 	templateUrl: './sidenav.component.html',
-	host: {"class": `${NAV_BG_CLASS} align-items-start`}
+	host: {"class": `align-items-start`}
 })
 export class SidenavComponent extends Unsubscriber implements OnInit {
 	@Input() showClose = false;

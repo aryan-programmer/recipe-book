@@ -1,17 +1,17 @@
 <button
+	mat-raised-button
 	(click)="onAdd()"
-	class="btn btn-image bg-gradient--palo-alto"
+	class="bg-gradient--palo-alto mat-round-img-btn"
 >Add new ingredient
 </button>
 <hr>
-<div class="bg-gradient--orange-juice rounded">
-	<ul class="list-group bg-transparent">
-		<li
-			*ngFor="let ingredient of (shoppingListState$ | async)?.ingredients; let i = index"
+<mat-list class="bg-gradient--orange-juice rounded mat-elevation-z2">
+	<div *ngFor="let ingredient of (shoppingListState$ | async)?.ingredients; let i = index; let last = last">
+		<mat-list-item
 			(click)="onEditItem(i)"
-			data-ripple
-			class="list-group-item bg-transparent">
-			<app-ingredient-details [ingredient]="ingredient"></app-ingredient-details>
-		</li>
-	</ul>
-</div>
+			mat-ripple>
+			<app-ingredient-details class="py-2" [ingredient]="ingredient"></app-ingredient-details>
+		</mat-list-item>
+		<mat-divider *ngIf="!last"></mat-divider>
+	</div>
+</mat-list>

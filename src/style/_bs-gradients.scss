@@ -33,21 +33,3 @@ $enable-btn-outline-gradients: false !default;
 		}
 	}
 }
-
-.btn-image {
-	$background: rgba(255, 255, 255, 0);
-	@include button-variant(
-			$background,
-			$background,
-	);
-	border-width: 0px !important;
-}
-
-.btn-image-dark {
-	$background: rgba(0, 0, 0, 0);
-	@include button-variant(
-			$background,
-			$background,
-	);
-	border-width: 0px !important;
-}

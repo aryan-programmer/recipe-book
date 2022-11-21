@@ -78,7 +78,7 @@ export class AuthEffects {
 		tap(async ({message}) => {
 			localStorage.removeItem(USER_DATA_KEY);
 			await this.router.navigateByUrl("/auth/sign-in");
-			await this.modals.alert(message, {size: "md"});
+			await this.modals.alert(message);
 		})
 	), {dispatch: false});
 
