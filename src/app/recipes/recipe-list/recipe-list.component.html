@@ -1,18 +1,34 @@
-<ul class="list-group bg-gradient--lily-meadow rounded" *ngIf="recipes$ | async; let recipes">
-	<li
-		[class.rounded-bottom-0]="recipes.length !== 0"
-		class="list-group-item btn btn-image bg-gradient--gentle-care"
-		routerLink="./add">
-		Add new recipe
-	</li>
-	<app-recipe-list-item
-		*ngFor="let recipe of recipes; let idx = index"
-		[index]="idx"
-		[recipe]="recipe"
-	></app-recipe-list-item>
-	<li
-		*ngIf="recipes.length !== 0"
-		class="list-group-item rounded-bottom bg-gradient--gentle-care">
-		<hr />
-	</li>
-</ul>
+<div class="dark-theme sticky-top">
+	<mat-selection-list
+		class="bg-gradient--lily-meadow rounded mat-elevation-z2"
+		[multiple]="false"
+		*ngIf="recipes$ | async; let recipes">
+		<mat-list-option
+			class="h3-imp text-center"
+			#rla="routerLinkActive"
+			routerLinkActive
+			routerLink="./add"
+			[selected]="rla.isActive">
+			Add new recipe
+		</mat-list-option>
+		<mat-divider></mat-divider>
+		<div *ngFor="let recipe of recipes; let idx = index">
+			<mat-list-option
+				#rla="routerLinkActive"
+				[routerLink]="'./'+idx"
+				routerLinkActive
+				[selected]="rla.isActive"
+				class="">
+				<div class="d-flex flex-xl-column flex-lg-row">
+					<div class="flex-lg-shrink-0">
+						<img [src]="recipe.imageUrl" class="img-thumbnail img-thumbnail-sized rounded-0 m-1">
+					</div>
+					<div class="flex-lg-grow-1 ms-xl-0 ms-lg-3 text-xl-center text-lg-start">
+						<h5 class="mt-1 mb-1">{{recipe.name}}</h5>
+					</div>
+				</div>
+			</mat-list-option>
+			<mat-divider></mat-divider>
+		</div>
+	</mat-selection-list>
+</div>

@@ -1,5 +1,24 @@
+// From https://webgradients.com/
+// 062 Wide Matrix Right
+@include define-gradient(
+		gradient--wide-matrix--right,
+		rgb(0, 0, 0, 255),
+		linear-gradient(to right, #fcc5e4 0%, #fda34b 15%, #ff7882 35%, #c8699e 52%, #7046aa 71%, #0c1db8 87%, #020f75 100%),
+		color-contrast(rgb(0, 0, 0, 255)),
+		rgb(0, 0, 0, 255),
+);
+
+// 162 Perfect White (Circular)
+@include define-gradient(
+		gradient--perfect-white--circular,
+		#f1f2f8,
+		radial-gradient(circle farthest-side at bottom, #E3FDF5 0%, #FFE6FA 100%),
+		color-contrast(#f1f2f8),
+		#f1f2f8,
+);
+
 .img-thumbnail-sized {
-	max-height: 100px;
+	max-height: 60px;
 }
 
 .popover-no-pad {
@@ -29,7 +48,7 @@
 
 $smallest-size-nav: md;
 
-.topnav-sizing{
+.topnav-sizing {
 	@extend .d-#{$smallest-size-nav}-none, .d-flex;
 }
 
@@ -42,7 +61,18 @@ $smallest-size-nav: md;
 }
 
 .nav-link-with-icon {
-	@extend .d-flex, .flex-#{$smallest-size-nav}-column, .flex-row, .gap-#{$smallest-size-nav}-0, .gap-2, .px-2, .align-items-center, .text-center;
+	@extend .d-flex,
+	.flex-#{$smallest-size-nav}-column,
+	.flex-row,
+	.gap-#{$smallest-size-nav}-0,
+	.gap-2,
+	.align-items-center,
+	.text-center,
+	.w-100;
+}
+
+.sidenav-links-padding .mat-list-item-content {
+	@extend .p-2;
 }
 
 // Firefox displays a blue border around :focus-visible links: disable this

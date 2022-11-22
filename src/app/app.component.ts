@@ -1,6 +1,8 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {NgbOffcanvas, NgbOffcanvasRef} from "@ng-bootstrap/ng-bootstrap";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
+import {Observable} from "rxjs";
+import {map, shareReplay} from "rxjs/operators";
 import * as Auth from "./auth/reducer";
 import {AppState} from "./reducers/app.store";
 
@@ -9,19 +11,23 @@ import {AppState} from "./reducers/app.store";
 	templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-	sidenavOffcanvasRef?: NgbOffcanvasRef;
+	isSmallish$: Observable<boolean> = this.breakpointObserver.observe([
+		Breakpoints.Medium,
+		Breakpoints.Large,
+		Breakpoints.XLarge
+	])
+		.pipe(
+			map(result => !result.matches),
+			shareReplay()
+		);
 
 	constructor (
-		private offcanvas: NgbOffcanvas,
 		private store: Store<AppState>,
+		private breakpointObserver: BreakpointObserver
 	) {
 	}
 
 	ngOnInit () {
 		this.store.dispatch(Auth.RestoreUser());
-	}
-
-	open (content: TemplateRef<any>) {
-		this.sidenavOffcanvasRef = this.offcanvas.open(content, {});
 	}
 }

@@ -1,105 +1,133 @@
 <form
 	(submit)="onSubmit()"
 	[formGroup]="recipeForm"
-	class="form-card ng-bs-always-show-validation bg-gradient--desert-hump"
 	ngNativeValidate>
-	<div class="form-title">{{editMode ? "Edit recipe" : "Add a new recipe"}}</div>
-	<div class="form">
-		<div class="">
-			<label class="form-label" for="name">Name of recipe</label>
-			<input class="form-control rounded-pill" formControlName="name" id="name" type="text">
-		</div>
-		<div class="">
-			<label class="form-label" for="description">Recipe description</label>
-			<textarea class="form-control" formControlName="description" id="description"></textarea>
-		</div>
-		<div class="">
-			<label class="form-label" for="imageUrl">Recipe image URL</label>
-			<div class="row">
-				<div class="col-lg-auto flex-grow-1 col-md-12 d-flex align-items-center">
-					<input
-						#imageUrl
-						class="form-control rounded-pill"
-						formControlName="imageUrl"
-						id="imageUrl"
-						type="text">
+	<mat-card class="bg-gradient--marble-wall">
+		<mat-card-title>{{editMode ? "Edit recipe" : "Add a new recipe"}}</mat-card-title>
+		<mat-card-content>
+			<mat-form-field appearance="fill" class="w-100">
+				<mat-label>Name of recipe</mat-label>
+				<input matInput formControlName="name" id="name" type="text">
+			</mat-form-field>
+			<mat-form-field appearance="fill" class="w-100">
+				<mat-label>Recipe description</mat-label>
+				<textarea matInput formControlName="description" id="description"></textarea>
+			</mat-form-field>
+			<mat-form-field appearance="fill" class="w-100">
+				<mat-label>Recipe image URL</mat-label>
+				<input
+					#imageUrl
+					matInput
+					formControlName="imageUrl"
+					id="imageUrl"
+					type="text">
+				<img [src]="imageUrl.value" matSuffix class="m-1 img-thumbnail img-thumbnail-sized rounded-0">
+			</mat-form-field>
+		</mat-card-content>
+		<mat-divider [inset]="true"></mat-divider>
+		<mat-card-content class="position-relative dark-theme">
+			<mat-list
+				*ngIf="ingredientControls; let ings; else noIngredients"
+				class="rounded mat-elevation-z3 bg-gradient--cold-evening"
+				formArrayName="ingredients">
+				<div *ngFor="let control of ings; let i = index">
+					<mat-list-item
+						[formGroupName]="i"
+						class="mat-form-fields-no-hint my-1">
+						<div class="w-100 mat-elevation-z2">
+							<mat-form-field matLine appearance="fill" class="w-100">
+								<mat-label>Name</mat-label>
+								<input
+									matInput
+									class="form-control rounded-bottom-0"
+									formControlName="name"
+									name="name"
+									type="text">
+								<button
+									matSuffix
+									mat-icon-button
+									(click)="deleteIngredient(i)"
+									color="warn"
+									tabindex="-1"
+									type="button">
+									<i class="fa fa-trash"></i>
+								</button>
+							</mat-form-field>
+							<div matLine class="row w-100">
+								<mat-form-field class="col-6" appearance="fill">
+									<mat-label>Quantity</mat-label>
+									<input
+										matInput
+										class="hide-arrows"
+										formControlName="quantity"
+										placeholder="Number of"
+										type="number"
+									>
+								</mat-form-field>
+								<mat-form-field class="col-6" appearance="fill">
+									<mat-label>Unit</mat-label>
+									<input
+										matInput
+										formControlName="quantityUnit"
+										name="quantityUnit"
+										placeholder="units"
+										type="text"
+									>
+								</mat-form-field>
+							</div>
+							<mat-form-field matLine appearance="fill" class="w-100">
+								<mat-label>Cost</mat-label>
+								<span matPrefix>$ &nbsp;</span>
+								<input
+									matInput
+									class="hide-arrows"
+									formControlName="cost"
+									id="cost"
+									name="cost"
+									step="0.01"
+									type="number"
+								>
+							</mat-form-field>
+						</div>
+					</mat-list-item>
+					<mat-divider></mat-divider>
 				</div>
-				<div class="col-auto d-flex align-items-center m-1">
-					<img [src]="imageUrl.value" class="img-thumbnail img-thumbnail-sized rounded-0">
-				</div>
-			</div>
-		</div>
-		<ul *ngIf="ingredientControls; let ings" class="list-group mt-3" formArrayName="ingredients">
-			<li
-				(click)="onAddIngredient()"
-				[class.rounded-bottom-0]="ings.length !== 0"
-				class="list-group-item btn btn-image bg-gradient--crystalline">
-				Add new ingredient
-			</li>
-			<li
-				*ngFor="let control of ings; let i = index"
-				[formGroupName]="i"
-				class="list-group-item">
-				<div class="input-group rounded-bottom-0">
-					<input
-						class="form-control rounded-bottom-0"
-						formControlName="name"
-						id="ing-name"
-						name="name"
-						placeholder="Enter name"
-						type="text">
+			</mat-list>
+			<ng-template #noIngredients></ng-template>
+			<div
+				class="h-100 w-100 position-absolute top-0 start-0 d-flex align-items-end justify-content-end"
+				style="pointer-events: none"
+			>
+				<div class="sticky-bottom">
 					<button
-						(click)="deleteIngredient(i)"
-						class="btn btn-warning rounded-bottom-0"
-						tabindex="-1"
-						type="button">❌
+						(click)="onAddIngredient()"
+						mat-mini-fab
+						color="accent"
+						class=""
+						style="pointer-events: auto"
+						type="button">
+						<i class="fa fa-add"></i>
 					</button>
 				</div>
-				<div class="input-group rounded-0">
-					<input
-						class="form-control hide-arrows rounded-0"
-						formControlName="quantity"
-						name="quantity"
-						placeholder="Number of"
-						type="number"
-					>
-					<input
-						class="form-control rounded-0"
-						formControlName="quantityUnit"
-						name="quantityUnit"
-						placeholder="units"
-						type="text"
-					>
-				</div>
-				<div class="input-group rounded-top-0">
-					<span class="input-group-text rounded-top-0">$</span>
-					<input
-						class="form-control rounded-top-0 hide-arrows"
-						formControlName="cost"
-						id="cost"
-						name="cost"
-						placeholder="Cost"
-						step="0.01"
-						type="number"
-					>
-				</div>
-			</li>
-		</ul>
-	</div>
-	<div class="form-footer d-flex flex-row flex-wrap gap-4">
-		<button
-			[disabled]="!recipeForm.valid"
-			class="btn btn-image bg-gradient--february-ink rounded-pill"
-			type="submit"
-		>
-			{{editMode ? "Edit" : "Add"}} recipe
-		</button>
-		<button
-			(click)="onCancel()"
-			class="btn btn-image bg-gradient-warning-danger rounded-pill"
-			type="button"
-		>
-			Cancel
-		</button>
-	</div>
+			</div>
+		</mat-card-content>
+		<mat-card-content class="d-flex flex-row flex-wrap gap-4">
+			<button
+				mat-raised-button
+				[disabled]="!recipeForm.valid"
+				class="bg-gradient--february-ink mat-round-img-btn"
+				type="submit"
+			>
+				{{editMode ? "Edit" : "Add"}} recipe
+			</button>
+			<button
+				mat-raised-button
+				(click)="onCancel()"
+				class="bg-gradient-warning-danger mat-round-img-btn"
+				type="button"
+			>
+				Cancel
+			</button>
+		</mat-card-content>
+	</mat-card>
 </form>

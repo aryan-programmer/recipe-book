@@ -1,0 +1,46 @@
+@use '../../node_modules/@angular/material/index' as mat;
+@use "sass:math" as math;
+
+.mat-list-base:not(.height-not-auto) .mat-list-item{
+	height: auto !important;
+}
+
+.mat-list-base .mat-list-item .mat-list-text > *, .mat-list-base .mat-list-option .mat-list-text > *{
+	font-size: revert !important;
+}
+
+.mat-drawer-content, .mat-drawer-container{
+	overflow: unset!important;
+}
+
+$config: mat.get-typography-config($angular-app-theme);
+// The unit-less line-height from the font config.
+$line-height: mat.line-height($config, input);
+
+// The amount to scale the font for the floating label and subscript.
+$subscript-font-scale: 0.75;
+// The amount to scale the font for the prefix and suffix icons.
+$prefix-suffix-icon-font-scale: 1.5;
+
+// The padding on the infix. Mocks show half of the text size.
+$infix-padding: 0.5em;
+// The margin applied to the form-field-infix to reserve space for the floating label.
+// If the line-height is given as a unitless number, coerce it to `em`.
+$infix-margin-top: $subscript-font-scale * if(math.is-unitless($line-height), 1em * $line-height, $line-height);
+// Font size to use for the label and subscript text.
+$subscript-font-size: $subscript-font-scale * 100%;
+// Font size to use for the for the prefix and suffix icons.
+$prefix-suffix-icon-font-size: $prefix-suffix-icon-font-scale * 100%;
+// The space between the bottom of the .mat-form-field-flex area and the subscript wrapper.
+// Mocks show half of the text size, but this margin is applied to an element with the subscript
+// text font size, so we need to divide by the scale factor to make it half of the original text
+// size.
+$subscript-margin-top: math.div(0.5em, $subscript-font-scale);
+// The padding applied to the form-field-wrapper to reserve space for the subscript, since it's
+// absolutely positioned. This is a combination of the subscript's margin and line-height, but we
+// need to multiply by the subscript font scale factor since the wrapper has a larger font size.
+$wrapper-padding-bottom: ($subscript-margin-top + $line-height) * $subscript-font-scale;
+
+.mat-form-fields-no-hint .mat-form-field-wrapper {
+	margin-bottom: -$wrapper-padding-bottom;
+}

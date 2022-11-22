@@ -1,44 +1,45 @@
-<div *ngIf="recipe != null" class="card-group bg-gradient--deep-light-blue rounded">
-	<div class="card bg-transparent">
-		<img
-			[src]="recipe.imageUrl"
-			class="card-img-top"
-		>
-		<div
-			(click)="toggleIngredients()"
-			[class.rounded-bottom]="!areIngredientsShown"
-			class="card-header h4 add-bg-noise"
-			data-ripple
-		>
-			{{buttonText}}
-			Ingredients
-		</div>
-		<ul class="list-group bg-transparent">
-			<li
-				[class.collapse]="!areIngredientsShown"
-				*ngFor="let ingredient of recipe.ingredients; let i = index"
-				class="list-group-item bg-transparent">
-				<app-ingredient-details [ingredient]="ingredient"></app-ingredient-details>
-			</li>
-		</ul>
-	</div>
-	<div class="card bg-transparent">
-		<div class="card-header h4 add-bg-noise">{{recipe.name}}</div>
-		<div class="card-body">
-			<p>{{recipe.description}}</p>
-			<div class="dropdown">
-				<button
-					class="btn btn-image bg-gradient--angel-care dropdown-toggle rounded-pill"
-					data-bs-toggle="dropdown">
-					Manage recipe
-				</button>
-				<ul class="dropdown-menu">
-					<li (click)="addIngredientsToShoppingList()" class="dropdown-item">Add to shopping list</li>
-					<li class="dropdown-divider"></li>
-					<li class="dropdown-item" routerLink="edit">Edit</li>
-					<li (click)="deleteRecipe()" class="dropdown-item">Delete</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+<div *ngIf="recipe != null" class="row">
+	<mat-card class="col-12 bg-gradient--light-blue">
+		<mat-card-title-group class="">
+			<mat-card-title>{{recipe.name}}</mat-card-title>
+			<img
+				mat-card-md-image
+				[src]="recipe.imageUrl"
+				class="card-img-top w-auto"
+			>
+		</mat-card-title-group>
+		<mat-card-content>{{recipe.description}}</mat-card-content>
+		<mat-divider [inset]="true"></mat-divider>
+		<mat-card-content class="">
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title class="h4-imp">
+						Ingredients
+					</mat-panel-title>
+				</mat-expansion-panel-header>
+				<mat-list>
+					<div *ngFor="let ingredient of recipe.ingredients; let i = index; let last = last">
+						<mat-list-item class="">
+							<app-ingredient-details [ingredient]="ingredient" class="py-2"></app-ingredient-details>
+						</mat-list-item>
+						<mat-divider *ngIf="!last"></mat-divider>
+					</div>
+				</mat-list>
+			</mat-expansion-panel>
+		</mat-card-content>
+		<mat-card-content>
+			<button
+				mat-raised-button
+				class="bg-gradient--angel-care mat-round-img-btn"
+				[mat-menu-trigger-for]="recipeManageMenu">
+				Manage recipe
+			</button>
+			<mat-menu #recipeManageMenu="matMenu">
+				<button mat-menu-item (click)="addIngredientsToShoppingList()">Add to shopping list</button>
+				<mat-divider></mat-divider>
+				<button mat-menu-item routerLink="edit">Edit</button>
+				<button mat-menu-item (click)="deleteRecipe()" class="bg-danger darken-on-hover">Delete</button>
+			</mat-menu>
+		</mat-card-content>
+	</mat-card>
 </div>

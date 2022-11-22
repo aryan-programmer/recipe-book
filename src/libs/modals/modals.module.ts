@@ -1,6 +1,17 @@
 import {CommonModule} from "@angular/common";
 import {NgModule} from '@angular/core';
-import {NgbModalModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatButtonModule} from "@angular/material/button";
+import {MatDialogModule} from "@angular/material/dialog";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {CdkMenuModule} from "@angular/cdk/menu";
+import {OverlayModule} from "@angular/cdk/overlay";
+import {PortalModule} from "@angular/cdk/portal";
+import {ScrollingModule} from "@angular/cdk/scrolling";
+import {CdkStepperModule} from "@angular/cdk/stepper";
+import {CdkTableModule} from "@angular/cdk/table";
+import {CdkTreeModule} from "@angular/cdk/tree";
+import {DialogModule} from "@angular/cdk/dialog";
+
 
 import {ModalAlertComponent} from './modal-alert/modal-alert.component';
 import {ModalConfirmComponent} from "./modal-confirm/modal-confirm.component";
@@ -15,7 +26,17 @@ import {CloseReason, MODAL_DATA, ModalOptions, ModalParameters, ModalRunParamete
 	],
 	imports: [
 		CommonModule,
-		NgbModalModule
+		MatDialogModule,
+		MatButtonModule,
+		CdkMenuModule,
+		CdkStepperModule,
+		CdkTableModule,
+		CdkTreeModule,
+		DragDropModule,
+		OverlayModule,
+		PortalModule,
+		ScrollingModule,
+		DialogModule,
 	],
 	exports: [
 		ModalAlertComponent,

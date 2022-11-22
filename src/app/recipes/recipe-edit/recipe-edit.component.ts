@@ -72,10 +72,12 @@ export class RecipeEditComponent extends Unsubscriber {
 	}
 
 	onAddIngredient () {
+		console.log("Here");
 		(this.recipeForm.get("ingredients") as FormArray).push(RecipeEditComponent.formGroupFromIngredient());
 	}
 
 	onCancel () {
+		console.log("Cancel");
 		this.router.navigate(["../"], {relativeTo: this.activatedRoute});
 	}
 

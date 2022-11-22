@@ -1,6 +1,7 @@
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
@@ -28,6 +29,7 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 	],
 	imports: [
 		BrowserModule,
+		BrowserAnimationsModule,
 		AppCommonModule,
 		AppRoutingModule,
 		$404Module,
@@ -46,7 +48,7 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 			maxAge: 25,
 			logOnly: environment.production,
 			autoPause: true,
-		})
+		}),
 	],
 	providers: [
 		RecipesResolver,

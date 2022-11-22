@@ -57,12 +57,12 @@ export class AuthEffects {
 	authRedirect$ = createEffect(() => this.actions$.pipe(
 		ofType(Auth.AuthSuccess),
 		tap(async({message, restored}) => {
-				if (!restored) {
-					await this.router.navigateByUrl("/recipes");
-					await this.modals.alert(`<h4>${message}</h4>`, {
-						bodyAsRawHtml: true,
-					});
-				}
+			if (!restored) {
+				await this.router.navigateByUrl("/recipes");
+				await this.modals.alert(`<h4>${message}</h4>`, {
+					bodyAsRawHtml: true,
+				});
+			}
 		}),
 		map(value => {
 			return Recipes.FetchRecipes();
@@ -89,7 +89,7 @@ export class AuthEffects {
 			).subscribe(async () => {
 				localStorage.removeItem(USER_DATA_KEY);
 				await this.router.navigateByUrl("/auth/sign-in");
-				await this.modals.alert(message, {size: "md"})
+				await this.modals.alert(message)
 			})
 		}),
 	), {dispatch: false});

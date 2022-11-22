@@ -1,36 +1,72 @@
-@import "bs-style";
-@import "jquery-ui-and-bootstrap";
-@import "custom-gradients";
-@import "add-bg-noise";
-@import "angular-bs";
-@import "custom";
+@use '../../node_modules/@angular/material/index' as mat;
+@use "sass:math" as math;
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/regular";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "bs-style";
+@import "extras";
+@import "web-gradients";
+@import "custom";
 
-.colorful-modal-content {
-	// 065 Burning Spring (Circular)
-	background: radial-gradient(circle farthest-side at bottom, #4fb576 0%, #44c489 30%, #28a9ae 46%, #28a2b7 59%, #4c7788 71%, #6c4f63 86%, #432c39 100%);
-	color: color-contrast(#489287);
+$font-config: mat.define-typography-config(
+	$font-family: $font-family-sans-serif,
+	$display-4: mat.define-typography-level($display-1-font-size, $display-1-font-size*$headings-line-height-multiplier, 300, $letter-spacing: -0.05em),
+	$display-3: mat.define-typography-level($display-2-font-size, $display-2-font-size*$headings-line-height-multiplier, 400, $letter-spacing: -0.02em),
+	$display-2: mat.define-typography-level($display-3-font-size, $display-3-font-size*$headings-line-height-multiplier, 400, $letter-spacing: -0.005em),
+	$display-1: mat.define-typography-level($display-4-font-size, $display-4-font-size*$headings-line-height-multiplier, 400),
+	$headline: mat.define-typography-level($h3-font-size, $h3-font-size*$headings-line-height-multiplier, 400),
+	$title: mat.define-typography-level($h4-font-size, $h4-font-size*$headings-line-height-multiplier, 500),
+	$subheading-2: mat.define-typography-level($h5-font-size, $h5-font-size*$headings-line-height-multiplier, 400),
+	$subheading-1: mat.define-typography-level($h6-font-size, $h6-font-size*$headings-line-height-multiplier, 400),
+	$body-2: mat.define-typography-level($font-size-base, $font-size-base*$font-line-height-multiplier, 600),
+	$body-1: mat.define-typography-level($font-size-base, $font-size-base, 400),
+	$caption: mat.define-typography-level($font-size-sm, $font-size-sm*$font-line-height-multiplier, 400),
+	$button: mat.define-typography-level($font-size-base, $font-size-base, 500),
+	$input: mat.define-typography-level($font-size-base, $font-size-base, 400),
+);
+
+@include mat.core($font-config);
+
+$angular-app-primary: mat.define-palette(mat.$blue-palette);
+$angular-app-accent: mat.define-palette(mat.$purple-palette, A200, A100, A400);
+
+$angular-app-warn: mat.define-palette(mat.$red-palette);
+
+$angular-app-theme: mat.define-light-theme((
+	color: (
+		primary: $angular-app-primary,
+		accent: $angular-app-accent,
+		warn: $angular-app-warn,
+	),
+	typography: $font-config,
+));
+
+@include mat.all-component-themes($angular-app-theme);
+
+.dark-theme {
+	$angular-app-primary: mat.define-palette(mat.$amber-palette, 300);
+	$angular-app-accent: mat.define-palette(mat.$purple-palette, A200, A100, A400);
+
+	$angular-app-warn: mat.define-palette(mat.$red-palette);
+	$dark-app-theme: mat.define-dark-theme((
+		color: (
+			primary: $angular-app-primary,
+			accent: $angular-app-accent,
+			warn: $angular-app-warn,
+		),
+		typography: $font-config,
+	));
+	@include mat.all-component-colors($dark-app-theme);
+	//@include mat.button-color($dark-app-theme);
 }
 
-div.centered-box {
-	@extend .row-30;
-	@extend .d-flex;
-	@extend .h-100;
-	@extend .justify-content-center;
-
-	& > :first-child {
-		@extend .col-xl-21;
-		@extend .col-lg-24;
-		@extend .col-md-27;
-		@extend .col-sm-30;
-		@extend .p-md-0;
-	}
-
-	&.--vertical,
-	&.-v {
-		@extend .align-content-center;
-	}
+.mat-dialog-panel-applies--bg-gradient--kind-steel .mat-dialog-container {
+	@extend .bg-gradient--kind-steel;
 }
+
+.mat-dialog-panel-applies--bg-gradient--perfect-white .mat-dialog-container {
+	@extend .bg-gradient--perfect-white;
+}
+
+@import "material-fixes";

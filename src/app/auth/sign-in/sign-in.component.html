@@ -1,52 +1,57 @@
-<form class="form-card bg-gradient--fly-high" ngForm #form="ngForm" (ngSubmit)="onSubmit(form)">
-	<div class="form-title">Sign in</div>
-	<app-loader *ngIf="isLoading$ | async; else formContent"></app-loader>
-	<ng-template #formContent>
-		<div class="form">
-			<div class="">
-				<label class="form-label" for="email">Email</label>
-				<input
-					#email="ngModel"
-					class="form-control rounded-pill"
-					id="email"
-					name="email"
-					type="email"
-					required
-					email
-					ngModel>
-				<div class="invalid-feedback" *ngIf="email.errors; let errors">
-					<span *ngIf="errors['required']">Enter an email</span>
-					<span *ngIf="errors['email']">Enter a valid email</span>
+<form ngForm #form="ngForm" (ngSubmit)="onSubmit(form)">
+	<mat-card class="bg-gradient--soft-grass">
+		<mat-card-title>Sign in</mat-card-title>
+		<app-loader *ngIf="isLoading$ | async; else formContent"></app-loader>
+		<ng-template #formContent>
+			<mat-card-content class="d-flex flex-column gap-2">
+				<mat-form-field appearance="fill" class="w-100">
+					<mat-label>Email</mat-label>
+					<input
+						#email="ngModel"
+						matInput
+						class="rounded-pill"
+						id="email"
+						name="email"
+						type="email"
+						required
+						email
+						ngModel>
+					<mat-error *ngIf="email.errors; let errors">
+						<span *ngIf="errors['required']">Enter an email</span>
+						<span *ngIf="errors['email']">Enter a valid email</span>
+					</mat-error>
+				</mat-form-field>
+				<mat-form-field appearance="fill" class="w-100">
+					<mat-label>Password</mat-label>
+					<input
+						matInput
+						#password="ngModel"
+						class="form-control rounded-pill"
+						id="password"
+						name="password"
+						type="password"
+						required
+						minlength="6"
+						ngModel>
+					<mat-error *ngIf="password.errors; let errors">
+						<span *ngIf="errors['required']">Enter a password</span>
+						<span *ngIf="errors['minlength']">Enter a password longer than 6 characters</span>
+					</mat-error>
+				</mat-form-field>
+				<div>
+					<button
+						mat-raised-button
+						type="submit"
+						class="bg-gradient--millennium-pine"
+						[disabled]="!form.valid">Sign in
+					</button>
+					<br />
+					<a
+						type="submit"
+						class="link-quaternary"
+						routerLink="/auth/register">Don't have an account? Register now!</a>
 				</div>
-			</div>
-			<div class="">
-				<label class="form-label" for="password">Password</label>
-				<input
-					#password="ngModel"
-					class="form-control rounded-pill"
-					id="password"
-					name="password"
-					type="password"
-					required
-					minlength="6"
-					ngModel>
-				<div class="invalid-feedback" *ngIf="password.errors; let errors">
-					<span *ngIf="errors['required']">Enter a password</span>
-					<span *ngIf="errors['minlength']">Enter a password longer than 6 characters</span>
-				</div>
-			</div>
-		</div>
-		<div class="form-footer">
-			<button
-				type="submit"
-				class="btn btn-image bg-gradient--millennium-pine"
-				[disabled]="!form.valid">Sign in
-			</button>
-			<br />
-			<a
-				type="submit"
-				class="link-quaternary"
-				routerLink="/auth/register">Don't have an account? Register now!</a>
-		</div>
-	</ng-template>
+			</mat-card-content>
+		</ng-template>
+	</mat-card>
 </form>

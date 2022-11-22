@@ -1,117 +1,119 @@
-<form #form="ngForm" (submit)="onSubmit(form)" class="form-card bg-gradient--perfect-white" ngNativeValidate>
-	<div class="modal-header add-bg-noise">
-		<h3 class="modal-title">Edit shopping list</h3>
-		<button class="btn-close" data-bs-dismiss="modal" type="button" (click)="close()"></button>
-	</div>
-	<div class="form modal-body">
-		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="name">Name</label>
+<h3 mat-dialog-title>Edit shopping list</h3>
+<form mat-dialog-content #form="ngForm" id="ingredient-edit-modal-form" class="overflow-visible" (submit)="onSubmit(form)" ngNativeValidate>
+	<mat-form-field class="w-100" appearance="fill">
+		<mat-label>Name</mat-label>
+		<input
+			matInput
+			#name="ngModel"
+			class="col-lg-8 form-control rounded-pill"
+			name="name"
+			ngModel
+			required
+			type="text">
+		<mat-error *ngIf="name.invalid && name.touched">
+			Name is required.
+		</mat-error>
+	</mat-form-field>
+	<div class="row w-100">
+		<mat-form-field class="col-6" appearance="fill">
+			<mat-label>Quantity</mat-label>
 			<input
-				#name="ngModel"
-				class="col-lg-8 form-control rounded-pill"
-				id="name"
-				name="name"
+				#quantity="ngModel"
+				matInput
+				class="hide-arrows"
+				min="0"
+				name="quantity"
 				ngModel
 				required
-				type="text">
-			<div *ngIf="name.invalid && name.touched" class="invalid-feedback">
-				Name is required.
-			</div>
-		</div>
-		<div class="form-group row">
-			<label class="col-lg-4 col-form-label">Quantity</label>
-			<div class="input-group col-lg-8 px-0">
-				<input
-					#quantity="ngModel"
-					class="col-lg-8 form-control rounded-pill-left hide-arrows"
-					min="0"
-					name="quantity"
-					ngModel
-					required
-					type="number"
-					value="1"
-				>
-				<input
-					#quantityUnit="ngModel"
-					class="col-lg-8 form-control rounded-pill-right"
-					name="quantityUnit"
-					ngModel
-					placeholder="Unit..."
-					required
-					type="text"
-				>
-				<div
-					*ngIf="(quantity.invalid && quantity.touched)||(quantityUnit.invalid&&quantityUnit.touched)"
-					class="invalid-feedback">
-					<div *ngIf="quantity.errors?.['required']">
-						The ingredient's quantity is required.
-					</div>
-					<div *ngIf="quantity.errors?.['min']">
-						The ingredient's quantity can't be less than 1.
-					</div>
-					<div *ngIf="quantityUnit.errors?.['required']">
-						Enter a quantity unit
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="form-group row">
-			<label class="col-lg-4 col-form-label" for="cost">Cost</label>
-			<div class="input-group col-lg-8 px-0">
-				<div class="input-group-prepend">
-					<span class="input-group-text rounded-pill-left">$</span>
-				</div>
-				<input
-					#cost="ngModel"
-					class="form-control rounded-pill-right hide-arrows"
-					id="cost"
-					min="0.01"
-					name="cost"
-					ngModel
-					required
-					step="0.01"
-					type="number"
-				>
-				<div *ngIf="(cost.invalid && cost.touched)" class="invalid-feedback">
-					<div *ngIf="cost.errors?.['required']">
-						The ingredient's cost is required.
-					</div>
-					<div *ngIf="cost.errors?.['min']">
-						The ingredient's cost can't be less than 1 cent.
-					</div>
-				</div>
-			</div>
-		</div>
+				type="number"
+				value="1"
+			>
+			<mat-error
+				*ngIf="(quantity.invalid && quantity.touched)">
+				<span *ngIf="quantity.errors?.['required']">
+					Quantity is required.
+				</span>
+				<span *ngIf="quantity.errors?.['min']">
+					Quantity can't be less than 0.
+				</span>
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field class="col-6" appearance="fill">
+			<mat-label>Unit</mat-label>
+			<input
+				#quantityUnit="ngModel"
+				matInput
+				name="quantityUnit"
+				ngModel
+				required
+				type="text"
+			>
+			<mat-error
+				*ngIf="(quantityUnit.invalid&&quantityUnit.touched) && quantityUnit.errors?.['required']">
+				Enter a quantity unit
+			</mat-error>
+		</mat-form-field>
 	</div>
-	<div class="form-footer d-flex justify-content-around modal-footer">
-		<button
-			[disabled]="!form.valid"
-			class="btn btn-image bg-gradient--light-blue rounded-pill"
-			type="submit"
+	<mat-form-field class="w-100" appearance="fill">
+		<mat-label>Cost</mat-label>
+		<span matPrefix>$ &nbsp;</span>
+		<input
+			#cost="ngModel"
+			matInput
+			class="hide-arrows"
+			id="cost"
+			min="0.01"
+			name="cost"
+			ngModel
+			required
+			step="0.01"
+			type="number"
 		>
-			{{editMode ? "Confirm Edit" : "Add"}}
-		</button>
-		<button
-			(click)="onClear()"
-			class="btn btn-image bg-gradient-warning-danger rounded-pill"
-			type="button"
-		>
-			Clear
-		</button>
-		<button
-			(click)="showDeleteConfirmationMessage()"
-			*ngIf="editMode"
-			class="btn btn-image bg-danger rounded-pill"
-			type="button"
-		>
-			Delete
-		</button>
-		<button
-			class="btn btn-image bg-gradient-danger-light rounded-pill"
-			(click)="close()"
-			type="button"
-		>
-			Exit
-		</button>
-	</div>
+		<mat-error *ngIf="(cost.invalid && cost.touched)">
+			<div *ngIf="cost.errors?.['required']">
+				The ingredient's cost is required.
+			</div>
+			<div *ngIf="cost.errors?.['min']">
+				The ingredient's cost can't be less than 1 cent.
+			</div>
+		</mat-error>
+	</mat-form-field>
 </form>
+
+<div mat-dialog-actions class="d-flex justify-content-between">
+	<button
+		mat-raised-button
+		[class.disabled]="!form.valid"
+		class="bg-gradient--light-blue mat-round-img-btn"
+		type="submit"
+		form="ingredient-edit-modal-form"
+	>
+		{{editMode ? "Confirm Edit" : "Add"}}
+	</button>
+	<button
+		mat-raised-button
+		(click)="onClear()"
+		class="bg-gradient-warning-danger mat-round-img-btn"
+		type="button"
+	>
+		Clear
+	</button>
+	<button
+		mat-raised-button
+		(click)="showDeleteConfirmationMessage()"
+		*ngIf="editMode"
+		class="bg-danger rounded-pill mat-round-img-btn"
+		type="button"
+	>
+		Delete
+	</button>
+	<button
+		mat-raised-button
+		class="bg-gradient-danger-light mat-round-img-btn"
+		(click)="close()"
+		type="button"
+	>
+		Exit
+	</button>
+</div>
+
