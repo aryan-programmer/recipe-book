@@ -2,6 +2,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Injectable} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {exhaustMap, Observable, take} from 'rxjs';
+import {USER_ID_PLACEHOLDER} from "../../common/utils/consts";
 import {AppState} from "../../reducers/app.store";
 import {getToken} from "../model/user.model";
 import * as Auth from "../reducer";
@@ -19,7 +20,8 @@ export class AuthInterceptor implements HttpInterceptor {
 				let token: string | null;
 				if (user != null && (token = getToken(user)) != null) {
 					request = request.clone({
-						params: request.params.set("auth", token)
+						params: request.params.set("auth", token),
+						url: request.url.replace(USER_ID_PLACEHOLDER, user.id),
 					});
 				}
 				return next.handle(request);
