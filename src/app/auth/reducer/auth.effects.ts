@@ -2,11 +2,14 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, of, switchMap, tap} from "rxjs";
+import {Store} from "@ngrx/store";
+import {catchError, from, of, switchMap, take, tap} from "rxjs";
 import {map} from 'rxjs/operators';
 import {EmptyAction} from "../../../libs/empty.actions";
 import {ModalsService} from "../../../libs/modals/modals.service";
 import {AUTH_SIGN_IN_URL, AUTH_SIGN_UP_URL, USER_DATA_KEY} from "../../common/utils/consts";
+import * as Recipes from "../../recipes/reducers/recipes.actions";
+import {AppState} from "../../reducers/app.store";
 import {getAuthErrorMessage, SignInResponse, SignUpResponse} from "../model/auth.model";
 import {getToken, User} from "../model/user.model";
 import {AuthService} from "../services/auth.service";
@@ -53,15 +56,18 @@ export class AuthEffects {
 
 	authRedirect$ = createEffect(() => this.actions$.pipe(
 		ofType(Auth.AuthSuccess),
-		tap(async ({message, restored}) => {
+		tap(async({message, restored}) => {
 			if (!restored) {
 				await this.router.navigateByUrl("/recipes");
 				await this.modals.alert(`<h4>${message}</h4>`, {
 					bodyAsRawHtml: true,
 				});
 			}
+		}),
+		map(value => {
+			return Recipes.FetchRecipes();
 		})
-	), {dispatch: false});
+	));
 
 	authFailure$ = createEffect(() => this.actions$.pipe(
 		ofType(Auth.AuthFailed),
@@ -75,11 +81,17 @@ export class AuthEffects {
 
 	authLogout$ = createEffect(() => this.actions$.pipe(
 		ofType(Auth.Logout),
-		tap(async ({message}) => {
-			localStorage.removeItem(USER_DATA_KEY);
-			await this.router.navigateByUrl("/auth/sign-in");
-			await this.modals.alert(message);
-		})
+		tap(({message}) => {
+			this.store.dispatch(Recipes.SetRecipes({recipes: []}));
+			this.actions$.pipe(
+				ofType(Recipes.SetRecipes),
+				take(1)
+			).subscribe(async () => {
+				localStorage.removeItem(USER_DATA_KEY);
+				await this.router.navigateByUrl("/auth/sign-in");
+				await this.modals.alert(message)
+			})
+		}),
 	), {dispatch: false});
 
 	restoreUser$ = createEffect(() => this.actions$.pipe(
@@ -119,6 +131,7 @@ export class AuthEffects {
 		private router: Router,
 		private modals: ModalsService,
 		private authService: AuthService,
+		private store: Store<AppState>
 	) {
 	}
 }

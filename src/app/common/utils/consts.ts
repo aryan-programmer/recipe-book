@@ -14,7 +14,9 @@ export const AUTH_SIGN_UP_URL = "https://identitytoolkit.googleapis.com/v1/accou
 export const AUTH_SIGN_IN_URL = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + API_KEY;
 export const USER_DATA_KEY    = "userData";
 
-export const RECIPES_URL = FIREBASE_URL + "recipe.json";
+export const USER_ID_PLACEHOLDER = "__$USER_ID$__";
+
+export const RECIPES_URL = FIREBASE_URL + USER_ID_PLACEHOLDER + "/recipe.json";
 
 declare module "@angular/common/http" {
 	interface HttpErrorResponse {

@@ -14,14 +14,14 @@ export class RecipesEffects {
 		ofType(Recipes.FetchRecipes),
 		switchMap(() => this.http.get<Recipe[]>(RECIPES_URL)),
 		map(value => {
-			value = value.map(r => {
+			value = value?.map(r => {
 				return {
 					name: r.name ?? "",
 					description: r.description ?? "",
 					imageUrl: r.imageUrl ?? "",
 					ingredients: r.ingredients ?? [],
 				} as Recipe;
-			});
+			}) ?? [];
 			return Recipes.SetRecipes({recipes: value});
 		}),
 	));
